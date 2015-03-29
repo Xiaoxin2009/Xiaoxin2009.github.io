@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Perl控制结构</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Li,Gongfu">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="/" type="application/atom+xml" rel="alternate" title="晓新's Blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/index.html">晓新's Blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="/category/fen-bu-shi.html">
+						<i class="icon-folder-open icon-large"></i>分布式
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/java.html">
+						<i class="icon-folder-open icon-large"></i>JAVA
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/machine-learning.html">
+						<i class="icon-folder-open icon-large"></i>Machine Learning
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="/category/perl.html">
+						<i class="icon-folder-open icon-large"></i>Perl
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/python.html">
+						<i class="icon-folder-open icon-large"></i>Python
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/scala.html">
+						<i class="icon-folder-open icon-large"></i>Scala
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/shu-ju-ku.html">
+						<i class="icon-folder-open icon-large"></i>数据库
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/technology.html">
+						<i class="icon-folder-open icon-large"></i>Technology
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to Perl控制结构">
+                                        Perl控制结构
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-12-01T09:20:00">
+        <i class="icon-calendar"></i>一 01 十二月 2014
+</abbr>
+<span class="label">By</span>
+<a href="/author/ligongfu.html"><i class="icon-user"></i>Li,Gongfu</a>
+<span class="label">Category</span>
+<a href="/category/perl.html"><i class="icon-folder-open"></i>Perl</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/perl.html"><i class="icon-tag"></i>Perl</a>
+</footer><!-- /.post-info -->                </div>
+                <h3>unless</h3>
+<p>与if相对，当条件为假时执行。</p>
+<div class="highlight"><pre><span class="n">unless</span> <span class="p">(</span><span class="err">$</span><span class="n">fred</span> <span class="o">=~</span> <span class="o">/</span><span class="err">\</span><span class="n">A</span><span class="p">[</span><span class="n">A</span><span class="o">-</span><span class="n">Z_</span><span class="err">\</span><span class="n">w</span><span class="o">*</span><span class="err">\</span><span class="n">z</span><span class="p">]</span><span class="o">/</span><span class="n">i</span><span class="p">){</span>
+     <span class="k">do</span> <span class="n">something</span><span class="p">;</span>
+<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+     <span class="k">do</span> <span class="n">another</span> <span class="n">thing</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>其实，每一个unless-else结构都可以改写成if-else结构，只要不造成难以理解的程序就好。</p>
+<h3>until</h3>
+<p>与while循环相对应，只要条件不为真，就会一直执行。因为条件判断发生在循环第一次迭代之前，所以它可能一次也不执行。</p>
+<h3>表达式修饰符</h3>
+<p>为了进一步简化代码的书写，表达式后面可以接一个用于控制它行为的修饰符。</p>
+<div class="highlight"><pre><span class="n">print</span> <span class="s">&quot;$n is a negative number .</span><span class="se">\n</span><span class="s">&quot;</span> <span class="k">if</span> <span class="err">$</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">;</span>
+<span class="err">$</span><span class="n">i</span> <span class="o">*=</span> <span class="mi">2</span> <span class="n">until</span> <span class="err">$</span><span class="n">i</span> <span class="o">&gt;</span> <span class="err">$</span><span class="n">j</span><span class="p">;</span>
+<span class="n">print</span> <span class="s">&quot; &quot;</span><span class="p">,(</span><span class="err">$</span><span class="n">n</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="k">while</span> <span class="err">$</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span>
+<span class="o">&amp;</span><span class="n">greet</span><span class="p">(</span><span class="err">$</span><span class="n">_</span><span class="p">)</span> <span class="n">foreach</span> <span class="err">@</span><span class="n">persons</span><span class="p">;</span>
+<span class="n">print</span> <span class="s">&quot;$fred and $barney</span><span class="se">\n</span><span class="s">&quot;</span>
+    <span class="k">if</span> <span class="err">$</span><span class="n">I_am_curious</span><span class="p">;</span>
+</pre></div>
+
+
+<p>任何一种简写都可以改写成传统的写法，使用foreach时，必须使用$_.</p>
+<h3>裸块控制结构</h3>
+<div class="highlight"><pre><span class="p">{</span>
+    <span class="n">body</span><span class="p">;</span>
+    <span class="n">body</span><span class="p">;</span>
+    <span class="n">body</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>裸块不是循环，它只执行循环体一次。
+一个关于局部变量的准则是：最好把变量声明在最小使用范围之内。如果某个变量只会在几行代码里使用，可以把这几行写在一个裸块里并就近声明变量。</p>
+<h3>elsif子句</h3>
+<p>为什么不是elseif，问Larry去！</p>
+<h3>自增与自减</h3>
+<ul>
+<li>前置自增++$n</li>
+<li>后置自增$n++</li>
+</ul>
+<p>在不提取变量值，而只是利用修改值的副作用的话，那么前置和后置都是一样的。一个常见的用法是配合hash计数：</p>
+<div class="highlight"><pre><span class="n">my</span> <span class="err">@</span><span class="n">people</span> <span class="o">=</span> <span class="n">qw</span><span class="p">{</span> <span class="n">fred</span> <span class="n">barney</span> <span class="n">wilma</span> <span class="n">barney</span> <span class="n">betty</span> <span class="n">fred</span><span class="p">}</span>
+<span class="n">my</span> <span class="o">%</span><span class="n">seen</span><span class="p">;</span>
+<span class="n">foreach</span><span class="err">（@</span><span class="n">people</span><span class="err">）</span><span class="p">{</span>
+    <span class="n">print</span> <span class="s">&quot;I have see you somewhere before,$_!</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="k">if</span> <span class="err">$</span><span class="n">seen</span><span class="p">{</span><span class="err">$</span><span class="n">_</span><span class="p">}</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+</pre></div>
+
+
+<h3>for循环</h3>
+<p>三个循环控制部分（初始化，测试，递增）都可以为空。</p>
+<h3>foreach和for间的秘密关系</h3>
+<p>其实，对于Perl解析器来说，这两个关键字是等价的，它可以根据圆括号里的内容判断出你的意图，如果有两个分号，则是for，如果没有分号，则是foreach。</p>
+<h3>循环控制操作符</h3>
+<h4>last</h4>
+<p>立即终止循环，类似于c里的break。last只能终止本层循环快。</p>
+<h4>next</h4>
+<p>立即结束本次循环，但不退出循环。</p>
+<h4>redo</h4>
+<p>重新执行本次迭代。</p>
+<h3>条件操作符?:</h3>
+<div class="highlight"><pre><span class="n">expression</span> <span class="o">?</span> <span class="n">if_true_expr</span> <span class="o">:</span> <span class="n">if_false_expr</span><span class="p">;</span>
+</pre></div>
+
+
+<h3>逻辑操作符</h3>
+<p>逻辑与&amp;&amp; (and)，逻辑或||(or)。
+逻辑操作符具有短路性质，即对逻辑与来说，如果左边表达式为假，就不会再执行右边的表达式。利用这个性质把会最可能失败或者重要的条件放在左边。</p>
+<h3>定义或操作符//</h3>
+<div class="highlight"><pre><span class="k">my</span> <span class="nv">$last_name</span> <span class="o">=</span> <span class="nv">$last_name</span><span class="p">{</span><span class="nv">$someone</span><span class="p">}</span> <span class="sr">//</span> <span class="s">&#39;no last name&#39;</span><span class="p">;</span>
+</pre></div>
+
+
+<p>当左边的值为undef时，采用//右边的默认值，这是一个短路操作符，并且只有当左边为undef时才会跳转到默认值，为0，为空都不会。</p>
+<h3>使用部分求值操作符的控制结构</h3>
+<p>&amp;&amp;(and), ||(or), //, ?: 这四个操作符有一个共性，就是根据左边的值决定要不要计算右边的表达式。只要是能激活或者停用某段程序代码的东西都算是控制结构。利用这一点可以写出比较漂亮的程序。</p>
+<div class="highlight"><pre><span class="p">(</span><span class="err">$</span><span class="n">m</span> <span class="o">&lt;</span> <span class="err">$</span><span class="n">n</span> <span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="err">$</span><span class="n">m</span> <span class="o">=</span> <span class="err">$</span><span class="n">n</span><span class="p">);</span>
+<span class="p">(</span><span class="err">$</span><span class="n">m</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="o">||</span> <span class="n">print</span> <span class="s">&quot;why is it not greater?</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+</pre></div>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "Perl控制结构.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://buptlixin.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="http://getpelican.com/"><i class="icon-external-link"></i>Pelican</a></li>
+    <li><a href="http://python.org/"><i class="icon-external-link"></i>Python.org</a></li>
+    <li><a href="http://jinja.pocoo.org/"><i class="icon-external-link"></i>Jinja2</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="http://www.v2ex.com/member/buptlee"><i class="icon-V2EX-sign icon-large"></i>V2EX</a></li>
+    <li><a href="http://douban.com/people/77726008"><i class="icon-豆瓣-sign icon-large"></i>豆瓣</a></li>
+    <li><a href="http://github.com/Xiaoxin2009"><i class="icon-Github-sign icon-large"></i>Github</a></li>
+    <li><a href="http://stackoverflow.com/users/3373388/bupt-xiaoxin"><i class="icon-Stackoverflow-sign icon-large"></i>Stackoverflow</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="/category/fen-bu-shi.html">
+    <i class="icon-folder-open icon-large"></i>分布式
+</a>
+</li>
+<li>
+<a href="/category/java.html">
+    <i class="icon-folder-open icon-large"></i>JAVA
+</a>
+</li>
+<li>
+<a href="/category/machine-learning.html">
+    <i class="icon-folder-open icon-large"></i>Machine Learning
+</a>
+</li>
+<li>
+<a href="/category/perl.html">
+    <i class="icon-folder-open icon-large"></i>Perl
+</a>
+</li>
+<li>
+<a href="/category/python.html">
+    <i class="icon-folder-open icon-large"></i>Python
+</a>
+</li>
+<li>
+<a href="/category/scala.html">
+    <i class="icon-folder-open icon-large"></i>Scala
+</a>
+</li>
+<li>
+<a href="/category/shu-ju-ku.html">
+    <i class="icon-folder-open icon-large"></i>数据库
+</a>
+</li>
+<li>
+<a href="/category/technology.html">
+    <i class="icon-folder-open icon-large"></i>Technology
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-3">
+    <a href="/tag/storm.html">
+        <i class="icon-tag icon-large"></i>Storm
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/zheng-ze-biao-da-shi.html">
+        <i class="icon-tag icon-large"></i>正则表达式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/machine-learning.html">
+        <i class="icon-tag icon-large"></i>Machine Learning
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hadoop.html">
+        <i class="icon-tag icon-large"></i>Hadoop
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/perl.html">
+        <i class="icon-tag icon-large"></i>Perl
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/scala.html">
+        <i class="icon-tag icon-large"></i>scala
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programming.html">
+        <i class="icon-tag icon-large"></i>functional programming
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/svm.html">
+        <i class="icon-tag icon-large"></i>SVM
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/mongodb.html">
+        <i class="icon-tag icon-large"></i>MongoDB
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hash.html">
+        <i class="icon-tag icon-large"></i>Hash
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/sql.html">
+        <i class="icon-tag icon-large"></i>SQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/github.html">
+        <i class="icon-tag icon-large"></i>Github
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hdfs.html">
+        <i class="icon-tag icon-large"></i>HDFS
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/nosql.html">
+        <i class="icon-tag icon-large"></i>NoSQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programing.html">
+        <i class="icon-tag icon-large"></i>functional programing
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/java.html">
+        <i class="icon-tag icon-large"></i>java
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-50849437-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'buptlixin';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

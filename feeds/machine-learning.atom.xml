@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>晓新's Blog</title><link href="/" rel="alternate"></link><link href="/feeds/machine-learning.atom.xml" rel="self"></link><id>/</id><updated>2014-04-09T10:22:00+08:00</updated><entry><title>SVM-支持向量机</title><link href="/SVM-%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA.html" rel="alternate"></link><updated>2014-04-09T10:22:00+08:00</updated><author><name>Li,Gongfu</name></author><id>tag:,2014-04-09:SVM-支持向量机.html</id><summary type="html">&lt;p&gt;最近因为要在实验室大组例会上做报告的原因，需要讲一下SVM算法，花了两个星期仔细研究了SVM算法，也用libsvm包做了些实验。SVM是目前最重要的机器学习算法之一，这篇博客会着重讲数学原理，泛泛而谈的东西网上太多了，看了没啥用，当然肯定会介绍一下当前的研究热点。可能很多同学都知道这个技术，甚至多次使用过，但是我敢说一半以上的同学都不太清楚原理，甚至支持向量机分为三种：线性可分，线性不可分，非线性可分，为啥要叫支持向量机，都不清楚，我不会笑话你，因为几乎两周前我也不知道。我会尽量简单的介绍SVM中的数学原理，相信你一定能看懂，哪怕你的线性代数曾经挂过科，Let's have a try。&lt;/p&gt;
+&lt;h1&gt;SVM简介&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;SVM它本质上即是一个二类分类方法，它的基本模型是定义在特征空间上的间隔最大的线性分类器，间隔最大化使它有别于感知机。对于现行可分的训练集，感知机的分离超平面是不惟一的，有无穷多个。依赖于初始值(w,b)的选择，也依赖于迭代过程中误分类点的选择顺序，如果想得到唯一的超平面，需要对分离超平面增加约束条件。而这正是支持向量机的想法。当训练集线性不可分时，感知及学习算法不收敛，迭代结果会发生震荡。这时就需要借助核方法来解决问题了。&lt;/li&gt;
+&lt;li&gt;支持向量机还包括核技巧，这使它成为实质上的非线性分类器。&lt;/li&gt;
+&lt;li&gt;支持向量机的学习策略是间隔最大化，可形式化为一个求解凸二次规划的问题。&lt;/li&gt;
+&lt;li&gt;给定线性可分训练数据集，通过间隔最大化学习到分离超平面：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;                                &lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;以及相应的分类决策函数：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;                                &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;sign&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如下图&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-1.png" /&gt;&lt;/p&gt;
+&lt;h1&gt;SVM的原理&lt;/h1&gt;
+&lt;p&gt;在讲SVM的模型之前，首先要明确几个概念。&lt;/p&gt;
+&lt;h3&gt;函数间隔和几何间隔&lt;/h3&gt;
+&lt;p&gt;对训练数据集找到几何间隔最大的超平面意味着以充分大的确信度对训练数据进行分类。即，既要将正负实例点分开，又要对最难分的实例点（离超平面最近的点）也有足够大的确信度将他们分开。这样的超平面应该对未知的新实例有较好的分类预测能力。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-2.png" /&gt;
+如上图，红色和黑色的平面都能将 &lt;code&gt;红/蓝&lt;/code&gt;两类分开，但红色平面更好，因为它使得离它最近的样本点的距离更大了，用它来分类有更大的确信度。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;函数间隔&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;                    &lt;span class="err"&gt;ŕ&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;yi&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xi&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                    &lt;span class="err"&gt;ŕ&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;min&lt;/span&gt;  &lt;span class="err"&gt;ŕ&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;               &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;2.&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;几何间隔&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-3.png" /&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;可以看到函数间隔是变化的，它随着w，b值不同而不同，如果w，b成比例增加，分离超平面没有变，但函数间隔却变了。而几何间隔则不同，它是固定的，是将函数间隔用||w||归一化的结果。&lt;/p&gt;
+&lt;h3&gt;最大间隔法&lt;/h3&gt;
+&lt;p&gt;我们的目的可以表示为下面的约束最优化问题：
+      &lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-4.png" /&gt;
+约束条件表示超平面（w,b）关于每个训练样本的几何间隔至少是 r。考虑到几何间隔和函数间隔的关系，可将上式改写成：
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-5.png" /&gt;
+函数间隔r'的取值并不影响最优化问题的求解。于是可取r'=1。注意到
+最大化&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-6.png" /&gt;和最小化&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-7.png" /&gt;             是等价的。于是就得到下面的线性可分支持向
+量机学习的最优化问题：
+ &lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-8.png" /&gt;&lt;/p&gt;
+&lt;h3&gt;支持向量&lt;/h3&gt;
+&lt;p&gt;训练数据集的样本点中与分离超平面距离最近的样本点的实例称为支持向量。即满足约束条件的点：
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-9.png" /&gt;
+在决定分离超平面的时候，只有支持向量起作用，如果移动支持向量将改变所求的解，但是移动间隔之外的点，不会改变解.支持向量的个数一般很少，所以支持向量机由很少的“重要的”训练样本确定。这也是为什么成为支持向量机算法的原因，这里的机可以理解成为算法的意思，比如感知机，玻尔兹曼机等等。通过下图可以清晰的看到支持向量对于决定分离超平面的决定作用。
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-10.png" /&gt;&lt;/p&gt;
+&lt;p&gt;搞清楚函数间隔，几何间隔，最大间隔法，支持向量以及我们的目标函数之后，就可以来看看SVM的基本模型吧。&lt;/p&gt;
+&lt;h1&gt;SVM的三种模型&lt;/h1&gt;
+&lt;p&gt;根据数据集是否线性可分，可以将SVM分成线性可分支持向量机，线性支持向量机，非线性支持向量机。&lt;/p&gt;
+&lt;h2&gt;线性可分支持向量机与硬间隔最大化&lt;/h2&gt;
+&lt;p&gt;通过构建拉格朗日函数将原始问题转化为对偶问题：
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-11.png" /&gt;
+求解：
+&lt;img alt="" src="http://bupt-image.qiniudn.com/svm-12.png" /&gt;&lt;/p&gt;
+&lt;p&gt;代入原式，得对偶目标函数为：
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-13.png" /&gt;
+求解最优解a，再根据a求解 w,b.
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-14.png" /&gt;&lt;/p&gt;
+&lt;p&gt;并选择一个a的正分量ai，计算：
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM15.png" /&gt;&lt;/p&gt;
+&lt;p&gt;正分量ai对应的样本点(xi,yi)称为支持向量。
+求的分类超平面： 
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-16.png" /&gt;
+分类决策函数：
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-17.png" /&gt;&lt;/p&gt;
+&lt;p&gt;分类决策函数只依赖于输入x和训练样本输入的内积。
+这种算法称为线性可分支持向量机的对偶学习算法，是线性可分支持向量机学习的基本算法。&lt;/p&gt;
+&lt;h2&gt;线性支持向量机与软间隔最大化&lt;/h2&gt;
+&lt;p&gt;通常，训练数据中有一些特异点（outlier），它们的存在导致训练集是不可分的，但是将它们除去之后，训练集变得线性可分。
+原来的约束条件：
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-18.png" /&gt;&lt;/p&gt;
+&lt;p&gt;考虑到outlier的存在，引入松弛变量：
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-19.png" /&gt;
+引入罚项：
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-20.png" /&gt;&lt;/p&gt;
+&lt;p&gt;目标函数的两层含义：       间隔尽量大，同时使误分类点的个数尽量小，C是二者的调和系数。
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-21.png" /&gt;
+如上图，被虚线圆圈起来的蓝色点就是一个outlier，我们可以引入松弛变量，将它划分位红色类，但是要加上一个惩罚项。&lt;/p&gt;
+&lt;h2&gt;非线性支持向量机&lt;/h2&gt;
+&lt;p&gt;并不是所有的数据集都是线性可分的，如果能用一个超曲面将正负例正确分开，则称这个问题为非线性可分问题。
+用线性分类方法求解非线性问题分为两步：首先使用一个变换将原空间的数据映射到新空间；然后在新空间里用线性分类学习方法从训练数据中学习分类模型。核计巧就是这样的方法。这要归功于核方法——除了SVM之外，任何将计算表示为数据点的内积的方法，都可以使用核方法进行非线性扩展。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-22.png" /&gt;
+如上图，我们虽然不能一个线性超平面来将红/蓝两类分开，但是可以用一个曲面来分，这时可以将样本点映射到一个高维空间，如下：
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-23.png" /&gt;&lt;/p&gt;
+&lt;p&gt;设X为输入空间，H为特征空间，如果存在一个从X到H的映射：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;                            &lt;span class="err"&gt;ϕ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="err"&gt;：&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;H&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;使得所有x,z 属于X，都有：
+    &lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-24.png" /&gt;
+则称K(x,z)为核函数， ϕ(x)为映射函数。&lt;/p&gt;
+&lt;p&gt;核函数的想法是，在学习中只定义核函数，而不显示的定义映射函数，因为直接计算核函数K(x,z)比较容易，而通过ϕ(x)，ϕ(z)计算K(x,z)并不容易，而且没有必要，它巧妙的利用了线性分类学习方法与核函数解决非线性问题的。H和ϕ(x)的取法不唯一。实际应用中往往依赖领域知识直接选择核函数，并通过实验验证选择的有效性。&lt;/p&gt;
+&lt;p&gt;常用的核函数有多项式核函数，高斯核函数等.
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-25.png" /&gt;&lt;/p&gt;
+&lt;p&gt;将输入空间映射到特征空间后的目标函数为：
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-26.png" /&gt;&lt;/p&gt;
+&lt;p&gt;用&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-24.png" /&gt;代替上式的ϕ(x). ϕ(z).&lt;/p&gt;
+&lt;p&gt;用求解方法跟线性可分SVM的解法相同，即求得最优解：               &lt;br /&gt;
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-27.png" /&gt;
+选择a的一个正分量ai，计算:
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-28.png" /&gt;&lt;/p&gt;
+&lt;p&gt;构造决策函数：
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-29.png" /&gt;&lt;/p&gt;
+&lt;h1&gt;SMO算法&lt;/h1&gt;
+&lt;p&gt;上面所讲的都是SVM建模方法，模型建出来之后需要有效且收敛快的算法来求解，求解SVM的算法有很多，但是最流行的是SMO算法。序列最小最优化算法（SMO）是一种启发式算法，由Microsoft Research的John C.Platt在1998年提出，并成为最快的二次规划优化算法。&lt;/p&gt;
+&lt;p&gt;其基本思想是不断地将原二次规划问题分解为只有两个变量的二次规划子问题，一个变量是违反KKT条件最严重的那一个，另外一个由约束条件自动确定，并对子问题进行解析求解，直到所有变量满足KKT条件为止，因为子问题有解析解，所以每次计算子问题都很快，虽然计算子问题次数多，但是总体上很高效。&lt;/p&gt;
+&lt;p&gt;SMO算法分为两部分：求解两个变量二次规划的解析方法和选择变量的启发式算法。
+这个算法的原理稍显复杂，我推荐你去看《统计学习方法》Page124页，上面有详细的描述。&lt;/p&gt;
+&lt;h1&gt;SVM的多类别分类方法&lt;/h1&gt;
+&lt;p&gt;支持向量机是针对二类分类问题提出的，如何扩展到多类别分类是SVM研究的重要内容。主要有3种方法：
+&lt;strong&gt;设训练样本分属于c1,c2,...,ck个类别&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;逐一鉴别法：构造k个SVM分类器，选取判别函数值最大所对应的类别为测试数据的类别.&lt;/li&gt;
+&lt;li&gt;一一区分法：构造k(k-1)/2个分类器，即每两类之间构成一个SVM，累计各类别的得分, 选择得分最高者所对应的类别为测试数据的类别. &lt;/li&gt;
+&lt;li&gt;M-ary法.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下面是我做的一个文本分类的实验，分别来叙述这几种方法。
+我的问题是，我有四类文档，分别是娱乐，体育，财经，政治类，用A，B，C，D来标记。我取来自每一类的各200篇文章作为训练集，学习SVM来对新的文章进行分类。算法的代码全部来自《机器学习实战》这本书。&lt;/p&gt;
+&lt;h4&gt;一一区分法：&lt;/h4&gt;
+&lt;p&gt;&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-34.png" /&gt;
+如上图，我对每两类都构造一个SVM，得到4(4-1)/2=6个SVM，然后将输入经过每一个SVM，按照投票原则决定最后的分类。&lt;/p&gt;
+&lt;h4&gt;Mary法：&lt;/h4&gt;
+&lt;p&gt;&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-35.png" /&gt;
+为了克服一一区分法分类器较多的缺点的，有了Mary法。如上图，它只需要构造两个SVM，第一个SVM将A，B看作一类，将C，D看作一类，第二个SVM将A，C看作一类，将B，D看作一类 ，当输入分别通过两个SVM之后，可以通过如图的映射关系分出它的类别。
+Mary法的缺点是，分类的结果依赖于构造SVM的方案，比如如果在上面的方案中这样构造：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;分类器1: AD/BC&lt;/li&gt;
+&lt;li&gt;分类器2：AC/BD&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;分类的结果可能跟图中的分类结果不同。因此Mary法需要较好的SVM构造策略，好的经验是将根据先验知识将相对较相似的类分做一类，把相对差别大的类分做另一类。&lt;/p&gt;
+&lt;h1&gt;调参方法&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;交叉验证：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在给定的样本中，拿出大部分样本进行训练，留小部分样本进行验证。常用的交叉验证方法有:Holdout验证、K折交叉验证和留一验证。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;网格法寻找最优参数：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;根据SVM的原理以及实际的实验结果可以分析得到，对分类准确率影响比较大的参数是惩罚参数C以及径向基核函数里的参数γ。为了对这两个参数同时进行调整以达到最好的效果，我们可以使用网格法寻优。由于C与γ之间没有依存关系，故可以使用两层循环的方式，将一定范围内的C与γ遍历，选择准确率最高的一组数据。并且根据经验可知，C与γ以指数形式变化会得到较好的效果，比如:
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-36.png" /&gt;&lt;/p&gt;
+&lt;h1&gt;小结&lt;/h1&gt;
+&lt;p&gt;最后我用一段我自己的话来对SVM做个总结。很浅显，但包括了SVM最关键的东西。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;SVM它本质上即是一个分类方法，用w^T+b定义分类函数，于是求w、b，为寻最大间隔，引出1/2||w||^2，继而引入拉格朗日因子，化为对拉格朗日乘子a的求解（求解过程中会涉及到一系列最优化或凸二次规划等问题），如此，求w.b与求a等价，而a的求解可以用一种快速学习算法SMO，至于核函数，是为处理非线性情况，若直接映射到高维计算恐维度爆炸，故在低维计算，等效高维表现。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;最后副一张SVM与逻辑斯蒂回归，决策树分类效果的图，同学们感受一下。
+&lt;img alt="" src="http://bupt-image.qiniudn.com/SVM-30.png" /&gt;&lt;/p&gt;
+&lt;p&gt;这篇文章仅仅知识抛砖引玉，让你对于SVM有个概念，同时又能对它的原理说的出个大概。如果你真的以为这就够了，那你真是too young了啊。
+想了解更多去看看&lt;a href="http://book.douban.com/subject/10590856/"&gt;统计学习方法&lt;/a&gt;吧，至少我还没有说清楚什么是对偶问题，为啥要转化成对偶问题，什么是KKT条件，以及很重要的SMO算法是怎么实现的，这些内容都不容你错过。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Happy ending.&lt;/strong&gt;&lt;/p&gt;</summary><category term="SVM"></category></entry><entry><title>我的机器学习方法</title><link href="/%E6%88%91%E7%9A%84%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95.html" rel="alternate"></link><updated>2014-03-02T22:10:00+08:00</updated><author><name>Li,Gongfu</name></author><id>tag:,2014-03-02:我的机器学习方法.html</id><summary type="html">&lt;p&gt;我的导师有句口头禅：机器都开始学习了，你还好意思不好好学机器学习？！
+从大四保研开始就开始接触ML，到现在也已经快两年了，杂乱的看了不少书，对ML也有一点点想法。写出来跟大家分享一下。&lt;/p&gt;
+&lt;p&gt;引用实验室一位大牛师兄的说法：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;机器学习就好像未成年人讨论性。每个人都在说，但是从来没人知道到底该怎么做。每个人都认为别人真的做了，所以自己也假装做过。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1&gt;机器学习是什么&lt;/h1&gt;
+&lt;p&gt;机器学习现在是一大热门，研究的人特多，越来越多的新人涌进来。不少人其实并没有真正想过，这是不是自己喜欢搞的东西，只不过看见别人都在搞，觉着跟大伙儿走总不会吃亏吧。 问题是，真有个“大伙儿”吗？就不会是“两伙儿”、“三伙儿”？如果有“几伙儿”，那到底该跟着“哪伙儿”走呢？ 很多人可能没有意识到，所谓的machine learning community，现在至少包含了两个有着完全不同的文化、完全不同的价值观的群体，称为machine learning "communities"也许更合适一些。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;第一个community，是把机器学习看作人工智能分支的一个群体，这群人的主体是计算机科学家。 现在的“机器学习研究者”可能很少有人读过1983年出的“Machine Learning: An Artificial Intelligence Approach”这本书。这本书的出版标志着机器学习成为人工智能中一个独立的领域。它其实是一部集早期机器学习研究之大成的文集，收罗了若干先贤（例 如Herbert Simon，那位把诺贝尔奖、图灵奖以及各种各样和他相关的奖几乎拿遍了的科学天才）的大作，主编是Ryszard S. Michalski（此君已去世多年了，他可算是机器学习的奠基人之一）、Jaime G. Carbonell（此君曾是Springer的LNAI的总编）、Tom Mitchell（此君是CMU机器学习系首任系主任、著名教材的作者，机器学习界没人不知道他吧）。Machine Learning杂志的创刊，正是这群人努力的结果。这本书值得一读。虽然技术手段早就日新月异了，但有一些深刻的思想现在并没有过时。各个学科领域总有 不少东西，换了新装之后又粉墨登场，现在热火朝天的transfer learning，其实就是learning by analogy的升级版。&lt;/p&gt;
+&lt;p&gt;人工智能的研究从以“推理”为重点到以“知识”为重点，再到以“学习”为重点，是有一条自然、清晰的脉络。人工智能出身的机器学习研究者，绝大部分 是把机器学习作为实现人工智能的一个途径，正如1983年的书名那样。他们关注的是人工智能中的问题，希望以机器学习为手段，但具体采用什么样的学习手 段，是基于统计的、代数的、还是逻辑的、几何的，他们并不care。 这群人可能对统计学习目前dominating的地位未必满意。靠统计学习是不可能解决人工智能中大部分问题的，如果统计学习压制了对其他手段的研究，可能不是好事。这群人往往也不care在文章里show自己的数学水平，甚至可能是以简化表达自己的思想为荣。人工智能问题不是数学问题，甚至未必是依靠数学能够解决的问题。人工智能中许多事情的难处，往往在于我们不知道困难的本质在哪里，不知道“问题”在哪里。一旦“问题”清楚了，解决起来可能并不 困难。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;第二个community，是把机器学习看作“应用统计学”的一个群体，这群人的主体是统计学家。 和纯数学相比，统计学不太“干净”，不少数学家甚至拒绝承认统计学是数学。但如果和人工智能相比，统计学就太干净了，统计学研究的问题是清楚的，不象人工智能那样，连问题到底在哪里都不知道。在相当长时间里，统计学家和机器学习一直保持着距离。 慢慢地，不少统计学家逐渐意识到，统计学本来就该面向应用，而机器学习天生就是一个很好的切入点。因为机器学习虽然用到各种各样的数学，但要分析大量数据中蕴涵的规律，统计学是必不可少的。统计学出身的机器学习研究者，绝大部分是把机器学习当作应用统计学。他们关注的是如何把统计学中的理论和方法变成可以在计算机上有效实现的算法，至于这样的算法对人工智能中的什么问题有用，他们并不care。&lt;/p&gt;
+&lt;p&gt;这群人可能对人工智能毫无兴趣，在他们眼中，机器学习就是统计学习，是统计学比较偏向应用的一个分支，充其量是统计学与计算机科学的交叉。这群人对统计学习之外的学习手段往往是排斥的，这很自然，基于代数的、逻辑的、几何的学习，很难纳入统计学的范畴。&lt;/p&gt;
+&lt;p&gt;两个群体的文化和价值观完全不同。第一个群体认为好的工作，第二个群体可能觉得没有技术含量，但第一个群体可能恰恰认为，简单的才好，正因为很好地抓住了问题本质，所以问题变得容易解决。第二个群体欣赏的工作，第一个群体可能觉得是故弄玄虚，看不出他想解决什么人工智能问题，根本就不是在搞人工智 能、搞计算机，但别人本来也没说自己是在“搞人工智能”、“搞计算机”，本来就不是在为人工智能做研究。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;两个群体各有其存在的意义，应该宽容一点，不需要去互较什么短长。但是既然顶着Machine Learning这个帽子的不是“一伙儿”，而是“两伙儿”，那么要“跟进”的新人就要谨慎了，先搞清楚自己更喜欢“哪伙儿”。 引两位著名学者的话结尾，一位是人工智能大奖得主、一位是统计学习大家，名字我不说了，省得惹麻烦：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“I do not come to AI to do statistics”&lt;/p&gt;
+&lt;p&gt;“I do not have interest in AI”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1&gt;我的机器学习方法&lt;/h1&gt;
+&lt;p&gt;不出意外，我是一个统计学系的学习者和支持者，一来是从数学上去理解和证明机器学习让我更加容易接受，更重要的是，如果你是一个初学者的话，统计学系的机器学习方法能让你迅速作出点能够称得上是机器学习的工作，比如基于SVM文本分类，基于Adaboost的人脸检测算法等等。当然还有Bayes这种神器，我觉得能用机器学习算法去实现一些实际的工程应该是最好的学习方法。而且各种机器学习算法之间本身没有优劣区别，试了才知道哪个好。&lt;/p&gt;
+&lt;p&gt;从我们实验室的情况来看我所了解到的，对于ML的初学者来说，不外乎以下四种学习策略,或者兼而有之。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;从选择一个好用的机器学习工具包开始，常用的有R, Weka, scikit-learn, waffles, and orange. 我推荐WEKA，简单好用，非常适合学院派的同学们。&lt;/li&gt;
+&lt;li&gt;从选择一个好的机器学习数据集开始，好的站点有UCI ML Repository, Kaggle and data.gov.&lt;/li&gt;
+&lt;li&gt;选择一个机器学习算法，会用，知道参数怎么设，用不同的数据集了解充分了解其性能.&lt;/li&gt;
+&lt;li&gt;实现一个机器学习算法，选择一个编程语言，开始可以参考一些开源的实现，重写一些算法，优化的部分不要太深究.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;最重要的是，我觉得机器学习是一个非常非常需要很系统学习的学科，如果你总是徘徊在看“机器学习N大算法”之类的书，我觉得你可能机器学习的门都还没有摸到， 或者将在门外徘徊相当长的一段时间。我的建议是沉下心来，好好读一本书，比去折腾这算法，那技巧要好得多。因为机器学习更多的不是技巧，而是你对数据，模型的敏感，而这就要求你对机器学习有全局上的认识。&lt;/p&gt;
+&lt;p&gt;如果你比较习惯别人教给你知识，那我吐血推荐Machine Learning by Andrew Ng公开课~，华裔教授讲的不错，一共20多集，不多。&lt;/p&gt;
+&lt;p&gt;如果，你看书的效率足够高，那我推荐两本书：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;《统计学习方法》，华为诺亚方舟实验室首席科学家 李航著
+《机器学习实战》，Peter Harrington著&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这两本书配合起来对机器学习新手来说，效果绝对是金刚经级别的，这也是我采用的学习方法。&lt;/p&gt;
+&lt;p&gt;第一本书讲的是机器学习的策略，模型，算法，从理论上阐述了机器学习的套路，而这些东西是所有算法所通用的。对数学公式无感的同学算是有福了，这本书里尽量简化了公式的堆砌，这也是我不推荐《模式分类》的原因，书非常经典，但是不适合菜鸟，容易被繁杂的公式磨平你学习的热情，好吧，我承认，我说的是我自己。&lt;/p&gt;
+&lt;p&gt;第二本书讲了一些常用算法，如SVM、MaxEntropy、Bayes、DecisionTree的python实现，讲的还算到位，详略得当。而这些方法的理论基础在李航大大的书里都有讲到，这本书里面的代码全是用python实现的，如果你不熟悉的话，我不会建议不看这本书，想反，我会建议你好好学学python，因为python对于机器学习算法不能更重要了。&lt;/p&gt;
+&lt;p&gt;机器学习是一个高深并且复杂的学科，我也只是抓到了点皮毛，所以写起来感觉到特别虚。Anyway,肯定还有很多刚刚接触ML，有着极高的热情但找不着门路的同学，就与你们共勉吧！&lt;/p&gt;</summary><category term="Machine Learning"></category></entry></feed>

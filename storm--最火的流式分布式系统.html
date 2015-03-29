@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>storm--最火的流式分布式系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Li,Gongfu">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="/" type="application/atom+xml" rel="alternate" title="晓新's Blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/index.html">晓新's Blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li class="active">
+                    <a href="/category/fen-bu-shi.html">
+						<i class="icon-folder-open icon-large"></i>分布式
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/java.html">
+						<i class="icon-folder-open icon-large"></i>JAVA
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/machine-learning.html">
+						<i class="icon-folder-open icon-large"></i>Machine Learning
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/perl.html">
+						<i class="icon-folder-open icon-large"></i>Perl
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/python.html">
+						<i class="icon-folder-open icon-large"></i>Python
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/scala.html">
+						<i class="icon-folder-open icon-large"></i>Scala
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/shu-ju-ku.html">
+						<i class="icon-folder-open icon-large"></i>数据库
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/technology.html">
+						<i class="icon-folder-open icon-large"></i>Technology
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to storm--最火的流式分布式系统">
+                                        storm--最火的流式分布式系统
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-04-10T22:04:00">
+        <i class="icon-calendar"></i>四 10 四月 2014
+</abbr>
+<span class="label">By</span>
+<a href="/author/ligongfu.html"><i class="icon-user"></i>Li,Gongfu</a>
+<span class="label">Category</span>
+<a href="/category/fen-bu-shi.html"><i class="icon-folder-open"></i>分布式</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/storm.html"><i class="icon-tag"></i>Storm</a>
+</footer><!-- /.post-info -->                </div>
+                <p>折腾storm有一段时间了，上篇博客写了怎么部署自己的storm系统，有必要解释一下的架构和原理。结合我看到的一些资料，做个简单的总结，尤其是对于storm能做什么，适合做什么，应该是能给刚接触storm的同学们一些启发。</p>
+<h2>storm诞生</h2>
+<p>在2011年Storm开源之前，由于Hadoop的火红，整个业界都在喋喋不休地谈论大数据。Hadoop的高吞吐，海量数据处理的能力使得人们可以方便地处理海量数据。但是，Hadoop的缺点也和它的优点同样鲜明——延迟大，响应缓慢，运维复杂。有需求也就有创造，在Hadoop基本奠定了大数据霸主地位的时候，很多的开源项目都是以弥补Hadoop的实时性为目标而被创造出来。而在这个节骨眼上Storm横空出世了。
+Storm带着流式计算的标签华丽丽滴出场了，看看它的一些卖点：</p>
+<ul>
+<li>分布式系统：可横向拓展,现在的项目不带个分布式特性都不好意思开源。</li>
+<li>运维简单：Storm的部署的确简单。虽然没有Mongodb的解压即用那么简单，但是它也就是多安装两个依赖库而已。</li>
+<li>高度容错：模块都是无状态的，随时宕机重启。</li>
+<li>无数据丢失：Storm创新性提出的ack消息追踪框架和复杂的事务性处理,能够满足很多级别的数据处理需求。不过，越高的数据处理需求，性能下降越严重。</li>
+</ul>
+<h2>Storm 与传统的大数据</h2>
+<p>Storm 与其他大数据解决方案的不同之处在于它的处理方式。Hadoop在本质上是一个批处理系统。数据被引入 Hadoop文件系统(HDFS)并分发到各个节点进行处理。当处理完成时，结果数据返回到 HDFS供始发者使用。Storm支持创建拓扑结构来转换没有终点的数据流。不同于 Hadoop 作业，这些转换从不停止，它们会持续处理到达的数据。</p>
+<h2>Storm的基本架构</h2>
+<p>Storm是一个免费开源、分布式、高容错的实时计算系统。Storm令持续不断的流计算变得容易，弥补了Hadoop批处理所不能满足的实时要求。Storm经常用于在实时分析、在线机器学习、持续计算、分布式远程调用和ETL等领域。Storm的部署管理非常简单，而且，在同类的流式计算工具，Storm的性能也是非常出众的。来看看storm的架构图：
+<img alt="" src="http://bupt-image.qiniudn.com/storm1.jpeg" /></p>
+<p>Storm主要分为两种组件Nimbus和Supervisor。这两种组件都是快速失败的，没有状态。任务状态和心跳信息等都保存在Zookeeper上的，提交的代码资源都在本地机器的硬盘上。</p>
+<ul>
+<li>
+<p>Nimbus负责在集群里面发送代码，分配工作给机器，并且监控状态。全局只有一个。</p>
+</li>
+<li>
+<p>Supervisor会监听分配给它那台机器的工作，根据需要启动/关闭工作进程Worker。每一个要运行Storm的机器上都要部署一个，并且，按照机器的配置设定上面分配的槽位数。</p>
+</li>
+<li>
+<p>Zookeeper是Storm重点依赖的外部资源。Nimbus和Supervisor甚至实际运行的Worker都是把心跳保存在Zookeeper上的。Nimbus也是根据Zookeerper上的心跳和任务运行状况，进行调度和任务分配的。</p>
+</li>
+<li>
+<p>Storm提交运行的程序称为Topology。</p>
+</li>
+<li>
+<p>Tuple：Topology处理的最小的消息单位是一个Tuple，也就是一个任意对象的数组。一次消息传递的基本单元。本来应该是一个key-value的map，但是由于各个组件间传递的tuple的字段名称已经事先定义好，所以tuple中只要按序填入各个value就行了，所以就是一个value list.</p>
+</li>
+<li>
+<p>Topology由Spout和Bolt构成。Spout是发出Tuple的结点。Bolt可以随意订阅某个Spout或者Bolt发出的Tuple。Spout和Bolt都统称为component。 </p>
+</li>
+</ul>
+<h2>Topology</h2>
+<p>Topology由Spout和Bolt构成。Spout是发出Tuple的结点。Bolt可以随意订阅某个Spout或者Bolt发出的Tuple。Spout和Bolt都统称为component。 </p>
+<p>spout和bolt以很多task的形式在topology里面同步执行。如果从task的粒度来看一个运行的topology，它应该是这样的:
+<img alt="" src="http://bupt-image.qiniudn.com/storm2.jpeg" />
+当Bolt A的一个task要发送一个tuple给BoltB， 它应该发送给Bolt B的哪个task呢？stream grouping专门回答这种问题的。有好几种不同的streamgrouping:</p>
+<ul>
+<li>
+<p>shuffle grouping:它随机发给任何一个task。</p>
+</li>
+<li>
+<p>fields grouping:这种grouping机制保证相同field值的tuple会去同一个task。</p>
+</li>
+<li>
+<p>AllGrouping：广播发送，将每一个Tuple发送到所有的Task。</p>
+</li>
+<li>
+<p>GlobalGrouping：所有的Tuple会被发送到某个Bolt中的id最小的那个Task。</p>
+</li>
+<li>
+<p>NoneGrouping：不关心Tuple发送给哪个Task来处理，等价于ShuffleGrouping。</p>
+</li>
+<li>
+<p>DirectGrouping：直接将Tuple发送到指定的Task来处理。</p>
+</li>
+</ul>
+<h2>Storm的消息传输机制</h2>
+<p>Storm的底层采用 zeromq（Omq,zeromq）——一个先进的嵌入式网络通讯库，为Storm提供了很多令人激动的功能。以下列出了 zeromq的特点：</p>
+<ul>
+<li>
+<p>支持高并发的网络通讯库</p>
+</li>
+<li>
+<p>比TCP更快，适用于大型生产集群和超级计算</p>
+</li>
+<li>
+<p>采用进程内通信、进程间通信、TCP和多播传递消息</p>
+</li>
+<li>
+<p>异步I/O，适用于扩展的多核消息传递应用中</p>
+</li>
+<li>
+<p>通过扇出、发布订阅、管道、请求-应答实现多对多连接</p>
+</li>
+</ul>
+<h2>hadoop vs storm</h2>
+<p>全量数据处理使用的大多是鼎鼎大名的hadoop或者hive，作为一个批处理系统，hadoop以其吞吐量大、自动容错等优点，在海量数据处理上得到了广泛的使用。但是，hadoop不擅长实时计算，因为它天然就是为批处理而生的，这也是业界一致的共识。否则最近这两年也不会有s4,storm,puma这些实时计算系统如雨后春笋般冒出来了。</p>
+<p>storm的网络直传、内存计算，其时延必然比hadoop的通过hdfs传输低得多；当计算模型比较适合流式时，storm的流式处理，省去了批处理的收集数据的时间；因为storm是服务型的作业，也省去了作业调度的时延。所以从时延上来看，storm要快于hadoop。</p>
+<p>下面是storm和hadoop组件的对应关系。
+ component      | hadoop    | storm
+---------   | -----    |------
+系统角色   | job tracker |nimbus
+系统角色   | TaskTracker  |Supervisor
+系统角色       | Child   |worker
+应用名称   | Job  |Topology
+组件接口|Mapper/Reducer|Spout/Bolt</p>
+<h2>当前发展</h2>
+<p>Storm已经发展到0.9.1版本了，看一下3年多来，它取得的成就：</p>
+<ul>
+<li>有100个大大小小的公司在使用Storm，相信更多的不留名的公司也在使用。这些公司中不乏淘宝，百度，携程，Twitter，Groupon，雅虎等重量级公司。来看一些实际的应用：<blockquote>
+<p>一淘-实时分析系统pora：实时分析用户的属性，并反馈给搜索引擎。最初，用户属性分析是通过每天在云梯上定时运行的MR job来完成的。为了满足实时性的要求，希望能够实时分析用户的行为日志，将最新的用户属性反馈给搜索引擎，能够为用户展现最贴近其当前需求的结果。
+    携程-网站性能监控：实时分析系统监控携程网的网站性能。利用HTML5提供的performance标准获得可用的指标，并记录日志。Storm集群实时分析日志和入库。使用DRPC聚合成报表，通过历史数据对比等判断规则，触发预警事件。</p>
+</blockquote>
+</li>
+<li>
+<p>从开源时候的0.5.0版本，到现在的0.9.0+。先后添加了以下重大的新特性：</p>
+<div class="highlight"><pre><span class="err">§</span> <span class="err">使用</span><span class="n">kryo</span><span class="err">作为</span><span class="n">Tuple</span><span class="err">序列化的框架（</span><span class="mf">0.6.0</span><span class="err">）</span>
+
+<span class="err">§</span> <span class="err">添加了</span><span class="n">Transactional</span> <span class="n">topologies</span><span class="err">（事务性拓扑）的支持（</span><span class="mf">0.7.0</span><span class="err">）</span>
+
+<span class="err">§</span> <span class="err">添加了</span><span class="n">Trident</span><span class="err">的支持（</span><span class="mf">0.8.0</span><span class="err">）</span>
+
+<span class="err">§</span> <span class="err">引入</span><span class="n">netty</span><span class="err">作为底层消息机制（</span><span class="mf">0.9.0</span><span class="err">）</span>
+</pre></div>
+
+
+<p>Transactional topologies和Trident都是针对实际应用中遇到的重复计数问题和应用性问题的解决方案。可以看出，实际的商用给予了Storm很多良好的反馈。</p>
+</li>
+<li>
+<p>在GitHub上超过4000个项目负责人。Storm集成了许多库，支持包括Kestrel、Kafka、JMS、Cassandra、Memcached以及更多系统。随着支持的库越来越多，Storm更容易与现有的系统协作。Storm拥有一个活跃的社区和一群热心的贡献者。过去3年，Storm的发展是非常成功的。</p>
+</li>
+</ul>
+<p>如果，业务场景中需要低延迟的响应，希望在秒级或者毫秒级完成分析、并得到响应，而且希望能够随着数据量的增大而拓展。那就可以考虑下，使用Storm了。</p>
+<h2>未来</h2>
+<p>在流式处理领域里，Storm的直接对手是S4。不过，S4冷淡的社区、半成品的代码，在实际商用方面输给Storm不止一条街。</p>
+<p>如果把范围扩大到实时处理，Storm就一点都不寂寞了。</p>
+<ul>
+<li>
+<p>Puma：Facebook使用puma和Hbase相结合来处理实时数据,使批处理计算平台具备一定实时能力。不过这不算是一个开源的产品。只是内部使用。</p>
+</li>
+<li>
+<p>HStreaming：尝试为Hadoop环境添加一个实时的组件HStreaming能让一个Hadoop平台在几天内转为一个实时系统。分商业版和免费版。也许HStreaming可以借Hadoop的东风，撼动Storm。</p>
+</li>
+<li>
+<p>Spark Streaming：作为UC Berkeley云计算software stack的一部分，Spark Streaming是建立在Spark上的应用框架，利用Spark的底层框架作为其执行基础，并在其上构建了DStream的行为抽象。利用DStream所提供的api，用户可以在数据流上实时进行count，join，aggregate等操作。</p>
+</li>
+<li>
+<p>当然，Storm也有Yarn-Storm项目，能让Storm运行在Hadoop2.0的Yarn框架上，可以让Hadoop的MapReduce和Storm共享资源。</p>
+</li>
+</ul>
+<p>主要参考的网站资源：</p>
+<p><a href="https://github.com/nathanmarz/storm/wiki/Tutorial">storm官方tutorial</a></p>
+<p><a href="http://book.douban.com/subject/11229716/">Getting Started with Storm</a></p>
+<p><a href="http://my.oschina.net/leejun2005/blog/147607">一篇对照一个例子讲storm原理和应用的不错文章</a></p>
+<p><a href="http://www.cnblogs.com/XjChenny/p/3214039.html">非常完整的storm安装教程，但没有提到安装过程可能遇到的问题</a></p>
+<p><a href="http://javanlu.github.io/blog/2013/10/11/storm-deploy-tutorial/#storm-starterwordcount">一个github上的博客，《Getting Started with Storm》一书部分的个人翻译</a></p>
+<h2>其他开源的大数据解决方案</h2>
+<p>自 Google 在 2004 年推出 MapReduce 范式以来，已诞生了多个使用原始 MapReduce 范式（或拥有该范式的质量）的解决方案。Google对MapReduce的最初应用是建立万维网的索引。尽管此应用程序仍然很流行，但这个简单模型解决的问题也正在增多。</p>
+<p>表一提供了一个可用开源大数据解决方案的列表，包括传统的批处理和流式处理应用程序。在将Storm引入开源之前将近一年的时间里，Yahoo!的S4分布式流计算平台已向 Apache开源。S4于2010年10月发布它提供了一个高性能计算 (HPC) 平台，向应用程序开发人员隐藏了并行处理的复杂性。S4 实现了一个可扩展的、分散化的集群架构，并纳入了部分容错功能。</p>
+<p><em>表 1. 开源大数据解决方案</em></p>
+<table>
+<thead>
+<tr>
+<th>解决方案</th>
+<th>开发商</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Storm</td>
+<td>Twitter</td>
+<td>流式处理</td>
+<td>Twitter 的新流式大数据分析解决方案</td>
+</tr>
+<tr>
+<td>S4</td>
+<td>Yahoo!</td>
+<td>流式处理</td>
+<td>来自 Yahoo! 的分布式流计算平台</td>
+</tr>
+<tr>
+<td>Hadoop</td>
+<td>Apache</td>
+<td>批处理</td>
+<td>MapReduce 范式的第一个开源实现</td>
+</tr>
+<tr>
+<td>Spark</td>
+<td>UC Berkeley AMPLab</td>
+<td>批处理</td>
+<td>支持内存中数据集和恢复能力的最新分析平台</td>
+</tr>
+<tr>
+<td>Disco</td>
+<td>Nokia</td>
+<td>批处理</td>
+<td>Nokia 的分布式 MapReduce 框架</td>
+</tr>
+</tbody>
+</table>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "storm--最火的流式分布式系统.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://buptlixin.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="http://getpelican.com/"><i class="icon-external-link"></i>Pelican</a></li>
+    <li><a href="http://python.org/"><i class="icon-external-link"></i>Python.org</a></li>
+    <li><a href="http://jinja.pocoo.org/"><i class="icon-external-link"></i>Jinja2</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="http://www.v2ex.com/member/buptlee"><i class="icon-V2EX-sign icon-large"></i>V2EX</a></li>
+    <li><a href="http://douban.com/people/77726008"><i class="icon-豆瓣-sign icon-large"></i>豆瓣</a></li>
+    <li><a href="http://github.com/Xiaoxin2009"><i class="icon-Github-sign icon-large"></i>Github</a></li>
+    <li><a href="http://stackoverflow.com/users/3373388/bupt-xiaoxin"><i class="icon-Stackoverflow-sign icon-large"></i>Stackoverflow</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="/category/fen-bu-shi.html">
+    <i class="icon-folder-open icon-large"></i>分布式
+</a>
+</li>
+<li>
+<a href="/category/java.html">
+    <i class="icon-folder-open icon-large"></i>JAVA
+</a>
+</li>
+<li>
+<a href="/category/machine-learning.html">
+    <i class="icon-folder-open icon-large"></i>Machine Learning
+</a>
+</li>
+<li>
+<a href="/category/perl.html">
+    <i class="icon-folder-open icon-large"></i>Perl
+</a>
+</li>
+<li>
+<a href="/category/python.html">
+    <i class="icon-folder-open icon-large"></i>Python
+</a>
+</li>
+<li>
+<a href="/category/scala.html">
+    <i class="icon-folder-open icon-large"></i>Scala
+</a>
+</li>
+<li>
+<a href="/category/shu-ju-ku.html">
+    <i class="icon-folder-open icon-large"></i>数据库
+</a>
+</li>
+<li>
+<a href="/category/technology.html">
+    <i class="icon-folder-open icon-large"></i>Technology
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-3">
+    <a href="/tag/storm.html">
+        <i class="icon-tag icon-large"></i>Storm
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/zheng-ze-biao-da-shi.html">
+        <i class="icon-tag icon-large"></i>正则表达式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/machine-learning.html">
+        <i class="icon-tag icon-large"></i>Machine Learning
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hadoop.html">
+        <i class="icon-tag icon-large"></i>Hadoop
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/perl.html">
+        <i class="icon-tag icon-large"></i>Perl
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/scala.html">
+        <i class="icon-tag icon-large"></i>scala
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programming.html">
+        <i class="icon-tag icon-large"></i>functional programming
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/svm.html">
+        <i class="icon-tag icon-large"></i>SVM
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/mongodb.html">
+        <i class="icon-tag icon-large"></i>MongoDB
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hash.html">
+        <i class="icon-tag icon-large"></i>Hash
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/sql.html">
+        <i class="icon-tag icon-large"></i>SQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/github.html">
+        <i class="icon-tag icon-large"></i>Github
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hdfs.html">
+        <i class="icon-tag icon-large"></i>HDFS
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/nosql.html">
+        <i class="icon-tag icon-large"></i>NoSQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programing.html">
+        <i class="icon-tag icon-large"></i>functional programing
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/java.html">
+        <i class="icon-tag icon-large"></i>java
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-50849437-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'buptlixin';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

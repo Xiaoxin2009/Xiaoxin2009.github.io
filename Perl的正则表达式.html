@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Perl的正则表达式（二）</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Li,Gongfu">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="/" type="application/atom+xml" rel="alternate" title="晓新's Blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/index.html">晓新's Blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="/category/fen-bu-shi.html">
+						<i class="icon-folder-open icon-large"></i>分布式
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/java.html">
+						<i class="icon-folder-open icon-large"></i>JAVA
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/machine-learning.html">
+						<i class="icon-folder-open icon-large"></i>Machine Learning
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="/category/perl.html">
+						<i class="icon-folder-open icon-large"></i>Perl
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/python.html">
+						<i class="icon-folder-open icon-large"></i>Python
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/scala.html">
+						<i class="icon-folder-open icon-large"></i>Scala
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/shu-ju-ku.html">
+						<i class="icon-folder-open icon-large"></i>数据库
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/technology.html">
+						<i class="icon-folder-open icon-large"></i>Technology
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to Perl的正则表达式（二）">
+                                        Perl的正则表达式（二）
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-12-02T16:20:00">
+        <i class="icon-calendar"></i>二 02 十二月 2014
+</abbr>
+<span class="label">By</span>
+<a href="/author/ligongfu.html"><i class="icon-user"></i>Li,Gongfu</a>
+<span class="label">Category</span>
+<a href="/category/perl.html"><i class="icon-folder-open"></i>Perl</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/zheng-ze-biao-da-shi.html"><i class="icon-tag"></i>正则表达式</a>
+</footer><!-- /.post-info -->                </div>
+                <h3>用m//进行匹配</h3>
+<p>我们常常用//来表示模式，比如/fred/，但事实上，这是m/pattern/的简写，我们可以选用任何的定界符配合m来表示模式。例如:</p>
+<div class="highlight"><pre><span class="n">m</span><span class="p">(</span><span class="n">fred</span><span class="p">),</span><span class="n">m</span><span class="p">{</span><span class="n">fred</span><span class="p">},</span><span class="n">m</span><span class="p">[</span><span class="n">fred</span><span class="p">]</span>
+</pre></div>
+
+
+<p>如果你使用双斜线作为定界符，可以省略开头的m。但是，你应该明智的选择模式中不会出现的字符作为定界符，例如网址匹配时，你可能要用/http:\/\//来匹配最开始的"http://",其实可以用另外一个版本：m{^http://},更容易维护。</p>
+<h3>模式匹配修饰符</h3>
+<p>模式匹配修饰符是追加在模式表达式末尾定界符后面的字母，用来改变默认的匹配行为。</p>
+<ul>
+<li>/i 进行大小写无关的匹配</li>
+<li>/s匹配任意字符
+        默认情况下，点号(.)无法匹配换行符，这对大多数单行匹配的情况是合适的。但如果字符串含有换行符，而你希望点号能匹配这些换行符，那么/s能完成这个任务。</li>
+</ul>
+<div class="highlight"><pre><span class="err">$</span><span class="n">_</span> <span class="o">=</span> <span class="s">&quot;I saw Barney</span><span class="se">\n</span><span class="s">down at the bowling alley</span><span class="se">\n</span><span class="s">with Fred</span><span class="se">\n</span><span class="s">last night.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="o">/</span><span class="n">Barney</span><span class="p">.</span><span class="o">*</span><span class="n">Fred</span><span class="o">/</span><span class="n">s</span><span class="p">){</span>
+    <span class="n">print</span> <span class="s">&quot;that string menstions fred after barney!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>没有/s的话，上面的匹配会失败，因为两个名字并不在同一行。</p>
+<ul>
+<li>/x加入空白符
+    这个修饰符允许我们在模式里随意加上空白符，从而使它更易阅读。如果我们真的希望匹配到空白符，可以通过转义字符来实现：\s,\s*,\s+</li>
+<li>组合选项修饰符
+    如果需要对单词匹配使用多项修饰符，只需要把他们接在一起写在模式末尾，不用在意先后顺序。</li>
+</ul>
+<h3>锚位</h3>
+<p>默认情况下，如果给定模式不匹配字符串的开头，就会顺移到下一个字符继续尝试，而通过锚位，我们可以让模式仅在字符串指定位置匹配。</p>
+<ul>
+<li>\A 匹配字符串的绝对开头。</li>
+<li>\z 匹配字符串的绝对末尾。</li>
+<li>\Z 行末锚位，允许后面出现换行符。</li>
+<li>^ 与\A相同</li>
+<li>$ 与\z相同</li>
+</ul>
+<p>在^,$后面加上/m修饰符之后，可以改变他们的匹配行为，分别变成行首锚位和行末锚位。</p>
+<div class="highlight"><pre><span class="o">/</span><span class="err">\</span><span class="n">A</span><span class="err">\</span><span class="n">s</span><span class="o">*</span><span class="err">\</span><span class="n">Z</span><span class="o">/</span>   <span class="err">匹配空行</span>
+<span class="o">/^</span><span class="n">barney</span><span class="o">/</span><span class="n">m</span>
+</pre></div>
+
+
+<ul>
+<li>单词锚位
+\b是单词锚位，它匹配任何单词的首尾，不过这里的单词指的是一组\w字符构成的字符集，也就是由英文字母，数字，下划线组成的字符串。单词边界锚位非常有用，它保证我们不会意外的在delicateness中找到cat，在boondggle中找到dog；有时候你会只用到一个单词边界锚位，/\bhunt/来匹配hunt，hunting，而不会是shunt。</li>
+</ul>
+<h3>绑定操作符=~</h3>
+<p>默认情况下匹配的操作对象是$_,绑定操作符告诉perl，拿右边的模式来匹配左边的字符串。</p>
+<div class="highlight"><pre><span class="k">print</span> <span class="s">&quot;do you love perl?&quot;</span>
+<span class="k">my</span> <span class="nv">$like_perl</span> <span class="o">=</span> <span class="sr">&lt;STDIN&gt;</span> <span class="o">=~</span><span class="sr">/\byes\b/i</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="nv">$like_perl</span><span class="p">){</span>
+    <span class="k">print</span> <span class="s">&quot;you said you like perl!\n&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+</pre></div>
+
+
+<h3>模式中的内插</h3>
+<p>正则表达式内部可以进行双引号形式的内插:</p>
+<div class="highlight"><pre><span class="k">my</span> <span class="nv">$what</span> <span class="o">=</span> <span class="s">&quot;larry&quot;</span><span class="p">;</span>
+<span class="k">while</span><span class="p">(</span><span class="o">&lt;&gt;</span><span class="p">){</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">\</span><span class="n">A</span><span class="p">(</span><span class="nv">$what</span><span class="p">)){</span>
+        <span class="k">print</span> <span class="s">&quot;....&quot;</span><span class="p">;</span>   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>在这里它等效于/\A(larry)/.</p>
+<h3>捕获变量</h3>
+<p>圆括号出现的地方一般都会触发正则表达式引擎捕获匹配到的字符串，我们可以通过反向引用\4来取得这些捕获内容，也可以在匹配操作结束后立即通过相应的捕获变量取得这些内容。虽然反向引用\1和捕获变量\$1的内容是一样的，但它们并不是同一个事物的两种名称：\1是模式匹配期间得到的结果，而\$4是模式匹配结束后对得到的捕获内容的索引。</p>
+<p>可以说，捕获变量是正则表达式无比强大的重要原因之一，因为有了它，我们才得以拥有提取字符串中某些特定部分的能力：</p>
+<div class="highlight"><pre><span class="k">my</span> <span class="nv">$dino</span> <span class="o">=</span> <span class="s">&quot;I fear that i will be extinct after 1000 years .&quot;</span>
+<span class="k">if</span><span class="p">(</span><span class="nv">$dino</span> <span class="o">=~</span><span class="sr"> /([0-9]*) years/</span><span class="p">){</span>
+    <span class="k">print</span> <span class="s">&quot;that said $1 years.\n&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+</pre></div>
+
+
+<p>如果给出的字符串不符合模式的要求，那么得到的捕获变量为空。</p>
+<h3>捕获变量的存续期</h3>
+<p>捕获变量通常会存活到下一次成功匹配位置，也就是说，失败的匹配不会改动上次成功匹配时捕获的内容，而成功的匹配会将他们的值重置。因此，模式匹配总是出现在if或者while条件表达式里：</p>
+<div class="highlight"><pre><span class="k">if</span><span class="p">(</span><span class="err">$</span><span class="n">wilma</span> <span class="o">=~</span> <span class="o">/</span><span class="p">([</span><span class="n">a</span><span class="o">-</span><span class="n">zA</span><span class="o">-</span><span class="n">Z</span><span class="p">]</span><span class="o">+</span><span class="p">)</span><span class="o">/</span><span class="p">){</span>
+    <span class="n">print</span> <span class="s">&quot;wilma&#39;s word was $1.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+    <span class="n">print</span> <span class="s">&quot;wilma does not have a word.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>既然这些捕获内容不会永远存留，通常只会在模式匹配之后的数行之内使用，如果想在更多的地方使用，一般会将它复制到普通变量里。</p>
+<h3>不捕获模式</h3>
+<p>只要是圆括号都会捕获部分的匹配字符串到捕获变量中，但某些情况下我们想关闭这个功能，而仅仅是用它来进行分组。</p>
+<div class="highlight"><pre><span class="k">my</span> <span class="nv">$names</span> <span class="o">=</span> <span class="s">&#39;fred and barney&#39;</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="nv">$names</span> <span class="o">=~</span> <span class="sr">m/(\w+) (and|or) (\w+)/</span><span class="p">){</span>
+    <span class="k">print</span><span class="s">&quot;I saw $1 and $2&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+                 <span class="n">VS</span>
+<span class="k">if</span><span class="p">(</span><span class="nv">$names</span> <span class="o">=~</span> <span class="sr">m/(\w+) (?:and|or) (\w+)/</span><span class="p">){</span>
+    <span class="k">print</span><span class="s">&quot;I saw $1 and $2&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+</pre></div>
+
+
+<p>上面的例子中我们想捕获的是and 或者or前后的名字，但是不得不为and ,or保留一个分组，因此实际上我们应该使用\$1,$3作为捕获变量，然而如果改用不捕获模式，就可以不用因为加入了分组括号以后修改捕获变量名。</p>
+<h3>命名捕获</h3>
+<p>我们可以为捕获到的内容命名，并保存到一个特殊的哈希%+里。我们还可以用\g{label}来反向引用。</p>
+<div class="highlight"><pre><span class="k">my</span> <span class="nv">$names</span> <span class="o">=</span> <span class="s">&#39;fred and barney&#39;</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="nv">$names</span> <span class="o">=~</span> <span class="sr">m/(?&lt;name1&gt;\w+) (and|or) (?&lt;name2&gt;\w+)/</span><span class="p">){</span>
+    <span class="k">print</span><span class="s">&quot;I saw $+{name1} and $+{name2}&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="k">my</span> <span class="nv">$names</span> <span class="o">=</span> <span class="s">&#39;fred flintstone and barney flintstone&#39;</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="nv">$names</span> <span class="o">=~</span> <span class="sr">m/(?&lt;last_name&gt;\w+) and \w+ \g{last_name}/</span><span class="p">){</span>
+    <span class="k">print</span><span class="s">&quot;I saw $+{last_name}&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+</pre></div>
+
+
+<h3>自动捕获变量</h3>
+<p>Larry提供了3个免费的捕获变量，就算不加捕获圆括号也能使用。\$`,\$&amp;,\$'分别表示匹配区段前的内容，匹配区段，匹配区段后的内容。因此，如果将这三个区段连接起来，肯定能得到原始字符串。</p>
+<div class="highlight"><pre><span class="k">if</span><span class="p">(</span><span class="s">&quot;hello there, neighbor&quot;</span> <span class="o">=~</span> <span class="o">/</span><span class="err">\</span><span class="n">s</span><span class="p">(</span><span class="err">\</span><span class="n">w</span><span class="o">+</span><span class="p">),</span><span class="o">/</span><span class="p">){</span>
+    <span class="n">print</span> <span class="s">&quot;that was ($`)($&amp;)($&#39;).</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>我们经常用自动捕获变量来进行模式测试，来检查模式匹配的范围，开始的位置是否符合预期，或者是否根本无法匹配。下面这个程序经常会被用来测试模式：</p>
+<div class="highlight"><pre><span class="k">while</span><span class="p">(</span><span class="o">&lt;&gt;</span><span class="p">){</span>
+    <span class="n">chomp</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">/</span><span class="n">YOUR_PATTERN_GOES_HERE</span><span class="o">/</span><span class="p">){</span>
+    <span class="n">print</span> <span class="s">&quot;Matched: |$`&lt;$&amp;&gt;$&#39;|</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+    <span class="n">print</span> <span class="s">&quot;no matched: |$_|</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>通用量词</h3>
+<p>常见的量词有*,?,+，上篇blog中已经讲过。
+此外，你还可以用{}定制具体的重复次数范围。</p>
+<div class="highlight"><pre><span class="o">/</span><span class="n">a</span><span class="p">{</span><span class="mi">5</span><span class="p">,</span><span class="mi">15</span><span class="p">}</span><span class="o">/</span><span class="p">;[</span><span class="mi">3</span><span class="p">,</span><span class="mi">15</span><span class="p">]</span><span class="err">次</span>
+<span class="o">/</span><span class="p">(</span><span class="n">fred</span><span class="p">){</span><span class="mi">3</span><span class="p">,};</span><span class="mi">3</span><span class="err">次以上</span><span class="p">,</span><span class="err">并且</span><span class="n">fred</span><span class="err">之间不能有空格</span>
+</pre></div>
+
+
+<h3>优先级</h3>
+<ul>
+<li>圆括号：                                   (...),    (?:...),    (?<label>...)</li>
+<li>量词  ：                                    a*,a+,a?,a{n,m},它们会跟它们前面的条目紧密相连</li>
+<li>锚位和序列：      word,abc,^,$,\A,\z,\Z，序列（彼此相邻的条目）也是操作符，也就是说单词里字母之间的紧密程度和锚位与字母之间的紧密程度是相同的。</li>
+<li>择一竖线：  a|b|c例如/fred|barney/会被解释成'fred' or 'barney'，而不会被解释成'fre' 'd' or  'b' 'arney'.</li>
+<li>原子: a,[abc],\d,\1</li>
+</ul>
+<div class="highlight"><pre><span class="o">/</span><span class="p">(</span><span class="n">wilma</span><span class="o">|</span><span class="n">pebbles</span><span class="o">?</span><span class="p">)</span><span class="o">/</span><span class="p">;</span><span class="o">?</span><span class="err">只对</span><span class="n">s</span><span class="err">有用</span>
+</pre></div>
+
+
+<p>在尝试理解一个很复杂的模式时，试着加上一些圆括号会对弄清优先级有好处，但是，圆括号同时也会有捕获的效果，因此，建议尽量可能用非捕获圆括号来分组。</p>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "Perl的正则表达式.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://buptlixin.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="http://getpelican.com/"><i class="icon-external-link"></i>Pelican</a></li>
+    <li><a href="http://python.org/"><i class="icon-external-link"></i>Python.org</a></li>
+    <li><a href="http://jinja.pocoo.org/"><i class="icon-external-link"></i>Jinja2</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="http://www.v2ex.com/member/buptlee"><i class="icon-V2EX-sign icon-large"></i>V2EX</a></li>
+    <li><a href="http://douban.com/people/77726008"><i class="icon-豆瓣-sign icon-large"></i>豆瓣</a></li>
+    <li><a href="http://github.com/Xiaoxin2009"><i class="icon-Github-sign icon-large"></i>Github</a></li>
+    <li><a href="http://stackoverflow.com/users/3373388/bupt-xiaoxin"><i class="icon-Stackoverflow-sign icon-large"></i>Stackoverflow</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="/category/fen-bu-shi.html">
+    <i class="icon-folder-open icon-large"></i>分布式
+</a>
+</li>
+<li>
+<a href="/category/java.html">
+    <i class="icon-folder-open icon-large"></i>JAVA
+</a>
+</li>
+<li>
+<a href="/category/machine-learning.html">
+    <i class="icon-folder-open icon-large"></i>Machine Learning
+</a>
+</li>
+<li>
+<a href="/category/perl.html">
+    <i class="icon-folder-open icon-large"></i>Perl
+</a>
+</li>
+<li>
+<a href="/category/python.html">
+    <i class="icon-folder-open icon-large"></i>Python
+</a>
+</li>
+<li>
+<a href="/category/scala.html">
+    <i class="icon-folder-open icon-large"></i>Scala
+</a>
+</li>
+<li>
+<a href="/category/shu-ju-ku.html">
+    <i class="icon-folder-open icon-large"></i>数据库
+</a>
+</li>
+<li>
+<a href="/category/technology.html">
+    <i class="icon-folder-open icon-large"></i>Technology
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-3">
+    <a href="/tag/storm.html">
+        <i class="icon-tag icon-large"></i>Storm
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/zheng-ze-biao-da-shi.html">
+        <i class="icon-tag icon-large"></i>正则表达式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/machine-learning.html">
+        <i class="icon-tag icon-large"></i>Machine Learning
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hadoop.html">
+        <i class="icon-tag icon-large"></i>Hadoop
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/perl.html">
+        <i class="icon-tag icon-large"></i>Perl
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/scala.html">
+        <i class="icon-tag icon-large"></i>scala
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programming.html">
+        <i class="icon-tag icon-large"></i>functional programming
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/svm.html">
+        <i class="icon-tag icon-large"></i>SVM
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/mongodb.html">
+        <i class="icon-tag icon-large"></i>MongoDB
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hash.html">
+        <i class="icon-tag icon-large"></i>Hash
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/sql.html">
+        <i class="icon-tag icon-large"></i>SQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/github.html">
+        <i class="icon-tag icon-large"></i>Github
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hdfs.html">
+        <i class="icon-tag icon-large"></i>HDFS
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/nosql.html">
+        <i class="icon-tag icon-large"></i>NoSQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programing.html">
+        <i class="icon-tag icon-large"></i>functional programing
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/java.html">
+        <i class="icon-tag icon-large"></i>java
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-50849437-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'buptlixin';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

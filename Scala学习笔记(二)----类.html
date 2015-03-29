@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Scala学习笔记(二)----类</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Li,Gongfu">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="/" type="application/atom+xml" rel="alternate" title="晓新's Blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/index.html">晓新's Blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="/category/fen-bu-shi.html">
+						<i class="icon-folder-open icon-large"></i>分布式
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/java.html">
+						<i class="icon-folder-open icon-large"></i>JAVA
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/machine-learning.html">
+						<i class="icon-folder-open icon-large"></i>Machine Learning
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/perl.html">
+						<i class="icon-folder-open icon-large"></i>Perl
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/python.html">
+						<i class="icon-folder-open icon-large"></i>Python
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="/category/scala.html">
+						<i class="icon-folder-open icon-large"></i>Scala
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/shu-ju-ku.html">
+						<i class="icon-folder-open icon-large"></i>数据库
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/technology.html">
+						<i class="icon-folder-open icon-large"></i>Technology
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to Scala学习笔记(二)----类">
+                                        Scala学习笔记(二)----类
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-12-07T14:20:00">
+        <i class="icon-calendar"></i>日 07 十二月 2014
+</abbr>
+<span class="label">By</span>
+<a href="/author/ligongfu.html"><i class="icon-user"></i>Li,Gongfu</a>
+<span class="label">Category</span>
+<a href="/category/scala.html"><i class="icon-folder-open"></i>Scala</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/scala.html"><i class="icon-tag"></i>scala</a>
+</footer><!-- /.post-info -->                </div>
+                <h3>类</h3>
+<ul>
+<li>一个源文件中可以包含多个类，并且都可以是public级别。</li>
+<li>构造函数分为主构造函数和副构造函数，副构造函数用<code>def this()</code>声明。</li>
+<li>继承extends</li>
+<li>重写父类方法 override def</li>
+<li>重写字段 override val , override var</li>
+</ul>
+<div class="highlight"><pre>//主构造器直接跟在类名后面，主构造器中的参数最后会被编译成字段
+//主构造器执行时。会执行类中的所有语句
+//假设参数声明时不带val和var，相当于private[this]
+class Person(var name : String,val age : Int){
+    println(&quot;this is the primary constructor!&quot;)
+    var gender : String = _
+    val school = &quot;ZJU&quot;
+
+    //附属构造器名称为this
+    //每个附属构造器必须首先调用已经存在的主构造器，或者附属构造器
+    def this(name : String, age : Int, gender : String){
+      this(name,age)
+      this.gender = gender
+    }
+}
+
+class Student(name : String , age : Int,val major : String) extends Person(name,age){
+  println(&quot;this is the subclass of Person , major is : &quot;+major)
+
+  override val school = &quot;BJU&quot;
+  override def toString = &quot;override toString...&quot;
+}
+
+object WeekTwo {
+
+  def main(args : Array[String]){
+     //val p = new Person(&quot;Jack&quot;,20,&quot;male&quot;)
+     //p.name = &quot;Jack&quot;
+     //println(p.name+&quot; : &quot;+p.age+&quot; : &quot;+p.gender )
+    val s = new Student(&quot;Justin&quot;,20,&quot;Math&quot;)
+    println(s.toString)
+    }
+}
+</pre></div>
+
+
+<h3>抽象类</h3>
+<ul>
+<li>由abstract修饰的类</li>
+<li>类的一个或者多个方法没有完整的定义</li>
+<li>声明抽象方法不需要加abstract关键字，只需要不写方法体</li>
+<li>子类重写父类的抽象方法时不需要加override</li>
+<li>父类可以声明抽象字段，即没有初始值的字段</li>
+<li>子类重写父类的抽象字段时不需要加override</li>
+</ul>
+<div class="highlight"><pre>abstract class Person1{
+  def speak
+  val name : String
+  var age : Int
+}
+
+class Student1 extends Person1{
+  def speak {
+    println(&quot;speak!!!&quot;)
+  }
+
+  val name = &quot;AAA&quot;
+  var age = 100
+
+}
+</pre></div>
+
+
+<h3>特质trait----对比java的接口</h3>
+<ul>
+<li>trait可以看作是一个可以带有具体实现的接口</li>
+<li>字段和行为的集合</li>
+<li>通过with关键字，一个类可以扩展多个trait</li>
+<li>也可以为某个特定的对象指定trait</li>
+<li>trait是从左到右被构造的</li>
+</ul>
+<div class="highlight"><pre><span class="n">trait</span> <span class="n">ConsoleLogger</span><span class="p">{</span>
+  <span class="n">def</span> <span class="n">log</span><span class="p">(</span><span class="n">msg</span> <span class="o">:</span> <span class="n">String</span><span class="p">){</span>
+    <span class="n">println</span><span class="p">(</span><span class="s">&quot;save money : &quot;</span><span class="o">+</span><span class="n">msg</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">trait</span> <span class="n">MessageLogger</span> <span class="n">extends</span> <span class="n">ConsoleLogger</span><span class="p">{</span>
+ <span class="n">override</span> <span class="n">def</span> <span class="n">log</span><span class="p">(</span><span class="n">msg</span> <span class="o">:</span> <span class="n">String</span><span class="p">){</span>
+    <span class="n">println</span><span class="p">(</span><span class="s">&quot;save money to bank : &quot;</span><span class="o">+</span><span class="n">msg</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">abstract</span> <span class="n">class</span> <span class="n">Account</span><span class="p">{</span>
+  <span class="n">def</span> <span class="n">save</span>
+<span class="p">}</span>
+
+<span class="n">class</span> <span class="n">MyAccount</span> <span class="n">extends</span> <span class="n">Account</span> <span class="n">with</span> <span class="n">ConsoleLogger</span><span class="p">{</span>
+  <span class="n">def</span> <span class="n">save</span><span class="p">{</span>
+    <span class="n">log</span><span class="p">(</span><span class="s">&quot;100&quot;</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">object</span> <span class="n">Basic</span> <span class="n">extends</span> <span class="n">App</span><span class="p">{</span>
+
+  <span class="n">val</span> <span class="n">acc</span> <span class="o">=</span> <span class="n">new</span> <span class="n">MyAccount</span> <span class="n">with</span> <span class="n">MessageLogger</span>
+  <span class="n">acc</span><span class="p">.</span><span class="n">save</span>
+  <span class="c1">//save money to bank : 100</span>
+  <span class="n">val</span> <span class="n">acc2</span> <span class="o">=</span> <span class="n">new</span> <span class="n">MyAccount</span>
+  <span class="n">acc2</span><span class="p">.</span><span class="n">save</span>
+  <span class="c1">//save money : 100</span>
+</pre></div>
+
+
+<h3>apply方法和单例对象</h3>
+<p>scala风格的创建对象就是定义和使用 object的apply方法，apply方法返回伴生类的对象，为什么不用构造器呢，对于嵌套表达式而言，省去new关键字会方便很多。
+放在object中的所有方法可以看做是这个类的静态方法，scala没有static关键字，等效的做法是把方法定义在object里。</p>
+<ul>
+<li>类名后面加括号调用的是object的apply方法</li>
+</ul>
+<div class="highlight"><pre><span class="n">val</span> <span class="n">a</span> <span class="o">=</span> <span class="n">ApplyTest</span><span class="p">()</span>
+</pre></div>
+
+
+<ul>
+<li>对象后面加括号调用的是类的apply方法</li>
+</ul>
+<div class="highlight"><pre><span class="n">val</span> <span class="n">t</span> <span class="o">=</span> <span class="n">new</span> <span class="n">ApplyTest</span>
+<span class="n">t</span><span class="p">()</span>
+</pre></div>
+
+
+<div class="highlight"><pre>class ApplyTest<span class="p">{</span>
+  def apply<span class="p">()</span> <span class="o">=</span> <span class="s">&quot;Apply&quot;</span>
+  def test<span class="p">{</span>
+    println<span class="p">(</span><span class="s">&quot;test&quot;</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+object ApplyTest<span class="p">{</span>
+  def apply<span class="p">()</span> <span class="o">=</span> new ApplyTest
+
+  var count <span class="o">=</span> <span class="m">0</span> 
+  def incr <span class="o">=</span> <span class="p">{</span>
+    count <span class="o">=</span> count<span class="m">+1</span>
+  <span class="p">}</span>
+
+  def static<span class="p">{</span>
+    println<span class="p">(</span><span class="s">&quot;I am not a static method&quot;</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+object Basic4 extends App<span class="p">{</span>
+ <span class="o">//</span> ApplyTest.static
+  <span class="o">//</span>val a <span class="o">=</span> ApplyTest<span class="p">()</span>
+  <span class="o">//</span>a.test
+ <span class="o">//</span> val t <span class="o">=</span> new ApplyTest
+  <span class="o">//</span>println<span class="p">(</span>t<span class="p">())</span>
+  <span class="o">//</span>println<span class="p">(</span>t<span class="p">)</span>
+
+  <span class="kr">for</span> <span class="p">(</span>i <span class="o">&lt;-</span> <span class="m">1</span> to <span class="m">10</span><span class="p">){</span>
+    ApplyTest.incr
+  <span class="p">}</span>
+  println<span class="p">(</span>ApplyTest.count <span class="p">)</span>
+
+<span class="p">}</span>
+
+class Person3<span class="p">(</span>name <span class="o">:</span> String<span class="p">)</span> <span class="p">{</span>
+    val _name <span class="o">=</span> name.split<span class="p">(</span><span class="s">&quot;\\s+&quot;</span><span class="p">)</span>
+    val firstName <span class="o">=</span> _name<span class="p">(</span><span class="m">0</span><span class="p">)</span>
+    val secondName <span class="o">=</span> _name<span class="p">(</span><span class="m">1</span><span class="p">)</span>
+    override def toString<span class="p">()</span> <span class="o">=</span> s<span class="s">&quot;His first name is $firstName , and his second nane is $secondName.&quot;</span>
+<span class="p">}</span>
+
+object Person3<span class="p">{</span>
+
+  def apply<span class="p">(</span>name <span class="o">:</span> String<span class="p">)</span> <span class="o">=</span> new Person3<span class="p">(</span>name<span class="p">)</span>
+  def main<span class="p">(</span>args <span class="o">:</span> Array<span class="p">[</span>String<span class="p">]){</span>
+    val a <span class="o">=</span> new Person3<span class="p">(</span><span class="s">&quot;Xue  Chao&quot;</span><span class="p">)</span><span class="o">//</span>传统的构造方法，但不是scala风格
+    val b <span class="o">=</span> Person3<span class="p">(</span><span class="s">&quot;Xue Chao&quot;</span><span class="p">)</span><span class="o">//</span>类名后面加括号调用的是object的apply方法
+    println<span class="p">(</span>a<span class="p">)</span>
+    println<span class="p">(</span>b<span class="p">)</span>
+  <span class="p">}</span>  
+<span class="p">}</span>
+</pre></div>
+
+
+<p>object可以模拟static，也可以模拟单例对象，它就代表它自己。</p>
+<h3>模式匹配</h3>
+<ul>
+<li>标准用法match</li>
+<li>使用守卫 _</li>
+<li>匹配类型</li>
+</ul>
+<div class="highlight"><pre><span class="n">val</span> <span class="n">result</span> <span class="o">=</span> <span class="n">value</span> <span class="n">match</span><span class="p">{</span>
+    <span class="k">case</span> <span class="n">i</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">=&gt;</span> <span class="s">&quot;one&quot;</span>
+    <span class="k">case</span> <span class="n">i</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">=&gt;</span> <span class="s">&quot;two&quot;</span>
+    <span class="k">case</span> <span class="n">_</span> <span class="o">=&gt;</span> <span class="s">&quot;some other number&quot;</span>
+  <span class="p">}</span> 
+  <span class="n">println</span><span class="p">(</span><span class="s">&quot;result of match is : &quot;</span><span class="o">+</span><span class="n">result</span><span class="p">)</span>
+
+  <span class="n">def</span> <span class="n">t</span> <span class="p">(</span><span class="n">obj</span> <span class="o">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">=</span> <span class="n">obj</span> <span class="n">match</span><span class="p">{</span>
+    <span class="k">case</span> <span class="n">x</span> : <span class="n">Int</span> <span class="o">=&gt;</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;Int&quot;</span><span class="p">)</span>
+    <span class="k">case</span> <span class="n">s</span> : <span class="n">String</span> <span class="o">=&gt;</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;String&quot;</span><span class="p">)</span>
+    <span class="k">case</span> <span class="n">_</span> <span class="o">=&gt;</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;unknown type&quot;</span><span class="p">)</span>      
+  <span class="p">}</span>
+</pre></div>
+
+
+<h3>case class（多用在模式匹配中）</h3>
+<ul>
+<li>构造器中的每个类型都为val，不建议用var。</li>
+<li>不用new就可以直接产生对象，因为编译器会根据case关键字自动生成apply方法。</li>
+</ul>
+<div class="highlight"><pre><span class="n">object</span> <span class="n">CaseClassDemo</span> <span class="n">extends</span> <span class="n">App</span><span class="p">{</span>
+
+  <span class="n">val</span> <span class="n">m</span> <span class="o">=</span> <span class="n">Map</span><span class="p">(</span><span class="mi">1</span><span class="o">-&gt;</span><span class="mi">2</span><span class="p">)</span>
+  <span class="n">m</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="n">match</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="n">Some</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">println</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">case</span> <span class="n">None</span> <span class="o">=&gt;</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;No such key&quot;</span><span class="p">)</span>
+  <span class="p">}</span>
+
+    <span class="n">def</span> <span class="n">m</span><span class="p">(</span><span class="n">p</span> <span class="o">:</span> <span class="n">Person</span><span class="p">){</span>
+        <span class="n">p</span> <span class="n">match</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">Teacher</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;This is a teacher&quot;</span><span class="p">)</span>
+        <span class="c1">//case Teacher(&quot;Peter&quot;) =&gt; println(&quot;This is teacher Peter&quot;)</span>
+        <span class="k">case</span> <span class="n">Student</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;This is a student&quot;</span><span class="p">)</span>
+        <span class="k">case</span> <span class="n">_</span> <span class="o">=&gt;</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;This is unknown&quot;</span><span class="p">)</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">m</span><span class="p">(</span><span class="n">Student</span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="n">abstract</span> <span class="n">class</span> <span class="n">Person</span>
+
+<span class="k">case</span> <span class="n">class</span> <span class="n">Teacher</span><span class="p">(</span><span class="n">name</span> : <span class="n">String</span><span class="p">)</span> <span class="n">extends</span> <span class="n">Person</span>
+
+<span class="k">case</span> <span class="n">class</span> <span class="n">Student</span><span class="p">(</span><span class="n">name</span> : <span class="n">String</span><span class="p">)</span> <span class="n">extends</span> <span class="n">Person</span>
+</pre></div>
+
+
+<h3>文件访问</h3>
+<ul>
+<li>按行读取 getLines()</li>
+<li>按字符读取直接用文件句柄，不getLine()</li>
+<li>从网络读取</li>
+</ul>
+<div class="highlight"><pre>import scala.io.Source
+val file <span class="o">=</span> Source.fromFile<span class="p">(</span><span class="s">&quot;D:/code/scala/week2/data.txt&quot;</span><span class="p">)</span>
+<span class="o">//</span>val file <span class="o">=</span> Source.fromURL<span class="p">(</span><span class="s">&quot;http://www.baidu.com&quot;</span><span class="p">)</span>
+<span class="kr">for</span><span class="p">(</span>line <span class="o">&lt;-</span> file.getLines<span class="p">()){</span>
+<span class="o">//</span><span class="kr">for</span><span class="p">(</span>line <span class="o">&lt;-</span> file<span class="p">){</span> <span class="o">//</span>按字符读取
+    println<span class="p">(</span>line<span class="p">)</span>
+  <span class="p">}</span>
+</pre></div>
+
+
+<h3>option做模式匹配</h3>
+<p>option有两个子类：Some和None.如匹配到有值，为Some类型，如果没有匹配到值，返回None类型</p>
+<div class="highlight"><pre> <span class="n">val</span> <span class="n">m</span> <span class="o">=</span> <span class="n">Map</span><span class="p">(</span><span class="mi">1</span><span class="o">-&gt;</span><span class="mi">2</span><span class="p">)</span>
+  <span class="n">m</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="n">match</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="n">Some</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">println</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">case</span> <span class="n">None</span> <span class="o">=&gt;</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;No such key&quot;</span><span class="p">)</span>
+  <span class="p">}</span>
+ <span class="mi">10</span><span class="err">会输出</span><span class="n">No</span> <span class="n">such</span> <span class="n">key</span>
+ <span class="mi">1</span><span class="err">会输出</span><span class="mi">1</span>
+</pre></div>
+
+
+<h3>String interpolation变量内插</h3>
+<div class="highlight"><pre> <span class="n">val</span> <span class="n">a</span> <span class="o">=</span> <span class="s">&quot;Xuechao&quot;</span>
+ <span class="n">val</span> <span class="n">b</span> <span class="o">=</span> <span class="s">&quot;Tangbo&quot;</span>
+ <span class="n">println</span><span class="p">(</span><span class="n">s</span><span class="s">&quot;$a love $b&quot;</span><span class="p">)</span>
+ <span class="c1">//输出 Xuechao love Tangbo</span>
+</pre></div>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "Scala学习笔记(二)----类.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://buptlixin.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="http://getpelican.com/"><i class="icon-external-link"></i>Pelican</a></li>
+    <li><a href="http://python.org/"><i class="icon-external-link"></i>Python.org</a></li>
+    <li><a href="http://jinja.pocoo.org/"><i class="icon-external-link"></i>Jinja2</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="http://www.v2ex.com/member/buptlee"><i class="icon-V2EX-sign icon-large"></i>V2EX</a></li>
+    <li><a href="http://douban.com/people/77726008"><i class="icon-豆瓣-sign icon-large"></i>豆瓣</a></li>
+    <li><a href="http://github.com/Xiaoxin2009"><i class="icon-Github-sign icon-large"></i>Github</a></li>
+    <li><a href="http://stackoverflow.com/users/3373388/bupt-xiaoxin"><i class="icon-Stackoverflow-sign icon-large"></i>Stackoverflow</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="/category/fen-bu-shi.html">
+    <i class="icon-folder-open icon-large"></i>分布式
+</a>
+</li>
+<li>
+<a href="/category/java.html">
+    <i class="icon-folder-open icon-large"></i>JAVA
+</a>
+</li>
+<li>
+<a href="/category/machine-learning.html">
+    <i class="icon-folder-open icon-large"></i>Machine Learning
+</a>
+</li>
+<li>
+<a href="/category/perl.html">
+    <i class="icon-folder-open icon-large"></i>Perl
+</a>
+</li>
+<li>
+<a href="/category/python.html">
+    <i class="icon-folder-open icon-large"></i>Python
+</a>
+</li>
+<li>
+<a href="/category/scala.html">
+    <i class="icon-folder-open icon-large"></i>Scala
+</a>
+</li>
+<li>
+<a href="/category/shu-ju-ku.html">
+    <i class="icon-folder-open icon-large"></i>数据库
+</a>
+</li>
+<li>
+<a href="/category/technology.html">
+    <i class="icon-folder-open icon-large"></i>Technology
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-3">
+    <a href="/tag/storm.html">
+        <i class="icon-tag icon-large"></i>Storm
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/zheng-ze-biao-da-shi.html">
+        <i class="icon-tag icon-large"></i>正则表达式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/machine-learning.html">
+        <i class="icon-tag icon-large"></i>Machine Learning
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hadoop.html">
+        <i class="icon-tag icon-large"></i>Hadoop
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/perl.html">
+        <i class="icon-tag icon-large"></i>Perl
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/scala.html">
+        <i class="icon-tag icon-large"></i>scala
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programming.html">
+        <i class="icon-tag icon-large"></i>functional programming
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/svm.html">
+        <i class="icon-tag icon-large"></i>SVM
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/mongodb.html">
+        <i class="icon-tag icon-large"></i>MongoDB
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hash.html">
+        <i class="icon-tag icon-large"></i>Hash
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/sql.html">
+        <i class="icon-tag icon-large"></i>SQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/github.html">
+        <i class="icon-tag icon-large"></i>Github
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hdfs.html">
+        <i class="icon-tag icon-large"></i>HDFS
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/nosql.html">
+        <i class="icon-tag icon-large"></i>NoSQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programing.html">
+        <i class="icon-tag icon-large"></i>functional programing
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/java.html">
+        <i class="icon-tag icon-large"></i>java
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-50849437-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'buptlixin';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>晓新's Blog</title><link href="/" rel="alternate"></link><link href="/feeds/python.atom.xml" rel="self"></link><id>/</id><updated>2015-01-08T15:20:00+08:00</updated><entry><title>Python函数式编程</title><link href="/Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B.html" rel="alternate"></link><updated>2015-01-08T15:20:00+08:00</updated><author><name>Li,Gongfu</name></author><id>tag:,2015-01-08:Python函数式编程.html</id><summary type="html">&lt;p&gt;许多静态语言助长一个函数的类型就是其返回值类型，在python中，由于python是动态的确定类型而且函数能返回不同类型的值，所以没有进行直接的类型关联。&lt;/p&gt;
+&lt;p&gt;python允许函数返回多个对象，python会把它们聚集成一个元组返回，看起来就像能返回多个对象一样。&lt;/p&gt;
+&lt;h3&gt;列表解析&lt;/h3&gt;
+&lt;p&gt;非常灵活的，而且简单的动态创建列表的工具。列表解析可以取代map,filter,lambda，而且效率更高。lambda允许你快速的创建只有一行的函数对象。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;[x ** 2 for x in range(6) ]&lt;/span&gt;
+&lt;span class="err"&gt;//&lt;/span&gt;&lt;span class="k"&gt;[0,1,4,9,16,25]&lt;/span&gt;
+&lt;span class="err"&gt;map(lambda&lt;/span&gt; &lt;span class="err"&gt;x&lt;/span&gt; &lt;span class="err"&gt;:&lt;/span&gt; &lt;span class="err"&gt;x**2&lt;/span&gt; &lt;span class="err"&gt;,range(6)&lt;/span&gt; &lt;span class="err"&gt;)&lt;/span&gt;
+
+&lt;span class="na"&gt;seq&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;[1,2,3]&lt;/span&gt;
+&lt;span class="err"&gt;filter(lambda&lt;/span&gt; &lt;span class="err"&gt;x&lt;/span&gt; &lt;span class="err"&gt;:&lt;/span&gt; &lt;span class="err"&gt;x%2&lt;/span&gt; &lt;span class="err"&gt;,seq)&lt;/span&gt;
+&lt;span class="k"&gt;[x for x in seq if x%2]&lt;/span&gt;
+
+&lt;span class="na"&gt;f&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;open(&amp;#39;paper.txt&amp;#39;,&amp;#39;r&amp;#39;)&lt;/span&gt;
+&lt;span class="err"&gt;len([word&lt;/span&gt; &lt;span class="err"&gt;for&lt;/span&gt; &lt;span class="err"&gt;line&lt;/span&gt; &lt;span class="err"&gt;in&lt;/span&gt; &lt;span class="err"&gt;f&lt;/span&gt; &lt;span class="err"&gt;for&lt;/span&gt; &lt;span class="err"&gt;word&lt;/span&gt; &lt;span class="err"&gt;in&lt;/span&gt; &lt;span class="err"&gt;line.split()])&lt;/span&gt;
+&lt;span class="err"&gt;//统计文本中单词数&lt;/span&gt;
+&lt;span class="err"&gt;sum([len(word)&lt;/span&gt; &lt;span class="err"&gt;for&lt;/span&gt; &lt;span class="err"&gt;line&lt;/span&gt; &lt;span class="err"&gt;in&lt;/span&gt; &lt;span class="err"&gt;f&lt;/span&gt; &lt;span class="err"&gt;for&lt;/span&gt; &lt;span class="err"&gt;word&lt;/span&gt; &lt;span class="err"&gt;in&lt;/span&gt; &lt;span class="err"&gt;line.split()])&lt;/span&gt;
+&lt;span class="err"&gt;//统计文本非空字符的数量&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="Python"></category><category term="functional programing"></category></entry></feed>

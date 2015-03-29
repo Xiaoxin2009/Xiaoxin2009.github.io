@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Scala学习笔记(一)----基本数据结构和操作符</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Li,Gongfu">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="/" type="application/atom+xml" rel="alternate" title="晓新's Blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/index.html">晓新's Blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="/category/fen-bu-shi.html">
+						<i class="icon-folder-open icon-large"></i>分布式
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/java.html">
+						<i class="icon-folder-open icon-large"></i>JAVA
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/machine-learning.html">
+						<i class="icon-folder-open icon-large"></i>Machine Learning
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/perl.html">
+						<i class="icon-folder-open icon-large"></i>Perl
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/python.html">
+						<i class="icon-folder-open icon-large"></i>Python
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="/category/scala.html">
+						<i class="icon-folder-open icon-large"></i>Scala
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/shu-ju-ku.html">
+						<i class="icon-folder-open icon-large"></i>数据库
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/technology.html">
+						<i class="icon-folder-open icon-large"></i>Technology
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to Scala学习笔记(一)----基本数据结构和操作符">
+                                        Scala学习笔记(一)----基本数据结构和操作符
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-12-04T16:20:00">
+        <i class="icon-calendar"></i>四 04 十二月 2014
+</abbr>
+<span class="label">By</span>
+<a href="/author/ligongfu.html"><i class="icon-user"></i>Li,Gongfu</a>
+<span class="label">Category</span>
+<a href="/category/scala.html"><i class="icon-folder-open"></i>Scala</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/scala.html"><i class="icon-tag"></i>scala</a>
+</footer><!-- /.post-info -->                </div>
+                <h3>用eclipse创建工程</h3>
+<ul>
+<li>在Eclipse中创建一个Scala Project，名称为Helloworld</li>
+<li>在projet中创建一个Package </li>
+<li>然后在package里新建一个Scala Object,在Scala Object中编写程序。</li>
+</ul>
+<div class="highlight"><pre><span class="n">package</span> <span class="n">test</span>
+
+<span class="n">object</span> <span class="n">HelloWorld</span> <span class="p">{</span>
+    <span class="n">def</span> <span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="o">:</span> <span class="n">Array</span><span class="p">[</span><span class="n">String</span><span class="p">])</span> <span class="o">=</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;Hello world!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>在命令行编译scala程序</h3>
+<div class="highlight"><pre><span class="n">scalac</span> <span class="n">test</span><span class="p">.</span><span class="n">scala</span>
+<span class="n">scala</span> <span class="n">test</span>
+</pre></div>
+
+
+<h3>值与变量</h3>
+<p>值val:赋值后不可变
+变量var:赋值后可以改变</p>
+<div class="highlight"><pre>val name : type = xxx
+var name : type = xxx
+</pre></div>
+
+
+<p>一般不需要显式指定类型，因为可以从赋值中推断出来类型。</p>
+<h3>方法定义</h3>
+<div class="highlight"><pre><span class="nx">def</span> <span class="kd">function</span><span class="p">(</span><span class="nx">parameter_name</span> <span class="o">:</span> <span class="nx">parameter_type</span><span class="p">)</span> <span class="o">:</span> <span class="nx">return_type</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1">//block内最后一行为返回值</span>
+<span class="p">}</span>
+<span class="nx">def</span> <span class="kd">function</span><span class="p">(</span><span class="nx">parameter_name</span> <span class="o">:</span> <span class="nx">parameter_type</span><span class="p">){</span>
+    <span class="c1">//没有返回值，此时返回值类型是unit，类似于java里的void</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<ul>
+<li>没有参数的方法可以不带圆括号调用。</li>
+<li>scala没有静态方法，它是通过object来实现的。</li>
+<li>默认参数</li>
+<li>带名参数（赋值时顺序可以与定义时顺序不一致）</li>
+</ul>
+<h3>lazy value</h3>
+<p>延迟加载的变量，只有到用到时才会去初始化，对于那些很大的对象，这是一个非常有效的初始化方式。</p>
+<div class="highlight"><pre><span class="n">lazy</span> <span class="n">val</span> <span class="n">val_name</span> <span class="o">=</span> <span class="n">val_value</span>
+</pre></div>
+
+
+<h3>数组</h3>
+<p>定长数组：</p>
+<div class="highlight"><pre><span class="n">val</span> <span class="n">array_name</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Array</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="n">length</span><span class="p">)</span>
+<span class="n">val</span> <span class="n">array_name</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+</pre></div>
+
+
+<p>通过()访问，这点跟c++，java不同，不是用[]。
+变长数组</p>
+<div class="highlight"><pre><span class="n">import</span> <span class="n">scala</span><span class="p">.</span><span class="n">collection</span><span class="p">.</span><span class="n">mutable</span><span class="p">.</span><span class="n">ArrayBuffer</span>
+<span class="n">val</span> <span class="n">buff</span> <span class="o">=</span> <span class="n">ArrayBuffer</span><span class="p">[</span><span class="n">T</span><span class="p">]()</span>
+<span class="o">+=/++=/</span><span class="n">insert</span><span class="o">/</span><span class="n">remove</span><span class="o">/</span><span class="n">toArray</span><span class="o">/</span><span class="n">sum</span><span class="o">/</span><span class="n">max</span><span class="o">/</span><span class="n">reverse</span>
+</pre></div>
+
+
+<p>遍历数组</p>
+<div class="highlight"><pre><span class="kr">for</span><span class="p">(</span>i <span class="o">&lt;-</span> <span class="m">0</span> until array_name.length<span class="p">)</span>
+<span class="kr">for</span><span class="p">(</span>elem <span class="o">&lt;-</span> array_name<span class="p">)</span>
+</pre></div>
+
+
+<h3>Map</h3>
+<p>不可变map</p>
+<div class="highlight"><pre><span class="n">val</span> <span class="n">age</span> <span class="o">=</span> <span class="n">Map</span><span class="p">(</span><span class="s">&quot;Jack&quot;</span> <span class="o">-&gt;</span> <span class="mi">10</span><span class="p">,</span><span class="s">&quot;Lucy&quot;</span> <span class="o">-&gt;</span> <span class="mi">20</span><span class="p">)</span>
+</pre></div>
+
+
+<p>可变map</p>
+<div class="highlight"><pre><span class="n">val</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">scala</span><span class="p">.</span><span class="n">collection</span><span class="p">.</span><span class="n">mutable</span><span class="p">.</span><span class="n">Map</span><span class="p">[</span><span class="n">String</span><span class="p">,</span><span class="n">Int</span><span class="p">]()</span>
+</pre></div>
+
+
+<p>操作： </p>
+<div class="highlight"><pre>map<span class="p">(</span>key<span class="p">)</span>
+
+map.getOrElse<span class="p">(</span>key<span class="p">,</span>default<span class="p">)</span>
+
+map<span class="p">(</span>key<span class="p">)</span><span class="o">=</span>value
+
+<span class="kr">for</span><span class="p">((</span>k<span class="p">,</span>v<span class="p">)</span> <span class="o">&lt;-</span> map<span class="p">){</span>
+    <span class="p">}</span>
+
+<span class="kr">for</span><span class="p">(</span>k <span class="o">&lt;-</span> map.keySet<span class="p">){</span>
+
+<span class="kr">for</span><span class="p">(</span>k <span class="o">&lt;-</span> map.values<span class="p">){</span>
+    <span class="p">}</span>
+
+<span class="kr">for</span><span class="p">((</span>k<span class="p">,</span>_<span class="p">)</span> <span class="o">&lt;-</span> map<span class="p">){</span>
+    <span class="p">}</span>
+</pre></div>
+
+
+<h3>元组</h3>
+<p>元组是()里包含一系列的值，跟数组不同。通过._取值，下标从1开始，例如t._1</p>
+<h2>操作符</h2>
+<h3>中置操作符</h3>
+<p>中置操作符实际上是一个方法调用。</p>
+<div class="highlight"><pre><span class="mi">1</span> <span class="n">to</span> <span class="mi">10</span>
+<span class="mf">1.</span><span class="n">to</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+
+
+<h3>一元操作符</h3>
+<div class="highlight"><pre><span class="mi">1</span> <span class="n">toString</span>
+<span class="mf">1.</span><span class="n">toString</span><span class="p">()</span>
+</pre></div>
+
+
+<h3>结合性</h3>
+<p>在scala中所有操作符都是左结合的，除了：</p>
+<ul>
+<li>以冒号结尾的操作符</li>
+<li>赋值操作符</li>
+</ul>
+<div class="highlight"><pre><span class="mi">1</span> <span class="o">::</span> <span class="mi">2</span> <span class="o">::</span> <span class="n">Nil</span>
+</pre></div>
+
+
+<h3>apply,update方法</h3>
+<p>apply,update方法在对expre(args)表达式求值时被调用。
+apply方法经常用在伴生对象中，用来构造对象而不显示的使用new。当你有大量Fraction的值要构造时，这个改进还是很有用的。</p>
+<div class="highlight"><pre><span class="n">class</span> <span class="nf">Fraction</span><span class="p">(</span><span class="n">n</span> <span class="o">:</span> <span class="n">Int</span><span class="p">,</span><span class="n">d</span> <span class="o">:</span> <span class="n">Int</span><span class="p">){</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+<span class="n">object</span> <span class="n">Fraction</span><span class="p">{</span>
+    <span class="n">def</span> <span class="n">apply</span><span class="p">(</span><span class="n">n</span> <span class="o">:</span><span class="n">Int</span> <span class="p">)</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">val</span> <span class="n">result</span> <span class="o">=</span> <span class="n">Fraction</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="o">*</span><span class="n">Fraction</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="n">val</span> <span class="n">scores</span> <span class="o">=</span> <span class="n">new</span> <span class="n">scala</span><span class="p">.</span><span class="n">collection</span><span class="p">.</span><span class="n">mutable</span><span class="p">.</span><span class="n">HashMap</span><span class="p">[</span><span class="n">String</span><span class="p">,</span><span class="n">Int</span><span class="p">]</span>
+<span class="n">scores</span><span class="p">(</span><span class="s">&quot;Bob&quot;</span><span class="p">)</span><span class="o">=</span><span class="mi">100</span><span class="c1">//调用scores.update(&quot;Bob&quot;,100)</span>
+<span class="n">val</span> <span class="n">bobsScore</span> <span class="o">=</span> <span class="n">scores</span><span class="p">(</span><span class="s">&quot;Bob&quot;</span><span class="p">)</span><span class="c1">//调用scores.apply(&quot;Bob&quot;)</span>
+</pre></div>
+
+
+<h3>提取器</h3>
+<p>提取器就是一个带有unapply方法的对象，你可以把unapply方法当做是伴生对象中apply方法的反向操作。apply方法接受构造参数，然后把它们变成对象。而unapply方法接受一个对象，然后从中提取值--通常这些值就是当初用来构造该对象的值。</p>
+<div class="highlight"><pre><span class="n">object</span> <span class="n">Fraction</span><span class="p">{</span>
+    <span class="n">def</span> <span class="n">unapply</span><span class="p">(</span><span class="n">input</span> <span class="o">:</span> <span class="n">Fraction</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">den</span> <span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="n">None</span> <span class="k">else</span> <span class="n">Some</span> <span class="p">((</span><span class="n">input</span><span class="p">.</span><span class="n">num</span><span class="p">,</span><span class="n">input</span><span class="p">.</span><span class="n">den</span><span class="p">))</span>
+        <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">var</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span><span class="o">=</span> <span class="n">Fraction</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="o">*</span><span class="n">Fraction</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="c1">//a，b被初始化为运算结果的分子和分母</span>
+</pre></div>
+
+
+<p>apply和unapply互为反向，但并不是必须的，你也可以用提取器提取对象中的任何信息。</p>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "Scala学习笔记(一)----基本数据结构.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://buptlixin.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="http://getpelican.com/"><i class="icon-external-link"></i>Pelican</a></li>
+    <li><a href="http://python.org/"><i class="icon-external-link"></i>Python.org</a></li>
+    <li><a href="http://jinja.pocoo.org/"><i class="icon-external-link"></i>Jinja2</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="http://www.v2ex.com/member/buptlee"><i class="icon-V2EX-sign icon-large"></i>V2EX</a></li>
+    <li><a href="http://douban.com/people/77726008"><i class="icon-豆瓣-sign icon-large"></i>豆瓣</a></li>
+    <li><a href="http://github.com/Xiaoxin2009"><i class="icon-Github-sign icon-large"></i>Github</a></li>
+    <li><a href="http://stackoverflow.com/users/3373388/bupt-xiaoxin"><i class="icon-Stackoverflow-sign icon-large"></i>Stackoverflow</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="/category/fen-bu-shi.html">
+    <i class="icon-folder-open icon-large"></i>分布式
+</a>
+</li>
+<li>
+<a href="/category/java.html">
+    <i class="icon-folder-open icon-large"></i>JAVA
+</a>
+</li>
+<li>
+<a href="/category/machine-learning.html">
+    <i class="icon-folder-open icon-large"></i>Machine Learning
+</a>
+</li>
+<li>
+<a href="/category/perl.html">
+    <i class="icon-folder-open icon-large"></i>Perl
+</a>
+</li>
+<li>
+<a href="/category/python.html">
+    <i class="icon-folder-open icon-large"></i>Python
+</a>
+</li>
+<li>
+<a href="/category/scala.html">
+    <i class="icon-folder-open icon-large"></i>Scala
+</a>
+</li>
+<li>
+<a href="/category/shu-ju-ku.html">
+    <i class="icon-folder-open icon-large"></i>数据库
+</a>
+</li>
+<li>
+<a href="/category/technology.html">
+    <i class="icon-folder-open icon-large"></i>Technology
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-3">
+    <a href="/tag/storm.html">
+        <i class="icon-tag icon-large"></i>Storm
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/zheng-ze-biao-da-shi.html">
+        <i class="icon-tag icon-large"></i>正则表达式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/machine-learning.html">
+        <i class="icon-tag icon-large"></i>Machine Learning
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hadoop.html">
+        <i class="icon-tag icon-large"></i>Hadoop
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/perl.html">
+        <i class="icon-tag icon-large"></i>Perl
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/scala.html">
+        <i class="icon-tag icon-large"></i>scala
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programming.html">
+        <i class="icon-tag icon-large"></i>functional programming
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/svm.html">
+        <i class="icon-tag icon-large"></i>SVM
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/mongodb.html">
+        <i class="icon-tag icon-large"></i>MongoDB
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hash.html">
+        <i class="icon-tag icon-large"></i>Hash
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/sql.html">
+        <i class="icon-tag icon-large"></i>SQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/github.html">
+        <i class="icon-tag icon-large"></i>Github
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hdfs.html">
+        <i class="icon-tag icon-large"></i>HDFS
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/nosql.html">
+        <i class="icon-tag icon-large"></i>NoSQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programing.html">
+        <i class="icon-tag icon-large"></i>functional programing
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/java.html">
+        <i class="icon-tag icon-large"></i>java
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-50849437-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'buptlixin';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

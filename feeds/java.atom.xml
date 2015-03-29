@@ -1,0 +1,986 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>晓新's Blog</title><link href="/" rel="alternate"></link><link href="/feeds/java.atom.xml" rel="self"></link><id>/</id><updated>2014-06-23T22:20:00+08:00</updated><entry><title>Java多线程编程</title><link href="/JAVA%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B.html" rel="alternate"></link><updated>2014-06-23T22:20:00+08:00</updated><author><name>Li,Gongfu</name></author><id>tag:,2014-06-23:JAVA多线程编程.html</id><summary type="html">&lt;p&gt;线程是独立的线程，它代表独立的执行空间。Thread 是java.lang这个包里的一个类，因此是自动import的，Thread对象代表线程，当你需要启动新的线程时就建立Thread的实例。&lt;/p&gt;
+&lt;p&gt;每个java应用程序会启动一个主线程----将main()放在它自己执行空间的最开始处。java虚拟机会负责主线程的启动，程序员负责启动自己建立的线程。&lt;/p&gt;
+&lt;p&gt;线程要记录的一项事物是目前线程执行空间做到了哪里。&lt;/p&gt;
+&lt;h2&gt;如何启动新的线程&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;1 建立Runnale对象（线程的任务）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Runnale&lt;/span&gt; &lt;span class="n"&gt;threadJob&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;MyRunnable&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;myRunnale是你编写的实现Runnable的类，注意Runnable是个接口，因此不管怎么写都应该是public的，这个类就是你对线程要执行的任务的定义。也就是说此方法会在线程的执行空间运行。必须要实现Runnable类的run()方法。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;MyRunnable&lt;/span&gt; &lt;span class="n"&gt;implements&lt;/span&gt; &lt;span class="n"&gt;Runnable&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+&lt;span class="n"&gt;go&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;go&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+&lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;top o the stack&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;2 建立Thread 对象并赋值Runnable（任务）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Thread&lt;/span&gt; &lt;span class="n"&gt;myThread&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Thread&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;threadJob&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;把Runnable对象传给Thread构造函数，这会告诉Thread对象要把那个方法放到执行空间去运行----Runnable的run()方法。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;3 启动Thread&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;myThread&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在还没有调用Thread的start()方法之前什么也不会发生，当新的线程启动之后，它会把Runnable对象的方法摆到心的执行空间中。&lt;/p&gt;
+&lt;p&gt;对于Thread而言，它只是一个工人，而Runnable就是这个工人的工作。&lt;/p&gt;
+&lt;p&gt;线程怎么会知道要先执行哪个方法？&lt;/p&gt;
+&lt;p&gt;因为Runnable定义了一个协约，由于Runnable是一个接口，线程的任务被定义在任何实现Runnable的类上，线程只在乎传入给Thread的构造函数的参数是否为实现Runnable的类。当你把参数传给Thread的构造函数时，实际上就是在给Thread取的run()方法。这就等于你给Thread一项任务。&lt;/p&gt;
+&lt;h2&gt;线程调度器&lt;/h2&gt;
+&lt;p&gt;线程调度器会决定哪个线程从等待状况中被挑出来运行，以及何时把哪个线程送回等待被执行的状态。它会决定某个线程要运行多久，当线程被踢出时，调度器会指定线程要回去等待下一个机会或者暂时地堵塞。&lt;/p&gt;
+&lt;p&gt;注意你无法控制调度，没有API可以调用调度器。它通常是公平的，但是没人能保证这件事。有时候某些线程很受宠，某些线程会被冷落。并且每个线程执行的顺序可能会不唯一，即使你在同一台机器上运行同一个程序。&lt;/p&gt;
+&lt;h3&gt;典型的可执行/执行中循环&lt;/h3&gt;
+&lt;p&gt;通常线程会在可执行与执行中两种状态中来回交替，因为java虚拟机的线程调度会把线程跳出来运行又把它踢回去使得其他的线程有执行机会。&lt;/p&gt;
+&lt;h3&gt;线程有可能会被暂时挡住&lt;/h3&gt;
+&lt;p&gt;调度器会因为某些原因把线程送进去关一阵子。例如线程本身的程序会要求小睡一下sleep(),也有可能是因为线程调用某个被锁住的对象上的方法，此时线程就得等到锁住该对象的线程放开这个对象才能继续下去。&lt;/p&gt;
+&lt;p&gt;这类型的条件都会导致线程暂时失能。&lt;/p&gt;
+&lt;h3&gt;Thread对象可以重复使用吗，能否调用start()指定新的任务给它？&lt;/h3&gt;
+&lt;p&gt;答案是不行，一旦线程的run()方法完成之后，该线程就不能再重新启动，事实上过了改点线程就死翘翘了。&lt;/p&gt;
+&lt;h3&gt;使用sleep()让程序更加可预测&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;try&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="n"&gt;Thread&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2000&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="n"&gt;catch&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Exception&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;printStackTrace&lt;/span&gt;&lt;span class="p"&gt;();}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如果想要确保其他的线程有机会执行的话，就把线程放入睡眠状态，当线程醒来的时候，它会进入可执行状态等待被调度器挑出来执行。注意这个方法可能会抛出InterruptedException异常，因此需要包含在try/catch模块中。&lt;/p&gt;
+&lt;h3&gt;给线程取名字&lt;/h3&gt;
+&lt;p&gt;通常给线程取名字是为了调试。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Runnable&lt;/span&gt; &lt;span class="n"&gt;runner&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;MyRunnable&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;Thread&lt;/span&gt; &lt;span class="n"&gt;alpha&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Thread&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;runner&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;Thread&lt;/span&gt; &lt;span class="n"&gt;beta&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Thread&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;runner&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;alpha&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Alpha Thread&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;beta&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Beta Thread&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;threadName&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Thread&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;currentThread&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getName&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;多线程并发问题&lt;/h2&gt;
+&lt;p&gt;问题的根源在于，当两个线程存取单一对象的数据时，也就是说两个不同执行空间上的方法都在堆上对同一个对象执行setter/getter，两个进程只会关心自己的任务，因为线程可能会被打入可执行状态，此时基本上是昏迷过去的，当它回到执行中的状态时，根本不知道自己曾经不省人事。此时对象的状态或许早已不是它熟睡前的状态了。&lt;/p&gt;
+&lt;h3&gt;锁&lt;/h3&gt;
+&lt;p&gt;使用synchronized关键字来修饰方法使得它每次只能被单一的线程存取。要保护数据，就要把作用在数据上的方法同步化。&lt;/p&gt;
+&lt;p&gt;每个java对象都有一个锁，每个锁只有一把钥匙，通常对象都没上锁，也没有人关心这件事。但如果对象有同步化的方法，则线程只能在取的钥匙的情况下进入线程。也就是说并没有其他线程已经进入的情况下才能进入。&lt;/p&gt;
+&lt;p&gt;锁不是配在方法上，虽然synchronized修饰的是方法，而是配在对象上，如果对象有两个同步化的方法，就表示两个线程无法进入同一个方法，也表示两个线程无法进入不同的方法。&lt;/p&gt;
+&lt;p&gt;想想看，如果你有多个方法可能会操作对象的实例变量，则这些方法都应该要有同步化保护。&lt;/p&gt;
+&lt;p&gt;同步化的目标是要保护重要的数据，但是要记住，你锁住的不是数据，而是存取数据的方法。&lt;/p&gt;
+&lt;p&gt;当线程进入同步化方法时，线程会全力照顾好它的钥匙，除非完成同步化方法，否则会放开钥匙。没有其他的线程能进入该对象的同步化方法，因为每个对象只有一个钥匙。&lt;/p&gt;
+&lt;h3&gt;“丢失更新”问题&lt;/h3&gt;
+&lt;p&gt;当线程A执行某个方法时，中途睡着了，另外一个线程B也执行这个方法，对数据对象作出了一些更新，然后程序回到执行A，此时A将忘记自己曾经熟睡这件事，而从自己当初退出的状态开始继续执行，于是进程B所做的更新被A丢掉了。&lt;/p&gt;
+&lt;p&gt;解决的方法是，为方法加上synchronized关键字，确保其他线程可以进入该方法之前所有的步骤都会完成（如同原子不可分割一样）。&lt;/p&gt;
+&lt;p&gt;这里有时候不需要把整个方法都同步化，只需要把不可分割的步骤同步化，组成原子单位，换句话说，一个方法里不是所有的步骤都不可分割。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;go&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+&lt;span class="n"&gt;doStuff&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+&lt;span class="n"&gt;synchronized&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;this&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="n"&gt;criticalStuff&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;moreCriticalStuff&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;通常会以当前对象(this)来同步化。&lt;/p&gt;
+&lt;h3&gt;死锁&lt;/h3&gt;
+&lt;p&gt;死锁会发生时因为两个线程互相持有对方正在等待的东西。没有方法可以脱离这种情况，所以两个线程只好停下来等，一直等。&lt;/p&gt;
+&lt;h3&gt;同步化的原则&lt;/h3&gt;
+&lt;p&gt;听起来把所有的东西都同步化是个不错的注意，如此一来全部都会具有多线程执行的安全性，但是当然好东西也会有坏的地方：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;代价&lt;/p&gt;
+&lt;p&gt;同步化的方法有额外的成本，例如查询钥匙等性能上的损耗。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;单线程化&lt;/p&gt;
+&lt;p&gt;同步化的方法会让你的程序因为要同步并行的问题而慢下来，换句话说，同步化会强制线程排队等着执行方法，你要想想你最开始为什么要写多线程并行的程序。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;死锁&lt;/p&gt;
+&lt;p&gt;最可怕的是同步化可能会导致死锁现象。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;原则上最好只做最少量的同步化。&lt;/p&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;如果两个或以上的线程存取堆上相同的对象可能会出现严重的问题，可能引发数据的损毁。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;要让对象在线程上有足够的安全性，就要判断哪些指令不能被分割执行。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;每个对象都有单一的锁，单一的钥匙，这只会在对象带有同步化的方法时才有实际的用途。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;对象就算是有多个同步化的方法，也还是只有一个锁。一旦某个线程进入该对象的同步化方法，其他线程就无法进入该对象上任何的同步化方法。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="java"></category></entry><entry><title>深入java多态</title><link href="/%E6%B7%B1%E5%85%A5java%E5%A4%9A%E6%80%81.html" rel="alternate"></link><updated>2014-06-15T12:20:00+08:00</updated><author><name>Li,Gongfu</name></author><id>tag:,2014-06-15:深入java多态.html</id><summary type="html">&lt;h2&gt;抽象类&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;abstract&lt;/span&gt; &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Canine&lt;/span&gt; &lt;span class="n"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Animal&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;用abstract标记类为抽象类，编译器就知道不管在哪里，这个类就是不能创建任何类型的实例。但是你还是可以用这种抽象的类型作为引用类型，这也是你当初为何要有抽象类型的目的。如：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Canine&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Dog&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="c1"&gt;//可以  &lt;/span&gt;
+&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Canine&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="c1"&gt;//不可以，编译器不会让你这样。&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;抽象类除了被继承之外，是没有任何用途，没有值，没有目的的。&lt;/p&gt;
+&lt;p&gt;除了类之外，方法也是可以为abstract的。抽象的类代表此类必须要被extends过,抽象的方法代表此方法一定要被覆盖过。&lt;/p&gt;
+&lt;p&gt;抽象的方法没有实体：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;abstract&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;eat&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如果你声明一个抽象的方法，就必须将类也标记为抽象的。&lt;/p&gt;
+&lt;p&gt;抽象方法的意义:
+当某些行为在没有特定的运行时不会有任何意义。可以使用抽象方法，尽管我们无法实现方法的内容，但还是可以定义出一组子类型共同的协议。其好处是多态，使得你可以使用父型作为方法的参数，返回类型。通过这个机制，你可以加入新的子型到程序中，却不必重写或修改处理这些类型的程序。所有子型都会有哪些抽象方法。&lt;/p&gt;
+&lt;p&gt;抽象的方法没有内容，它只是为了标记出多态而存在，这表示在继承树结构下的第一个具体类必须要实现全部的抽象方法。当然你可以继续使用abstract将实现的负担转化给下一层。&lt;/p&gt;</summary><category term="java"></category></entry><entry><title>Cracking The Coding Interview Java篇</title><link href="/Cracking%20The%20Coding%20Interview%20Java%E7%AF%87.html" rel="alternate"></link><updated>2014-06-12T22:20:00+08:00</updated><author><name>Li,Gongfu</name></author><id>tag:,2014-06-12:Cracking The Coding Interview Java篇.html</id><summary type="html">&lt;p&gt;相信大部分程序员对于《Cracking The Coding Interview》并不陌生，第五版也在今年出了，这本英文版的程序员面试宝典，绝对值得一读，不只是为了面试，为了丰富自己的编程知识也是很有帮助的。我读了其中的一部分感兴趣的章节，做的一点笔记。&lt;/p&gt;
+&lt;p&gt;正文：&lt;/p&gt;
+&lt;h1&gt;final ,finally, finalize&lt;/h1&gt;
+&lt;h2&gt;final关键字&lt;/h2&gt;
+&lt;p&gt;final关键字根据它的使用场景不同有不同的作用：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;final变量：你不能改变它的值&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;final&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;final的method：你不能覆盖该method&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Poof&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="n"&gt;final&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;calfunc&lt;/span&gt;&lt;span class="p"&gt;(){}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;final的类：你不能继承该类，也就是创建它的子类。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;final&lt;/span&gt; &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;MyClass&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;finally关键字&lt;/h2&gt;
+&lt;p&gt;finally关键字是跟try/catch语句结合在一起使用的。用来存放不管有没有异常，都得执行的程序。如果你没有finally,你得同时把相同的代码放到try和catch两处。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;try&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="p"&gt;...&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="n"&gt;catch&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Exception&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="p"&gt;...&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="n"&gt;finally&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="p"&gt;...&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;值得注意的，如果try/catch块里有return语句，此时的执行顺序是：&lt;/p&gt;
+&lt;p&gt;try/catch的return语句执行之后，但不直接返回，转而执行finally，然后才return结果。&lt;/p&gt;
+&lt;h2&gt;finalize关键字&lt;/h2&gt;
+&lt;p&gt;Java允许在类中定义一个名为finalize()的方法。它的工作原理是：一旦垃圾回收器准备好释放对象占用的存储空间，将首先调用其finalize()方法。并且在下一次垃圾回收动作发生时，才会真正回收对象占用的内存。&lt;/p&gt;
+&lt;p&gt;关于垃圾回收，有三点需要记住：&lt;/p&gt;
+&lt;p&gt;1、对象可能不被垃圾回收。这里有一个潜在的编程陷阱，因为有些程序员（特别是 C++程序员）刚开始可能会误把finalize( )当作C++中的“析构函数”（C++中销毁对象必须用到这个函数）。所以有必要明确区分一下：在 C++中，对象一定会被“销毁”（如果程序中没有错误的话）；而 Java 里的对象却并非总是被“垃圾回收”的。只要程序没有濒临存储空间用完的那一刻，对象占用的空间就总也得不到释放。　&lt;/p&gt;
+&lt;p&gt;2、垃圾回收并不等于“析构”。&lt;/p&gt;
+&lt;p&gt;3、垃圾回收只与内存有关。使用垃圾回收的唯一原因是为了回收程序不再使用的内存。所以对于与垃圾回收有关的任何行为来说（尤其是finalize( )方法），它们也必须同内存及其回收有关。&lt;/p&gt;
+&lt;p&gt;类可以覆盖finalize()方法，在垃圾回收时定义一些本地的行为。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;protected&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;finalize&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="n"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;Throwable&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;  
+ &lt;span class="cm"&gt;/*close open files,release resources,etc*/&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;overloading vs overriding&lt;/h1&gt;
+&lt;h2&gt;overloading&lt;/h2&gt;
+&lt;p&gt;overloading是重载的意思。&lt;/p&gt;
+&lt;h2&gt;overriding&lt;/h2&gt;
+&lt;p&gt;overriding是覆盖的意思。&lt;/p&gt;
+&lt;h1&gt;Collection Framework&lt;/h1&gt;
+&lt;h2&gt;ArrayList&lt;/h2&gt;
+&lt;h2&gt;Vector&lt;/h2&gt;
+&lt;h2&gt;LinkedList&lt;/h2&gt;
+&lt;p&gt;ArrayList和LinkedList的大致区别:
+1.ArrayList是实现了基于动态数组的数据结构，LinkedList基于链表的数据结构。
+2.对于随机访问get和set，ArrayList优于LinkedList，因为LinkedList要移动指针。
+3.对于新增和删除操作add和remove，LinedList比较占优势，因为ArrayList要移动数据。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;LinkedList&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;myLinkList&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;LinkedList&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nx"&gt;myLinkList.add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;two&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="nx"&gt;myLinkList.addFirst&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;one&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="nx"&gt;myLinkList.addLast&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;three&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="c1"&gt;//效果与add()一样&lt;/span&gt;
+&lt;span class="nb"&gt;Iterator&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;iter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;myLinkList.iterator&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;iter.hasNext&lt;/span&gt;&lt;span class="p"&gt;()){&lt;/span&gt;
+&lt;span class="nx"&gt;System.out.println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;iter.next&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;HashMap&lt;/h2&gt;
+&lt;h1&gt;面试题&lt;/h1&gt;
+&lt;h3&gt;1. private类型的构造函数在继承里有什么作用？&lt;/h3&gt;
+&lt;p&gt;将构造函数声明为private类型，将使得在类外不能直接实例化这个类。为这个类创建实例的唯一方法时提供一个public static方法，就像工厂函数模式的做法一样。进一步地，由于构造函数是私有的，因此该类不能被继承。&lt;/p&gt;
+&lt;h3&gt;2. 如果我们在try/catch 块里插入return语句，finally块还会执行吗?&lt;/h3&gt;
+&lt;p&gt;finally块当然会执行。即使我们打算在try里退出（return,continue,break,throw exception等），finally都会执行。&lt;/p&gt;
+&lt;p&gt;下面是finally块不会执行的情况：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;执行try/catch的进程被kill了。&lt;/li&gt;
+&lt;li&gt;在执行try/catch的时候jvm退出了。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;3. final ，finally，finalize的区别&lt;/h3&gt;
+&lt;p&gt;虽然它们长得挺像，但各自的功能差别巨大。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;final
+final primitive变量：你不能改变它的值
+final 引用变量：该引用不能再只想堆上的其它对象
+final的method：你不能覆盖该method
+final的类：你不能继承该类，也就是创建它的子类。&lt;/li&gt;
+&lt;li&gt;finally
+在try/catch块后面可选的加上finally块，finally块总会执行，除非java虚拟机从try/catch块中退出了。finally块一般用来做一些代码清理工作。&lt;/li&gt;
+&lt;li&gt;finalize()
+当对象没有引用存在时，垃圾回收器会调用finalize()函数。它的典型应用是清理资源，例如关闭文件。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;4. c++ template和java 泛型的区别&lt;/h3&gt;
+&lt;p&gt;很多程序员简单的认为c++ template和java 泛型是等价的，因为他们都允许你使用List&amp;lt; String&amp;gt;这样的语句，但是两个语言的实现方式和理由是完全不同的。&lt;/p&gt;
+&lt;p&gt;java泛型根植于“类型擦除”这个理念。当java源代码被转化成jvm二进制代码时，类型参数就被擦除了。
+例如，下面的java代码：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;Vector&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nx"&gt;vector.add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;new&lt;/span&gt; &lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;hello&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;span class="kt"&gt;String&lt;/span&gt; &lt;span class="n"&gt;str&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;vector.get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在编译期间，代码将被转化成：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Vector&lt;/span&gt; &lt;span class="n"&gt;vector&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Vector&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;vector&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;hello&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;str&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;vector&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;java泛型有时候也被称为语法糖。&lt;/p&gt;
+&lt;p&gt;C++的泛型（模板）则很不相同，编译器将为每种类型创造一个template副本，举个例子，C++将为MyClass&amp;lt; Foo&amp;gt;和MyClass&amp;lt; Bar&amp;gt;创造两个模板副本，如果MyClass有static类型的变量的话，MyClass&amp;lt; Foo&amp;gt;和MyClass&amp;lt; Bar&amp;gt;将不会共享这个变量，然而在MyClass&amp;lt; Foo&amp;gt;的实例会共享MyClass&amp;lt; Foo&amp;gt;的static变量。&lt;/p&gt;
+&lt;p&gt;在java里，static类型的变量将被MyClass的所有实例所共享，不管MyClass的类型参数是什么。&lt;/p&gt;
+&lt;p&gt;由于体系结构上的差异，java 泛型和c++ 模板的区别还有很多区别：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;c++ template使用主数据类型，例如 int，而java则要用Integer。&lt;/li&gt;
+&lt;li&gt;java ，所有MyClass的实例，都是相同的类型，不管类型参数是什么，类型参数在运行时被擦除了。而在c++里不同类型参数的类的实例属于不同的类。&lt;/li&gt;
+&lt;li&gt;java，你可以限制类型参数为特定的类型，例如&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;T&lt;/span&gt; &lt;span class="nx"&gt;extends&lt;/span&gt; &lt;span class="nx"&gt;Animal&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="bp"&gt;void&lt;/span&gt; &lt;span class="nx"&gt;takeThing&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;ArrayList&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;T&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;java 类型参数，如MyClass&amp;lt; Foo&amp;gt;中的Foo不能用于static类型的方法和变量中，因为static将被MyClass&amp;lt; Foo&amp;gt;和MyClass&amp;lt; Bar&amp;gt;所共享，而在c++里，MyClass&amp;lt; Foo&amp;gt;和MyClass&amp;lt; Bar&amp;gt;是不同的类，因此类型参数Foo可以用在static的方法和变量里。&lt;/li&gt;
+&lt;li&gt;在java里，所有MyClass的实例都是同类的，与类型参数无关，类型参数在运行时被擦除了。而c++里，不同的类型参数导致了不同的类。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;记住，尽管java泛型跟c++ template有很多相似的地方，但它们其实非常不同。&lt;/p&gt;
+&lt;h3&gt;5. java的object reflection&lt;/h3&gt;
+&lt;p&gt;object reflection是java的一个特征，它提供了一种动态获取某个类的类信息的方式。&lt;/p&gt;
+&lt;p&gt;一般有这几种用法：&lt;/p&gt;
+&lt;p&gt;1.在运行时获取类的某个方法或字段。你也许不知道它的用法，但知道名字。&lt;/p&gt;
+&lt;p&gt;2.创建一个新的类实例。&lt;/p&gt;
+&lt;p&gt;3.直接getting or setting对象的某个字段，而不管它的访问修饰符是什么。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;java.lang.Class
+Class 类的实例表示正在运行的Java应用程序中的类和接口。这个类就是类对象，是具体某个类对象，通常我们所说的对象是，某个类的对象，而Class是类级别的对象，描述的类的信息。例如
+    &lt;code&gt;String a=new String();
+    Class c = a.getClass();&lt;/code&gt;
+这个a指的是类String的对象，那么什么是类对象呢，看这个例子：
+    &lt;code&gt;Class c=String.class;&lt;/code&gt;
+这个c就是String的类对象，描述的是String的信息。不是对象信息。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Class forName(String className)：
+返回与带有给定字符串名的类或接口相关联的 Class 对象。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;例如，以下代码片段返回命名为 java.lang.Thread 的类的运行时 Class 描述符。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;   &lt;span class="n"&gt;Class&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Class&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;forName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;java.lang.Thread&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+   &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+   &lt;span class="c1"&gt;//class java.util.Thread&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;看下面一段例子程序，很好的演示了对象反射的应用：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Object&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;doubleArgs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Object&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mf"&gt;4.2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;3.9&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;span class="n"&gt;Class&lt;/span&gt; &lt;span class="n"&gt;rectangleDefinition&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Class&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;forName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;MyProj.Rectangle&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;Class&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;doubleArgsClass&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Class&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="kt"&gt;double&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;class&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;double&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;class&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;span class="n"&gt;Constructor&lt;/span&gt; &lt;span class="n"&gt;doubleArgsConstructor&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;rectangleDefinition&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getConstructor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;doubleArgsClass&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;Rectangle&lt;/span&gt; &lt;span class="n"&gt;rectangle&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Rectangle&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;doubleArgsConstructor&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;newIntance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;doubleArgs&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;Method&lt;/span&gt; &lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;rectangleDefinition&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getDeclaredMethod&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;area&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;Double&lt;/span&gt; &lt;span class="n"&gt;area&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Double&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;invoke&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rectangle&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;上面这段代码的作用与下面等价：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Rectangle&lt;/span&gt; &lt;span class="n"&gt;rectangle&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Rectangle&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;4.2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;3.9&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;Double&lt;/span&gt; &lt;span class="n"&gt;area&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;rectangle&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;area&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;也许上面这个例子并没有让你觉得 object reflection有多有用，但在某些特殊的场合，它的作用是明显的：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;帮助我们在运行时观察或操作程序的行为&lt;/li&gt;
+&lt;li&gt;帮助我们调试或测试程序，因为我们可以直接访问方法，构造函数，以及字段。&lt;/li&gt;
+&lt;li&gt;当我们事先不知道方法的细节时，我们可以通过方法的名字来调用函数。例如，我们可以向构造函数传入类名，构造参数，来创建一个新实例，也可以通过函数的名字来调用函数。如果没有object reflection,这样的事情可能会花费很多工作，甚至根本无法完成。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;6. 实现一个CircularArray 类支持array-like的数据结构，并且可以高效的循环。这个类要能够支持泛型，并且支持迭代器语法 for(Obj o : circularArray)&lt;/h3&gt;
+&lt;p&gt;这个问题可以分为两部分，第一部分是实现循环，第二部分实现迭代器。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;class&lt;/span&gt; &lt;span class="nx"&gt;CircularArray&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;T&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nf"&gt;T&lt;/span&gt; &lt;span class="err"&gt;[&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt; items;
+private int head=0;
+
+public CircularArray(int size){
+items=(T &lt;span class="cp"&gt;[]&lt;/span&gt;) new Object &lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;size&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;;
+}
+
+private int convert(int index){
+if(index&lt;span class="nt"&gt;&amp;lt;0&lt;/span&gt;&lt;span class="err"&gt;){&lt;/span&gt;
+&lt;span class="na"&gt;index=&lt;/span&gt;&lt;span class="s"&gt;index+items.length;}&lt;/span&gt;
+&lt;span class="na"&gt;return&lt;/span&gt; &lt;span class="err"&gt;(&lt;/span&gt;&lt;span class="na"&gt;head&lt;/span&gt;&lt;span class="err"&gt;+&lt;/span&gt;&lt;span class="na"&gt;index&lt;/span&gt;&lt;span class="err"&gt;)%&lt;/span&gt;&lt;span class="na"&gt;items&lt;/span&gt;&lt;span class="err"&gt;.&lt;/span&gt;&lt;span class="na"&gt;length&lt;/span&gt;&lt;span class="err"&gt;;&lt;/span&gt;
+&lt;span class="err"&gt;}&lt;/span&gt;
+
+&lt;span class="na"&gt;public&lt;/span&gt; &lt;span class="na"&gt;void&lt;/span&gt; &lt;span class="na"&gt;rotate&lt;/span&gt;&lt;span class="err"&gt;(&lt;/span&gt;&lt;span class="na"&gt;int&lt;/span&gt; &lt;span class="na"&gt;shiftRight&lt;/span&gt;&lt;span class="err"&gt;){&lt;/span&gt;
+&lt;span class="na"&gt;head=&lt;/span&gt;&lt;span class="s"&gt;convert(shiftRight);&lt;/span&gt;
+&lt;span class="err"&gt;}&lt;/span&gt;
+
+&lt;span class="na"&gt;public&lt;/span&gt; &lt;span class="na"&gt;T&lt;/span&gt; &lt;span class="na"&gt;get&lt;/span&gt;&lt;span class="err"&gt;(&lt;/span&gt;&lt;span class="na"&gt;int&lt;/span&gt; &lt;span class="na"&gt;i&lt;/span&gt; &lt;span class="err"&gt;){&lt;/span&gt;
+&lt;span class="na"&gt;if&lt;/span&gt; &lt;span class="err"&gt;(&lt;/span&gt;&lt;span class="na"&gt;i&lt;/span&gt;&lt;span class="err"&gt;&amp;lt;&lt;/span&gt;&lt;span class="na"&gt;0&lt;/span&gt; &lt;span class="err"&gt;||&lt;/span&gt; &lt;span class="na"&gt;i&lt;/span&gt; &lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;=items.length){
+throw new java.lang.IndexOutBoundsException();}
+}
+return items&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;convert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;;
+
+public void set (int i ,T item){
+items&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;convert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;=item;
+}
+
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;convert()函数很好的达到了函数重用的目的。注意head的作用。我们可以通过增加head来达到循环的目的。&lt;/p&gt;
+&lt;p&gt;接下来是实现Iterator，使得可以使用for循环。为此，我们将实现下面的功能：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;implement Iterator类,因此需要实现iterator()方法。&lt;/li&gt;
+&lt;li&gt;为了实现iterator()方法，通常需要实现一个私有类，包含hasNext(),next()。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;class&lt;/span&gt; &lt;span class="nx"&gt;CircularArray&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;T&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;implements&lt;/span&gt; &lt;span class="nb"&gt;Iterator&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;T&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="nx"&gt;...&lt;/span&gt;
+&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;Iterator&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;T&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;iterator&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;CircularArrayIterator&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;T&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;this&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nf"&gt;calss&lt;/span&gt; &lt;span class="nx"&gt;CircularArrayIterator&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;TI&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;implements&lt;/span&gt; &lt;span class="nb"&gt;Iterator&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;TI&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+
+&lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nf"&gt;int&lt;/span&gt; &lt;span class="n"&gt;_current&lt;/span&gt;&lt;span class="o"&gt;=-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nf"&gt;TI&lt;/span&gt; &lt;span class="err"&gt;[&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt; _items;
+
+public CircularArrayIterator(CircularArray&lt;span class="nt"&gt;&amp;lt;TI&amp;gt;&lt;/span&gt; array){
+_items = array.items;
+}
+
+public boolean hasNext(){
+return _current&lt;span class="err"&gt;&amp;lt;&lt;/span&gt;_items.length-1;
+}
+
+public TI next(){
+_current++;
+TI item=(TI) _items&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;convert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;_current&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;;
+return item;}
+
+}
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;当使用&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;CircularArray&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="kt"&gt;array&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;...&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nb"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;String&lt;/span&gt; &lt;span class="nb"&gt;s&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;array&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;&lt;span class="nx"&gt;...&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;时，将调用hasNext(),next()&lt;/p&gt;</summary><category term="java"></category></entry><entry><title>Java集合与泛型</title><link href="/JAVA%E9%9B%86%E5%90%88%E4%B8%8E%E6%B3%9B%E5%9E%8B.html" rel="alternate"></link><updated>2014-06-11T22:20:00+08:00</updated><author><name>Li,Gongfu</name></author><id>tag:,2014-06-11:JAVA集合与泛型.html</id><summary type="html">&lt;h1&gt;泛型&lt;/h1&gt;
+&lt;p&gt;只要你再java程序或文件中看到&amp;lt;&amp;gt;这一组符号，就代表泛型正在起作用。泛型的主要目的是让你写出有类型安全性的集合，也就是，让编译器能够帮忙防止你把Dog放到一群Cat中。&lt;/p&gt;
+&lt;p&gt;使用泛型的两种方法：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用定义在类声明的类型参数：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;class&lt;/span&gt; &lt;span class="nx"&gt;ArrayList&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;E&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;extends&lt;/span&gt; &lt;span class="nx"&gt;AbstractList&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;E&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="nx"&gt;...&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;boolean&lt;/span&gt; &lt;span class="nb"&gt;add&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;E&lt;/span&gt; &lt;span class="nx"&gt;o&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nx"&gt;...&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;使用未定义在类声明的参数
+    &lt;code&gt;public &amp;lt;T extends Animal&amp;gt; void takeThing (ArrayList&amp;lt;T&amp;gt; list)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Collections.sort()&lt;/h2&gt;
+&lt;p&gt;Collections.sort()是集合的常用方法，它只接受Comparable对象的list。因此，如果你自定义了一个类，然后生成了很多类对象，并存入集合中，如果你期望用Collections.sort()来对它们进行排序。你需要对你的自定义类做额外的工作。&lt;/p&gt;
+&lt;p&gt;你有两种方法：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一种，实现Comparable 类，并覆盖它的int compareTo(T o)方法
+java.lang.Comparable接口：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;interface&lt;/span&gt; &lt;span class="nx"&gt;Comparable&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;T&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="nx"&gt;compareTo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;T&lt;/span&gt; &lt;span class="nx"&gt;o&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;class&lt;/span&gt; &lt;span class="nx"&gt;Song&lt;/span&gt; &lt;span class="nx"&gt;implements&lt;/span&gt; &lt;span class="nx"&gt;Comparable&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Song&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="kt"&gt;String&lt;/span&gt; &lt;span class="nb"&gt;title&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="kt"&gt;String&lt;/span&gt; &lt;span class="nx"&gt;artist&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;int&lt;/span&gt; &lt;span class="nx"&gt;compareTo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;Song&lt;/span&gt; &lt;span class="nb"&gt;s&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;title.compareTo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;s.getTitle&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;getTitle&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;title&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;getAtirst&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;artist&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;第二种，自制Comparator&lt;/p&gt;
+&lt;p&gt;使用compareTo()方法时，list中的元素只能有一种将自己与同类型的另一元素相比较的方法。但Comparator是独立于所比较元素类型之外的--它是独立的类。因此，你可以有各种不同的比较方法。例如，除了按照title排序，你也可以按照artist排序。&lt;/p&gt;
+&lt;p&gt;因此，取用Comparator版的sort()方法会用Comparator而不是内置的 compareTo()方法。有如下规则：&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;调用单一参数的sort（List o）方法代表由list元素上的compareTo()方法来决定顺序。因此元素必须实现Comparable这个接口。
+调用sort(List o,Comparator c)方法代表不会调用list元素的compareTo()方法，而会使用Comparator的compare()方法，这也意味着list元素不用实现Comparable.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;class&lt;/span&gt; &lt;span class="nx"&gt;ArtistCompare&lt;/span&gt; &lt;span class="nx"&gt;implements&lt;/span&gt; &lt;span class="nx"&gt;Comparator&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Song&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;int&lt;/span&gt; &lt;span class="nb"&gt;compare&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;Song&lt;/span&gt; &lt;span class="nx"&gt;one&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;Song&lt;/span&gt; &lt;span class="nx"&gt;two&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;one.getAtist&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="bp"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;compareTo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;two.getArtist&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="nx"&gt;ArtistCompare&lt;/span&gt; &lt;span class="n"&gt;artCompare&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;ArtistCompare&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nx"&gt;Collections.sort&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;songList&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;artCompare&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;集合的多态&lt;/h2&gt;
+&lt;h3&gt;数组的多态&lt;/h3&gt;
+&lt;p&gt;如果方法的参数是Animal的数组，它也能够取用Animal次类型的数组。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Animal&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;animals&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Dog&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Cat&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Dog&lt;/span&gt;&lt;span class="p"&gt;()};&lt;/span&gt;
+&lt;span class="n"&gt;Dog&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;dogs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Dog&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Dog&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Dog&lt;/span&gt;&lt;span class="p"&gt;()};&lt;/span&gt;
+&lt;span class="n"&gt;takeAnimals&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;animals&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; 
+&lt;span class="c1"&gt;//takeAnimals()能够存取Animal[]或Dog[]参数，因为Dog也是一个Animal，多态在此处起作用&lt;/span&gt;
+&lt;span class="n"&gt;takeAnimals&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dogs&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;takeAnimals&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Animal&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;animals&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Animal&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;animals&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;eat&lt;/span&gt;&lt;span class="p"&gt;();}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="n"&gt;abstract&lt;/span&gt; &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Animal&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt; 
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;eat&lt;/span&gt;&lt;span class="p"&gt;(){}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Dog&lt;/span&gt; &lt;span class="n"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Animal&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt; 
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;bark&lt;/span&gt;&lt;span class="p"&gt;(){}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Cat&lt;/span&gt; &lt;span class="n"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Animal&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt; 
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;meow&lt;/span&gt;&lt;span class="p"&gt;(){}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;ArrayList的多态&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;ArrayList&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Animal&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;animals&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;ArrayList&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Animal&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nx"&gt;animals.add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Dog&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+&lt;span class="nx"&gt;animals.add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Dog&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+&lt;span class="nx"&gt;animals.add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Dog&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+&lt;span class="nx"&gt;takeAnimals&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;animals&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;void&lt;/span&gt; &lt;span class="nx"&gt;takeAnimals&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;ArrayList&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Animal&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;animals&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="nb"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;Animal&lt;/span&gt; &lt;span class="nx"&gt;a&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;animals&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="nx"&gt;a.eat&lt;/span&gt;&lt;span class="p"&gt;();}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;因为多态的关系，编译器会让Dog数组通过取用Animal数组参数的方法，这没有问题，问题是ArrayList&amp;lt; Animal &amp;gt;参数能接受ArrayList&amp;lt; Dog &amp;gt;吗，回答是，不行。如果我们在上面的程序里加上这一段，将出现编译错误。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;ArrayList&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Dog&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;dogs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;ArrayList&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Dog&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nx"&gt;dogs.add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Dog&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+&lt;span class="nx"&gt;dogs.add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Dog&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+&lt;span class="nx"&gt;takeAnimals&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;dogs&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;可能很多同学会疑惑，毕竟多态的意义就在于Animal能做的事情，Dog也能做，但你想过吗，如果我们的takeAnimals()是这样的：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;void&lt;/span&gt; &lt;span class="nx"&gt;takeAnimals&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;ArrayList&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Animal&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;animals&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="nx"&gt;animals.add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Cat&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这就会有问题了，理论上把Cat加到ArrayList&amp;lt; Animal &amp;gt;是合法的，这也是使用Animal的本意--让各种Animal都可以加入到此ArrayList中。但是如果你传入的是一个Dog的ArrayList给该方法，那么将会是Cat强行加入了一个Dog ArrayList中，编译器当然不会让这种事情发生。&lt;/p&gt;
+&lt;p&gt;所以，如果把方法声明成ArrayList&amp;lt; Animal &amp;gt;,它只能接受ArrayList&amp;lt; Animal &amp;gt;的参数，ArrayList&amp;lt; Dog&amp;gt;和ArrayList&amp;lt; Cat&amp;gt;都不行。&lt;/p&gt;
+&lt;p&gt;很多同学肯定又要问了，那为什么数组可以过关，而ArrayList却不行，毕竟数组也会遇到这样的问题啊。&lt;/p&gt;
+&lt;p&gt;其实这跟jvm有关，数组类型是在运行期间检查的，但集合的类型检查发生在编译期间。&lt;/p&gt;
+&lt;p&gt;下面这段程序在编译时不会出错，但运行时出错。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Dog&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;dogs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Dog&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Dog&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Dog&lt;/span&gt;&lt;span class="p"&gt;()};&lt;/span&gt;
+&lt;span class="n"&gt;takeAnimals&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dogs&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;takeAnimals&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Animal&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;animals&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="n"&gt;animals&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Cat&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;那有没有一种方法，让我们能够使用多态化的集合参数,就像数组那样，这样我们就可以传入Cat,Dog的集合了，只要我们自己保证不会做出格的行为，比如往Cat集合中加入Dog等等。&lt;/p&gt;
+&lt;p&gt;万能的java当然有办法，使用这种声明方式：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;T&lt;/span&gt; &lt;span class="nx"&gt;extends&lt;/span&gt; &lt;span class="nx"&gt;Animal&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="bp"&gt;void&lt;/span&gt; &lt;span class="nx"&gt;takeThing&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;ArrayList&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;T&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;当你这样声明函数时，编译器会阻止任何可能破坏引用参数所指集合的行为。也就是，你可以调用list中任何元素的方法，但是不能加入元素。&lt;/p&gt;
+&lt;p&gt;也就是说你可以操作集合元素，但是不能增加集合元素。如此才能保障执行期间的安全性。编译器会阻止执行期的恐怖活动。&lt;/p&gt;
+&lt;p&gt;所以下面的程序是可行的：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Animal&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;animals&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;eat&lt;/span&gt;&lt;span class="p"&gt;();}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;但这个就过不了编译：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;animals&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Cat&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;集合&lt;/h1&gt;
+&lt;p&gt;常用的集合有ArrayList,TreeSet,HashMap,HashSet.&lt;/p&gt;
+&lt;h2&gt;ArrayList&lt;/h2&gt;
+&lt;p&gt;最常用的集合，每次插入都在后面追加元素。&lt;/p&gt;
+&lt;h2&gt;TreeSet&lt;/h2&gt;
+&lt;p&gt;以有序状态保持并可防止重复。当你需要set集合或元素按照一定的顺序排列时，它会很好用。当然，这需要付出一定的成本，每当插入新项目时，它必须要花时间找到适当的位置，而ArrayList只要把项目放在最后就行。&lt;/p&gt;
+&lt;p&gt;TreeSet的元素必须是Comparable的，你必须指出对象应该如何排序。我们已经在上面讲过，方法有两种，分别是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;实现Comparable类。&lt;/li&gt;
+&lt;li&gt;使用重载，取用Comparator参数的构造函数来创建TreeSet,就像sort()的使用一样。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;class&lt;/span&gt; &lt;span class="nx"&gt;ArtistCompare&lt;/span&gt; &lt;span class="nx"&gt;implements&lt;/span&gt; &lt;span class="nx"&gt;Comparator&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Song&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;int&lt;/span&gt; &lt;span class="nb"&gt;compare&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;Song&lt;/span&gt; &lt;span class="nx"&gt;one&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;Song&lt;/span&gt; &lt;span class="nx"&gt;two&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;one.getAtist&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="bp"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;compareTo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;two.getArtist&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="nx"&gt;ArtistCompare&lt;/span&gt; &lt;span class="n"&gt;artCompare&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;ArtistCompare&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nx"&gt;TreeSet&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Song&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;tree&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;TreeSet&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Song&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;artCompare&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;HashMap&lt;/h2&gt;
+&lt;p&gt;针对经常插入或删除中间元素所设计的高效率集合。&lt;/p&gt;
+&lt;p&gt;使用方法：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;HashMap&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;scores&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;HashMap&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;scores&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;put&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Kathy&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;scores&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;put&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Jim&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;22&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;scores&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Jim&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;HashSet的遍历方法：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Iterator&lt;/span&gt; &lt;span class="n"&gt;iter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scores&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;entrySet&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;iterator&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;    
+&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;iter&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hasNext&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; 
+            &lt;span class="n"&gt;Map&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Entry&lt;/span&gt; &lt;span class="n"&gt;entry&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Map&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Entry&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;iter&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;next&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; 
+            &lt;span class="n"&gt;Object&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;entry&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getKey&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; 
+            &lt;span class="n"&gt;Object&lt;/span&gt; &lt;span class="n"&gt;val&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;entry&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getValue&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; 
+            &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;relkey&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+            &lt;span class="n"&gt;Integer&lt;/span&gt; &lt;span class="n"&gt;relval&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;val&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+            &lt;span class="n"&gt;doprocessing&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;HashSet&lt;/h2&gt;
+&lt;p&gt;防止重复的集合，可快速的寻找相符的元素。&lt;/p&gt;
+&lt;p&gt;这里有个问题，对象要怎样才算相等？是引用到完全相同的对象，还是可以使不同的对象，但是我们所关心的值相等。于是，引出一个关键问题：引用相等性和对象相等性。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;引用相等性
+    堆上同一对象的不同引用，如果对这两个引用调用hashCode(),结果相同。如果没有被覆盖的话，hashCode()默认的行为会返回每个对象特定的序号，这个序号一般跟对象的内存位置有关，因此是唯一的。&lt;/p&gt;
+&lt;p&gt;如果想要知道两个引用是否相等，可以使用==来比较变量上的字节组合，如果引用到相同的对象，字节组合也会一样。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;对象相等性
+    堆上的两个不同对象在意义上是相等的，如果你想把两个不同的对象视为相等，就必须override hashCode()和equals()函数。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;hashCode()&lt;/h3&gt;
+&lt;p&gt;HashSet使用hashcode来达到存取速度较快的存储方法，如果你尝试用对象来寻找ArrayList中的相同对象，（不用索引来找），ArrayList会从头开始找起，但HashSet不是，它是根据hashcode来找的，不需要从头找起。&lt;/p&gt;
+&lt;p&gt;重点在于hashcode相同并不一定保证对象时相等的，学过数据结构的同学肯定知道，hashCode()使用的杂凑算法很可能将多个对象传回相同的杂凑值，越糟糕的杂凑算法越容易碰撞，而且也跟数据值域的分布特性有关，因此如果两个对象的hashcode相同，并不能说它俩就相等，此时还需要使用equals()函数来进一步确认是否相等。你可以这样认为，hashcode用来缩小寻找成本，但是最后还需要equals()来确定是否真的找到了相同的对象。&lt;/p&gt;
+&lt;p&gt;hashCode()的默认行为时对在heap上的对象产生独特的值，如果你没有override过，则该class的两个对象永远不可能被认为是相同的。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;class&lt;/span&gt; &lt;span class="nx"&gt;Song&lt;/span&gt; &lt;span class="nx"&gt;implements&lt;/span&gt; &lt;span class="nx"&gt;Comparable&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;Song&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="kt"&gt;String&lt;/span&gt; &lt;span class="nb"&gt;title&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="kt"&gt;String&lt;/span&gt; &lt;span class="nx"&gt;artist&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;boolean&lt;/span&gt; &lt;span class="k"&gt;equals&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;Object&lt;/span&gt; &lt;span class="nx"&gt;aSong&lt;/span&gt; &lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="nx"&gt;Song&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;Song&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nx"&gt;aSong&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;getTitle.equals&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;s.getTitle&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt; &lt;span class="c1"&gt;//String覆盖过equals(),我们可以调用。&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;int&lt;/span&gt; &lt;span class="nx"&gt;hashCode&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;title.hsahCode&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="c1"&gt;//String覆盖过hashCode(),我们直接调用就可以了。&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;int&lt;/span&gt; &lt;span class="nx"&gt;compareTo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;Song&lt;/span&gt; &lt;span class="nb"&gt;s&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;title.compareTo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;s.getTitle&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;getTitle&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;title&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;getAtirst&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;artist&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;euqals()&lt;/h3&gt;
+&lt;p&gt;equals()的默认行为是执行==的比较，也就是说会去测试两个引用是否堆上heap上同一个对象，如果eqauls没有被覆盖过，两个对象永远都不会被视为相同的，因为不同的对象有不同的字节组合。&lt;/p&gt;
+&lt;h3&gt;toString()&lt;/h3&gt;
+&lt;p&gt;toString()是定义在Object类里的，所以每个java类都会继承到，且因为对象被System.out.println(anObject)列出来时会调用toString(),所以当你想用被System.out.println输出你自定义的对象时，你需要重定义toString().&lt;/p&gt;</summary><category term="Java"></category></entry><entry><title>JAVA对象的前世今生</title><link href="/JAVA%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F.html" rel="alternate"></link><updated>2014-05-23T14:26:00+08:00</updated><author><name>Li,Gongfu</name></author><id>tag:,2014-05-23:JAVA对象的前世今生.html</id><summary type="html">&lt;h2&gt;我的困惑&lt;/h2&gt;
+&lt;p&gt;最近做的一个项目涉及到数据量比较大,涉及一个约200G大的excel表格,是不可能在内存里打开的.我要做的事情其中一步是遍历整个大表,拿出其中一部分数据.我计算了一下我需要的内存大小,应该是在6-8G,再考虑到我机器的性能(16g内存),想想应该可以用一个hashmap来存我想要的数据.于是开心的写出了程序,用一个全局的hashmap变量来保存数据.结果每次是运行了差不多两个小时的时候程序就崩了,出现的错误当然是内存溢出:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lang&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;outofMemery&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;gc&lt;/span&gt; &lt;span class="n"&gt;overhead&lt;/span&gt; &lt;span class="n"&gt;limit&lt;/span&gt; &lt;span class="n"&gt;exceeded&lt;/span&gt;
+&lt;span class="err"&gt;或者&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lang&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;outofMemery&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;Java&lt;/span&gt; &lt;span class="n"&gt;heap&lt;/span&gt; &lt;span class="n"&gt;space&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;我试了修改eclipse.ini文件,增加了jvm的内存分配:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Xms1024m&lt;/span&gt;
+&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Xmx8192m&lt;/span&gt;
+&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;XX&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;PermSize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;512&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;
+&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;XX&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;MaxPermSize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2048&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;结果依然没有解决问题,有的同学说,eclipse.ini只是为jvm分配内存的.而你真正运行的这个java程序不一定就分配到了那么多的内存,因为可能你正在运行好几个java程序,他们要一起竞争jvm内存.如果想要为我的java程序单独分配内存,需要为它添加启动参数,具体是这么做的:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Run&lt;/span&gt;&lt;span class="o"&gt;--&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;Run&lt;/span&gt; &lt;span class="n"&gt;Configuration&lt;/span&gt;&lt;span class="o"&gt;--&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;arguments&lt;/span&gt;
+&lt;span class="err"&gt;在&lt;/span&gt;&lt;span class="n"&gt;VM&lt;/span&gt; &lt;span class="n"&gt;arguments&lt;/span&gt;&lt;span class="err"&gt;下输入&lt;/span&gt;
+&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Xms1024m&lt;/span&gt;
+&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Xmx8192m&lt;/span&gt;
+&lt;span class="err"&gt;以及其他你想要的参数&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="err"&gt;然后点击&lt;/span&gt;&lt;span class="n"&gt;aplly&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如下图.
+&lt;img alt="" src="http://bupt-image.qiniudn.com/java1.png" /&gt;&lt;/p&gt;
+&lt;p&gt;看到有人说可以用:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nv"&gt;XX&lt;/span&gt;&lt;span class="p"&gt;:-&lt;/span&gt;&lt;span class="nv"&gt;UseGCOverheadLimit&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;来Disabling the error check altogether.但又出现:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lang&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;outofMemery&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;Java&lt;/span&gt; &lt;span class="n"&gt;heap&lt;/span&gt; &lt;span class="n"&gt;space&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;的错误.所以我想问题应该不仅仅是内存不够用那么简单,至少通过增加jvm内存的方式来解决似乎让人看不到尽头.于是我好好学习了一下java的GC机制,看到底是什么地方导致了内存溢出.&lt;/p&gt;
+&lt;h2&gt;堆与栈:生存空间&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;堆(heap):对象的生存空间.&lt;/li&gt;
+&lt;li&gt;栈(stack):方法调用和局部变量.&lt;/li&gt;
+&lt;li&gt;实例变量 :被声明在类里面的变量,它代表某个独立对象的"字段",存在于所属的对象中.&lt;/li&gt;
+&lt;li&gt;局部变量 :声明在方法中,生命周期只限于方法被放在栈上的这段期间.也就是方法被调用到结束的时间.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;注意到一个事实,对象永远存在于堆上,如果我们在方法中定义了一个类类型变量,并赋值给它一个对象,其实我们只是定义了该对象的一个引用,引用变量本身是放在栈上面的,它所引用的对象还是在堆里.&lt;/p&gt;
+&lt;p&gt;当你调用一个方法时,该方法会放在调用栈的栈顶,它带有方法的状态,包括执行到那一行程序以及所有的局部变量的值,如果在方法中又调用了其他的方法,那么被调用的方法又被推到了堆栈顶,直到执行完毕被释放,回到上一个方法.&lt;/p&gt;
+&lt;h2&gt;构造函数的执行顺序&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Animal&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Animal&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+        &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;making an animal&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Hippo&lt;/span&gt; &lt;span class="n"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Animal&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Hippo&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+        &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;making a hippo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;TestHippo&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;[]){&lt;/span&gt;
+        &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;making a hippo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;Hippo&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Hippo&lt;/span&gt;&lt;span class="p"&gt;();}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;所有的java对象都有一个共同的祖先:Object类.
+所以执行顺序是:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;                       &lt;span class="n"&gt;Object&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+          &lt;span class="n"&gt;Animal&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;     &lt;span class="n"&gt;Animal&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;       &lt;span class="n"&gt;Animal&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;Hippo&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;   &lt;span class="n"&gt;Hippo&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;      &lt;span class="n"&gt;Hippo&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;        &lt;span class="n"&gt;Hippo&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;      &lt;span class="n"&gt;Hippo&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;调用Hippo()时,会调用父类的构造函数,依次上升,直到Object类,然后依次返回,直到Hippo类.&lt;/p&gt;
+&lt;h3&gt;如何调用父类的构造函数&lt;/h3&gt;
+&lt;p&gt;可以使用super()函数,注意super();必须是你的构造函数的第一行代码.如果你没有显示使用super函数,编译器会为你生成一个super,使用父类的&lt;strong&gt;无参数构造函数&lt;/strong&gt;,当然你完全可以使用父类的带参数的构造函数,只要往super里传入相应类型的值就可以了.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Hippo&lt;/span&gt; &lt;span class="n"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Animal&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Hippo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+        &lt;span class="n"&gt;super&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;);}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;引用变量与对象&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;除非有对象的引用,否则该对象一点意义都没有.&lt;/li&gt;
+&lt;li&gt;如果你无法取得对象的引用,则此对象只是浪费空间罢了.&lt;/li&gt;
+&lt;li&gt;一旦对象无法取得,GC会知道该怎么做,那种对象迟早会葬送在垃圾手机器的手上.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;有三种方法可以释放对象的引用:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;引用永久性的离开它的作用域 &lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;go&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+&lt;span class="n"&gt;Life&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Life&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt; 
+&lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="err"&gt;会在方法结束时消失&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;引用被赋值到其他对象上&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Life&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Life&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Life&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="err"&gt;第一个对象会在&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="err"&gt;被赋值到别处时挂掉&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;直接将引用设定为null&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Life&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Life&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;null&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="err"&gt;第一个对象会在&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="err"&gt;被设定为&lt;/span&gt;&lt;span class="n"&gt;null&lt;/span&gt;&lt;span class="err"&gt;时挂掉&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="java"></category></entry><entry><title>Java的GC机制</title><link href="/Java%E7%9A%84GC%E6%9C%BA%E5%88%B6.html" rel="alternate"></link><updated>2014-05-23T14:26:00+08:00</updated><author><name>Li,Gongfu</name></author><id>tag:,2014-05-23:Java的GC机制.html</id><summary type="html">&lt;h2&gt;为什么要关心GC机制&lt;/h2&gt;
+&lt;p&gt;Java GC（Garbage Collection，垃圾收集，垃圾回收）机制，是Java与C++/C的主要区别之一，作为Java开发者，一般不需要专门编写内存回收和垃圾清理代码，对内存泄露和溢出的问题，也不需要像C程序员那样战战兢兢。这是因为在Java虚拟机中，存在自动内存管理和垃圾清扫机制。概括地说，该机制对JVM（Java Virtual Machine）中的内存进行标记，并确定哪些内存需要回收，根据一定的回收策略，自动的回收内存，永不停息（Nerver Stop）的保证JVM中的内存空间，防止出现内存泄露和溢出问题。&lt;/p&gt;
+&lt;p&gt;Java程序员在编码过程中通常不需要考虑内存问题，JVM经过高度优化的GC机制大部分情况下都能够很好地处理堆(Heap)的清理问题。以至于许多Java程序员认为，我只需要关心何时创建对象，而回收对象，就交给GC来做吧！甚至有人说，如果在编程过程中频繁考虑内存问题，是一种退化，这些事情应该交给编译器，交给虚拟机来解决.&lt;/p&gt;
+&lt;p&gt;这话其实也没有太大问题，的确，大部分场景下关心内存、GC的问题，显得有点“杞人忧天”了，高老爷说过：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;过早优化是万恶之源。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;但另一方面，什么才是“过早优化”？&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;If we could do things right for the first time, why not?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;事实上JVM的内存模型( JMM )理应是Java程序员的基础知识，处理过几次JVM线上内存问题之后就会很明显感受到，很多系统问题，都是内存问题。下面就来看看java的内存分配机制.&lt;/p&gt;
+&lt;p&gt;这里所说的内存分配，主要指的是在堆上的分配，一般的，对象的内存分配都是在堆上进行.&lt;/p&gt;
+&lt;h2&gt;GC基本知识&lt;/h2&gt;
+&lt;h3&gt;GC分代的基本假设&lt;/h3&gt;
+&lt;p&gt;大部分GC算法，都将堆内存做分代(Generation)处理，但是为什么要分代呢，又为什么不叫内存分区、分段，而要用面向时间、年龄的“代”来表示不同的内存区域？&lt;/p&gt;
+&lt;p&gt;GC分代的基本假设是：&lt;/p&gt;
+&lt;p&gt;绝大部分对象的生命周期都非常短暂，存活时间短。&lt;/p&gt;
+&lt;p&gt;而这些短命的对象，恰恰是GC算法需要首先关注的。所以在大部分的GC中，YoungGC（也称作MinorGC）占了绝大部分，对于负载不高的应用，可能跑了数个月都不会发生FullGC。&lt;/p&gt;
+&lt;p&gt;基于这个前提，在编码过程中，我们应该尽可能地缩短对象的生命周期。在过去，分配对象是一个比较重的操作，所以有些程序员会尽可能地减少new对象的次数，尝试减小堆的分配开销，减少内存碎片。&lt;/p&gt;
+&lt;p&gt;但是，短命对象的创建在JVM中比我们想象的性能更好，所以，不要吝啬new关键字，大胆地去new吧。&lt;/p&gt;
+&lt;p&gt;当然前提是不做无谓的创建，对象创建的速率越高，那么GC也会越快被触发。&lt;/p&gt;
+&lt;p&gt;结论：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;分配小对象的开销分享小，不要吝啬去创建。&lt;/li&gt;
+&lt;li&gt;GC最喜欢这种小而短命的对象。&lt;/li&gt;
+&lt;li&gt;让对象的生命周期尽可能短，例如在方法体内创建，使其能尽快地在YoungGC中被回收，不会晋升(romote)到年老代(Old Generation)。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;YoungGC和OldGC&lt;/h3&gt;
+&lt;p&gt;Java内存分配和回收的机制概括的说，就是：分代分配，分代回收。对象将根据存活的时间被分为：年轻代（Young Generation）、年老代（Old Generation）、永久代（Permanent Generation，也就是方法区）。
+&lt;img alt="" src="http://bupt-image.qiniudn.com/java-gc-1.png" /&gt;&lt;/p&gt;
+&lt;h4&gt;年轻代（Young Generation）&lt;/h4&gt;
+&lt;p&gt;对象被创建时，内存的分配首先发生在年轻代（大对象可以直接被创建在年老代），大部分的对象在创建后很快就不再使用，因此很快变得不可达，于是被年轻代的GC机制清理掉（IBM的研究表明，98%的对象都是很快消亡的），这个GC机制被称为Minor GC或叫Young GC。注意，Minor GC并不代表年轻代内存不足，它事实上只表示在Eden区上的GC。&lt;/p&gt;
+&lt;p&gt;年轻代上的内存分配是这样的，年轻代可以分为3个区域：Eden区（伊甸园，亚当和夏娃偷吃禁果生娃娃的地方，用来表示内存首次分配的区域，再贴切不过）和两个存活区（Survivor 0 、Survivor 1）。下图展示了YoungGC的过程.
+&lt;img alt="" src="http://bupt-image.qiniudn.com/java-gc-2.png" /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;绝大多数刚创建的对象会被分配在Eden区，其中的大多数对象很快就会消亡。Eden区是连续的内存空间，因此在其上分配内存极快；&lt;/li&gt;
+&lt;li&gt;当Eden区满的时候，执行Minor GC，将消亡的对象清理掉，并将剩余的对象复制到一个存活区Survivor0（此时，Survivor1是空白的，两个Survivor总有一个是空白的）；&lt;/li&gt;
+&lt;li&gt;此后，每次Eden区满了，就执行一次Minor GC，并将剩余的对象都添加到Survivor0；&lt;/li&gt;
+&lt;li&gt;当Survivor0也满的时候，将其中仍然活着的对象直接复制到Survivor1，以后Eden区执行Minor GC后，就将剩余的对象添加Survivor1（此时，Survivor0是空白的）。&lt;/li&gt;
+&lt;li&gt;当两个存活区切换了几次（HotSpot虚拟机默认15次，用-XX:MaxTenuringThreshold控制，大于该值进入老年代，但这只是个最大值，并不代表一定是这个值）之后，仍然存活的对象（其实只有一小部分，比如，我们自己定义的对象），将被复制到老年代。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;从上面的过程可以看出，Eden区是连续的空间，且Survivor总有一个为空。经过一次GC和复制，一个Survivor中保存着当前还活着的对象，而Eden区和另一个Survivor区的内容都不再需要了，可以直接清空，到下一次GC时，两个Survivor的角色再互换。因此，这种方式分配内存和清理内存的效率都极高，这种垃圾回收的方式就是著名的“停止-复制（Stop-and-copy）”清理法（将Eden区和一个Survivor中仍然存活的对象拷贝到另一个Survivor中）。&lt;/p&gt;
+&lt;h4&gt;年老代（Old Generation）&lt;/h4&gt;
+&lt;p&gt;对象如果在年轻代存活了足够长的时间而没有被清理掉（即在几次Young GC后存活了下来），则会被复制到年老代，年老代的空间一般比年轻代大，能存放更多的对象，在年老代上发生的GC次数也比年轻代少。当年老代内存不足时，将执行Major GC，也叫 Full GC。　　&lt;/p&gt;
+&lt;p&gt;可以使用-XX:+UseAdaptiveSizePolicy开关来控制是否采用动态控制策略，如果动态控制，则动态调整Java堆中各个区域的大小以及进入老年代的年龄。&lt;/p&gt;
+&lt;p&gt;如果对象比较大（比如长字符串或大数组），Young空间不足，则大对象会直接分配到老年代上（大对象可能触发提前GC，应少用，更应避免使用短命的大对象）。用-XX:PretenureSizeThreshold来控制直接升入老年代的对象大小，大于这个值的对象会直接分配在老年代上。&lt;/p&gt;
+&lt;h3&gt;Java GC机制&lt;/h3&gt;
+&lt;p&gt;GC机制的基本算法是：分代收集，这个不用赘述。下面阐述每个分代的收集方法。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;年轻代&lt;/p&gt;
+&lt;p&gt;事实上，在上一节，已经介绍了新生代的主要垃圾回收方法，在新生代中，使用“停止-复制”算法进行清理，将新生代内存分为2部分，1部分 Eden区较大，1部分Survivor比较小，并被划分为两个等量的部分。每次进行清理时，将Eden区和一个Survivor中仍然存活的对象拷贝到 另一个Survivor中，然后清理掉Eden和刚才的Survivor。&lt;/p&gt;
+&lt;p&gt;这里也可以发现，停止复制算法中，用来复制的两部分并不总是相等的（传统的停止复制算法两部分内存相等，但新生代中使用1个大的Eden区和2个小的Survivor区来避免这个问题）&lt;/p&gt;
+&lt;p&gt;由于绝大部分的对象都是短命的，甚至存活不到Survivor中，所以，Eden区与Survivor的比例较大，HotSpot默认是 8:1，即分别占新生代的80%，10%，10%。如果一次回收中，Survivor+Eden中存活下来的内存超过了10%，则需要将一部分对象分配到 老年代。用-XX:SurvivorRatio参数来配置Eden区域Survivor区的容量比值，默认是8，代表Eden：Survivor1：Survivor2=8:1:1.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;老年代&lt;/p&gt;
+&lt;p&gt;老年代存储的对象比年轻代多得多，而且不乏大对象，对老年代进行内存清理时，如果使用停止-复制算法，则相当低效。一般，老年代用的算法是标记-整理算法，即：标记出仍然存活的对象（存在引用的），将所有存活的对象向一端移动，以保证内存的连续。&lt;/p&gt;
+&lt;p&gt;在发生Minor GC时，虚拟机会检查每次晋升进入老年代的大小是否大于老年代的剩余空间大小，如果大于，则直接触发一次Full GC，否则，就查看是否设置了
+ &lt;code&gt;-XX:+HandlePromotionFailure（允许担保失败）&lt;/code&gt;
+ 如果允许，则只会进行MinorGC，此时可以容忍内存分配失败；如果不允许，则仍然进行Full GC（这代表着如果设置-XX:+Handle PromotionFailure，则触发MinorGC就会同时触发Full GC，哪怕老年代还有很多内存，所以，最好不要这样做）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;方法区（永久代）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;永久代的回收有两种：常量池中的常量，无用的类信息，常量的回收很简单，没有引用了就可以被回收。对于无用的类进行回收，必须保证3点：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;类的所有实例都已经被回收
+加载类的ClassLoader已经被回收
+类对象的Class对象没有被引用（即没有通过反射引用该类的地方）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;垃圾收集器&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Serial收集器：新生代收集器，使用停止复制算法，使用一个线程进行GC，串行，其它工作线程暂停。使用-XX:+UseSerialGC可以使用Serial+Serial Old模式运行进行内存回收（这也是虚拟机在Client模式下运行的默认值）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;ParNew收集器：新生代收集器，使用停止复制算法，Serial收集器的多线程版，用多个线程进行GC，并行，其它工作线程暂停，关注缩短垃圾收集时间。使用-XX:+UseParNewGC开关来控制使用ParNew+Serial Old收集器组合收集内存；使用-XX:ParallelGCThreads来设置执行内存回收的线程数。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;CMS（Concurrent Mark Sweep）收集器：老年代收集器，致力于获取最短回收停顿时间（即缩短垃圾回收的时间），使用标记清除算法，多线程，优点是并发收集（用户线程可以和GC线程同时工作），停顿小。使用-XX:+UseConcMarkSweepGC进行ParNew+CMS+Serial Old进行内存回收，优先使用ParNew+CMS（原因见后面），当用户线程内存不足时，采用备用方案Serial Old收集。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;注意并发（Concurrent）和并行（Parallel）的区别&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;并发是指用户线程与GC线程同时执行（不一定是并行，可能交替，但总体上是在同时执行的），不需要停顿用户线程（其实在CMS中用户线程还是需要停顿的，只是非常短，GC线程在另一个CPU上执行）；&lt;/p&gt;
+&lt;p&gt;并行收集是指多个GC线程并行工作，但此时用户线程是暂停的；
+所以，Serial是串行的，Parallel收集器是并行的，而CMS收集器是并发的.&lt;/p&gt;
+&lt;h2&gt;内存分配的建议&lt;/h2&gt;
+&lt;p&gt;既然GC机制对于我们的程序效率如此重要,那我们在编程时是否有一些tips可以帮助我们写出高效的程序呢,毕竟内存管理是java程序员的基本功,要是对这方面毫无感觉,那说不过去.&lt;/p&gt;
+&lt;h3&gt;对象分配的优化&lt;/h3&gt;
+&lt;p&gt;基于大部分对象都是小而短命，并且不存在多线程的数据竞争。这些小对象的分配，会优先在线程私有的 TLAB 中分配，TLAB中创建的对象，不存在锁甚至是CAS的开销。&lt;/p&gt;
+&lt;p&gt;TLAB占用的空间在Eden Generation。TLAB技术是对于多线程而言的，将Eden区分为若干段，每个线程使用独立的一段，避免相互影响。&lt;/p&gt;
+&lt;p&gt;当对象比较大，TLAB的空间不足以放下，而JVM又认为当前线程占用的TLAB剩余空间还足够时，就会直接在Eden Generation上分配，此时是存在并发竞争的，所以会有CAS的开销，但也还好。&lt;/p&gt;
+&lt;p&gt;当对象大到Eden Generation放不下时，JVM只能尝试去Old Generation分配，这种情况需要尽可能避免，因为一旦在Old Generation分配，这个对象就只能被Old Generation的GC或是FullGC回收了。&lt;/p&gt;
+&lt;h3&gt;引用置为null的传说&lt;/h3&gt;
+&lt;p&gt;早期的很多Java资料中都会提到在方法体中将一个变量置为null能够优化GC的性能，类似下面的代码：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;List&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;list&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;ArrayList&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="c1"&gt;// some code&lt;/span&gt;
+&lt;span class="n"&gt;list&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;null&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// help GC&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;事实上这种做法对GC的帮助微乎其微，有时候反而会导致代码混乱。&lt;/p&gt;
+&lt;p&gt;结论基本就是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在一个非常大的方法体内，对一个较大的对象，将其引用置为null，某种程度上可以帮助GC。&lt;/li&gt;
+&lt;li&gt;大部分情况下，这种行为都没有任何好处。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;所以，还是早点放弃这种“优化”方式吧。GC比我们想象的更聪明。&lt;/p&gt;
+&lt;h3&gt;手动档的GC&lt;/h3&gt;
+&lt;p&gt;在很多Java资料上都有下面两个奇技淫巧：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;通过Thread.yield()让出CPU资源给其它线程。&lt;/li&gt;
+&lt;li&gt;通过System.gc()触发GC。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;事实上JVM从不保证这两件事，而System.gc()在JVM启动参数中如果允许显式GC，则会触发FullGC，对于响应敏感的应用来说，几乎等同于自杀。&lt;/p&gt;
+&lt;p&gt;So，让我们牢记两点：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Never&lt;/span&gt; &lt;span class="n"&gt;use&lt;/span&gt; &lt;span class="n"&gt;Thread&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;yield&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="err"&gt;。&lt;/span&gt;
+&lt;span class="n"&gt;Never&lt;/span&gt; &lt;span class="n"&gt;use&lt;/span&gt; &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gc&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="err"&gt;。除非你真的需要回收&lt;/span&gt;&lt;span class="n"&gt;Native&lt;/span&gt; &lt;span class="n"&gt;Memory&lt;/span&gt;&lt;span class="err"&gt;。&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;第二点有个Native Memory的例外，如果你在以下场景：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;使用了&lt;/span&gt;&lt;span class="n"&gt;NIO&lt;/span&gt;&lt;span class="err"&gt;或者&lt;/span&gt;&lt;span class="n"&gt;NIO&lt;/span&gt;&lt;span class="err"&gt;框架（&lt;/span&gt;&lt;span class="n"&gt;Mina&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;Netty&lt;/span&gt;&lt;span class="err"&gt;）&lt;/span&gt;
+&lt;span class="err"&gt;使用了&lt;/span&gt;&lt;span class="n"&gt;DirectByteBuffer&lt;/span&gt;&lt;span class="err"&gt;分配字节缓冲区&lt;/span&gt;
+&lt;span class="err"&gt;使用了&lt;/span&gt;&lt;span class="n"&gt;MappedByteBuffer&lt;/span&gt;&lt;span class="err"&gt;做内存映射&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;由于Native Memory只能通过FullGC（或是CMS GC）回收，所以除非你非常清楚这时真的有必要，否则不要轻易调用System.gc()，且行且珍惜。&lt;/p&gt;
+&lt;p&gt;另外为了防止某些框架中的System.gc调用（例如NIO框架、Java RMI），建议在启动参数中加上&lt;code&gt;-XX:+DisableExplicitGC&lt;/code&gt;来禁用显式GC。&lt;/p&gt;
+&lt;p&gt;这个参数有个巨大的坑，如果你禁用了System.gc()，那么上面的3种场景下的内存就无法回收，可能造成OOM.&lt;/p&gt;
+&lt;h3&gt;指定容器初始化大小&lt;/h3&gt;
+&lt;p&gt;Java容器的一个特点就是可以动态扩展，所以通常我们都不会去考虑初始大小的设置，不够了反正会自动扩容呗。&lt;/p&gt;
+&lt;p&gt;但是扩容不意味着没有代价，甚至是很高的代价。&lt;/p&gt;
+&lt;p&gt;例如一些基于数组的数据结构，例如StringBuilder、StringBuffer、ArrayList、HashMap等等，在扩容的时候都需要做ArrayCopy，对于不断增长的结构来说，经过若干次扩容，会存在大量无用的老数组，而回收这些数组的压力，全都会加在GC身上。&lt;/p&gt;
+&lt;p&gt;这些容器的构造函数中通常都有一个可以指定大小的参数，如果对于某些大小可以预估的容器，建议加上这个参数。&lt;/p&gt;
+&lt;p&gt;可是因为容器的扩容并不是等到容器满了才扩容，而是有一定的比例，例如HashMap的扩容阈值和负载因子(loadFactor)相关。&lt;/p&gt;
+&lt;p&gt;Google Guava框架对于容器的初始容量提供了非常便捷的工具方法，例如：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Lists&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;newArrayListWithCapacity&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;initialArraySize&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="n"&gt;Lists&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;newArrayListWithExpectedSize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;estimatedSize&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="n"&gt;Sets&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;newHashSetWithExpectedSize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;expectedSize&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="n"&gt;Maps&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;newHashMapWithExpectedSize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;expectedSize&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这样我们只要传入预估的大小即可，容量的计算就交给Guava来做吧。&lt;/p&gt;
+&lt;p&gt;反例：如果采用默认无参构造函数，创建一个ArrayList，不断增加元素直到OOM，那么在此过程中会导致：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;多次数组扩容，重新分配更大空间的数组&lt;/li&gt;
+&lt;li&gt;多次数组拷贝&lt;/li&gt;
+&lt;li&gt;内存碎片&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;对象池&lt;/h3&gt;
+&lt;p&gt;为了减少对象分配开销，提高性能，可能有人会采取对象池的方式来缓存对象集合，作为复用的手段。&lt;/p&gt;
+&lt;p&gt;但是对象池中的对象由于在运行期长期存活，大部分会晋升到Old Generation，因此无法通过YoungGC回收。&lt;/p&gt;
+&lt;p&gt;并且通常……没有什么效果。&lt;/p&gt;
+&lt;p&gt;对于对象本身：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;如果对象很小，那么分配的开销本来就小，对象池只会增加代码复杂度。&lt;/span&gt;
+&lt;span class="err"&gt;如果对象比较大，那么晋升到&lt;/span&gt;&lt;span class="n"&gt;Old&lt;/span&gt; &lt;span class="n"&gt;Generation&lt;/span&gt;&lt;span class="err"&gt;后，对&lt;/span&gt;&lt;span class="n"&gt;GC&lt;/span&gt;&lt;span class="err"&gt;的压力就更大了。&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;从线程安全的角度考虑，通常池都是会被并发访问的，那么你就需要处理好同步的问题，这又是一个大坑，并且同步带来的开销，未必比你重新创建一个对象小。&lt;/p&gt;
+&lt;p&gt;对于对象池，唯一合适的场景就是当池中的每个对象的创建开销很大时，缓存复用才有意义，例如每次new都会创建一个连接，或是依赖一次RPC。&lt;/p&gt;
+&lt;p&gt;比如说：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;线程池&lt;/li&gt;
+&lt;li&gt;数据库连接池&lt;/li&gt;
+&lt;li&gt;TCP连接池&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;即使你真的需要实现一个对象池，也请使用成熟的开源框架，例如Apache Commons Pool。&lt;/p&gt;
+&lt;p&gt;另外，使用JDK的ThreadPoolExecutor作为线程池，不要重复造轮子，除非当你看过AQS的源码后认为你可以写得比Doug Lea更好。&lt;/p&gt;
+&lt;h3&gt;对象作用域&lt;/h3&gt;
+&lt;p&gt;尽可能缩小对象的作用域，即生命周期。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果可以在方法内声明的局部变量，就不要声明为实例变量。&lt;/li&gt;
+&lt;li&gt;除非你的对象是单例的或不变的，否则尽可能少地声明static变量。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;各类引用&lt;/h3&gt;
+&lt;p&gt;java.lang.ref.Reference有几个子类，用于处理和GC相关的引用。JVM的引用类型简单来说有几种：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Strong&lt;/span&gt; &lt;span class="n"&gt;Reference&lt;/span&gt;&lt;span class="err"&gt;，最常见的引用&lt;/span&gt;
+&lt;span class="n"&gt;Weak&lt;/span&gt; &lt;span class="n"&gt;Reference&lt;/span&gt;&lt;span class="err"&gt;，当没有指向它的强引用时会被&lt;/span&gt;&lt;span class="n"&gt;GC&lt;/span&gt;&lt;span class="err"&gt;回收&lt;/span&gt;
+&lt;span class="n"&gt;Soft&lt;/span&gt; &lt;span class="n"&gt;Reference&lt;/span&gt;&lt;span class="err"&gt;，只当临近&lt;/span&gt;&lt;span class="n"&gt;OOM&lt;/span&gt;&lt;span class="err"&gt;时才会被&lt;/span&gt;&lt;span class="n"&gt;GC&lt;/span&gt;&lt;span class="err"&gt;回收&lt;/span&gt;
+&lt;span class="n"&gt;Phantom&lt;/span&gt; &lt;span class="n"&gt;Reference&lt;/span&gt;&lt;span class="err"&gt;，主要用于识别对象被&lt;/span&gt;&lt;span class="n"&gt;GC&lt;/span&gt;&lt;span class="err"&gt;的时机，通常用于做一些清理工作&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;当你需要实现一个缓存时，可以考虑优先使用WeakHashMap，而不是HashMap，当然，更好的选择是使用框架，例如Guava Cache。&lt;/p&gt;
+&lt;p&gt;最后，再次提醒，以上的这些未必可以对代码有多少性能上的提升，但是熟悉这些方法，是为了帮助我们写出更卓越的代码，和GC更好地合作。&lt;/p&gt;
+&lt;p&gt;文章的建议部分主要参考这篇&lt;a href="http://blog.hesey.net/category/tech/object-oriented"&gt;博客&lt;/a&gt;,内容比较深刻,很多地方我也还是一知半解.&lt;/p&gt;</summary><category term="Java"></category></entry></feed>

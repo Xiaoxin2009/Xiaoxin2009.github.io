@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Java多线程编程</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Li,Gongfu">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="/" type="application/atom+xml" rel="alternate" title="晓新's Blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/index.html">晓新's Blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="/category/fen-bu-shi.html">
+						<i class="icon-folder-open icon-large"></i>分布式
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="/category/java.html">
+						<i class="icon-folder-open icon-large"></i>JAVA
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/machine-learning.html">
+						<i class="icon-folder-open icon-large"></i>Machine Learning
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/perl.html">
+						<i class="icon-folder-open icon-large"></i>Perl
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/python.html">
+						<i class="icon-folder-open icon-large"></i>Python
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/scala.html">
+						<i class="icon-folder-open icon-large"></i>Scala
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/shu-ju-ku.html">
+						<i class="icon-folder-open icon-large"></i>数据库
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/technology.html">
+						<i class="icon-folder-open icon-large"></i>Technology
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to Java多线程编程">
+                                        Java多线程编程
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-06-23T22:20:00">
+        <i class="icon-calendar"></i>一 23 六月 2014
+</abbr>
+<span class="label">By</span>
+<a href="/author/ligongfu.html"><i class="icon-user"></i>Li,Gongfu</a>
+<span class="label">Category</span>
+<a href="/category/java.html"><i class="icon-folder-open"></i>JAVA</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/java.html"><i class="icon-tag"></i>java</a>
+</footer><!-- /.post-info -->                </div>
+                <p>线程是独立的线程，它代表独立的执行空间。Thread 是java.lang这个包里的一个类，因此是自动import的，Thread对象代表线程，当你需要启动新的线程时就建立Thread的实例。</p>
+<p>每个java应用程序会启动一个主线程----将main()放在它自己执行空间的最开始处。java虚拟机会负责主线程的启动，程序员负责启动自己建立的线程。</p>
+<p>线程要记录的一项事物是目前线程执行空间做到了哪里。</p>
+<h2>如何启动新的线程</h2>
+<ul>
+<li>1 建立Runnale对象（线程的任务）</li>
+</ul>
+<div class="highlight"><pre><span class="n">Runnale</span> <span class="n">threadJob</span> <span class="o">=</span> <span class="n">new</span> <span class="n">MyRunnable</span><span class="p">();</span>
+</pre></div>
+
+
+<p>myRunnale是你编写的实现Runnable的类，注意Runnable是个接口，因此不管怎么写都应该是public的，这个类就是你对线程要执行的任务的定义。也就是说此方法会在线程的执行空间运行。必须要实现Runnable类的run()方法。</p>
+<div class="highlight"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">MyRunnable</span> <span class="n">implements</span> <span class="n">Runnable</span><span class="p">{</span>
+
+<span class="n">public</span> <span class="kt">void</span> <span class="n">run</span><span class="p">(){</span>
+<span class="n">go</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">public</span> <span class="kt">void</span> <span class="n">go</span><span class="p">(){</span>
+<span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;top o the stack&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+
+
+<ul>
+<li>2 建立Thread 对象并赋值Runnable（任务）</li>
+</ul>
+<div class="highlight"><pre><span class="n">Thread</span> <span class="n">myThread</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Thread</span><span class="p">(</span><span class="n">threadJob</span><span class="p">);</span>
+</pre></div>
+
+
+<p>把Runnable对象传给Thread构造函数，这会告诉Thread对象要把那个方法放到执行空间去运行----Runnable的run()方法。</p>
+<ul>
+<li>3 启动Thread</li>
+</ul>
+<div class="highlight"><pre><span class="n">myThread</span><span class="p">.</span><span class="n">start</span><span class="p">();</span>
+</pre></div>
+
+
+<p>在还没有调用Thread的start()方法之前什么也不会发生，当新的线程启动之后，它会把Runnable对象的方法摆到心的执行空间中。</p>
+<p>对于Thread而言，它只是一个工人，而Runnable就是这个工人的工作。</p>
+<p>线程怎么会知道要先执行哪个方法？</p>
+<p>因为Runnable定义了一个协约，由于Runnable是一个接口，线程的任务被定义在任何实现Runnable的类上，线程只在乎传入给Thread的构造函数的参数是否为实现Runnable的类。当你把参数传给Thread的构造函数时，实际上就是在给Thread取的run()方法。这就等于你给Thread一项任务。</p>
+<h2>线程调度器</h2>
+<p>线程调度器会决定哪个线程从等待状况中被挑出来运行，以及何时把哪个线程送回等待被执行的状态。它会决定某个线程要运行多久，当线程被踢出时，调度器会指定线程要回去等待下一个机会或者暂时地堵塞。</p>
+<p>注意你无法控制调度，没有API可以调用调度器。它通常是公平的，但是没人能保证这件事。有时候某些线程很受宠，某些线程会被冷落。并且每个线程执行的顺序可能会不唯一，即使你在同一台机器上运行同一个程序。</p>
+<h3>典型的可执行/执行中循环</h3>
+<p>通常线程会在可执行与执行中两种状态中来回交替，因为java虚拟机的线程调度会把线程跳出来运行又把它踢回去使得其他的线程有执行机会。</p>
+<h3>线程有可能会被暂时挡住</h3>
+<p>调度器会因为某些原因把线程送进去关一阵子。例如线程本身的程序会要求小睡一下sleep(),也有可能是因为线程调用某个被锁住的对象上的方法，此时线程就得等到锁住该对象的线程放开这个对象才能继续下去。</p>
+<p>这类型的条件都会导致线程暂时失能。</p>
+<h3>Thread对象可以重复使用吗，能否调用start()指定新的任务给它？</h3>
+<p>答案是不行，一旦线程的run()方法完成之后，该线程就不能再重新启动，事实上过了改点线程就死翘翘了。</p>
+<h3>使用sleep()让程序更加可预测</h3>
+<div class="highlight"><pre><span class="n">try</span><span class="p">{</span>
+<span class="n">Thread</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
+<span class="p">}</span><span class="n">catch</span><span class="p">(</span><span class="n">Exception</span> <span class="n">x</span><span class="p">){</span><span class="n">x</span><span class="p">.</span><span class="n">printStackTrace</span><span class="p">();}</span>
+</pre></div>
+
+
+<p>如果想要确保其他的线程有机会执行的话，就把线程放入睡眠状态，当线程醒来的时候，它会进入可执行状态等待被调度器挑出来执行。注意这个方法可能会抛出InterruptedException异常，因此需要包含在try/catch模块中。</p>
+<h3>给线程取名字</h3>
+<p>通常给线程取名字是为了调试。</p>
+<div class="highlight"><pre><span class="n">Runnable</span> <span class="n">runner</span> <span class="o">=</span> <span class="n">new</span> <span class="n">MyRunnable</span><span class="p">();</span>
+<span class="n">Thread</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Thread</span><span class="p">(</span><span class="n">runner</span><span class="p">);</span>
+<span class="n">Thread</span> <span class="n">beta</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Thread</span><span class="p">(</span><span class="n">runner</span><span class="p">);</span>
+<span class="n">alpha</span><span class="p">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&quot;Alpha Thread&quot;</span><span class="p">);</span>
+<span class="n">beta</span><span class="p">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&quot;Beta Thread&quot;</span><span class="p">);</span>
+
+<span class="n">String</span> <span class="n">threadName</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">.</span><span class="n">currentThread</span><span class="p">.</span><span class="n">getName</span><span class="p">();</span>
+</pre></div>
+
+
+<h2>多线程并发问题</h2>
+<p>问题的根源在于，当两个线程存取单一对象的数据时，也就是说两个不同执行空间上的方法都在堆上对同一个对象执行setter/getter，两个进程只会关心自己的任务，因为线程可能会被打入可执行状态，此时基本上是昏迷过去的，当它回到执行中的状态时，根本不知道自己曾经不省人事。此时对象的状态或许早已不是它熟睡前的状态了。</p>
+<h3>锁</h3>
+<p>使用synchronized关键字来修饰方法使得它每次只能被单一的线程存取。要保护数据，就要把作用在数据上的方法同步化。</p>
+<p>每个java对象都有一个锁，每个锁只有一把钥匙，通常对象都没上锁，也没有人关心这件事。但如果对象有同步化的方法，则线程只能在取的钥匙的情况下进入线程。也就是说并没有其他线程已经进入的情况下才能进入。</p>
+<p>锁不是配在方法上，虽然synchronized修饰的是方法，而是配在对象上，如果对象有两个同步化的方法，就表示两个线程无法进入同一个方法，也表示两个线程无法进入不同的方法。</p>
+<p>想想看，如果你有多个方法可能会操作对象的实例变量，则这些方法都应该要有同步化保护。</p>
+<p>同步化的目标是要保护重要的数据，但是要记住，你锁住的不是数据，而是存取数据的方法。</p>
+<p>当线程进入同步化方法时，线程会全力照顾好它的钥匙，除非完成同步化方法，否则会放开钥匙。没有其他的线程能进入该对象的同步化方法，因为每个对象只有一个钥匙。</p>
+<h3>“丢失更新”问题</h3>
+<p>当线程A执行某个方法时，中途睡着了，另外一个线程B也执行这个方法，对数据对象作出了一些更新，然后程序回到执行A，此时A将忘记自己曾经熟睡这件事，而从自己当初退出的状态开始继续执行，于是进程B所做的更新被A丢掉了。</p>
+<p>解决的方法是，为方法加上synchronized关键字，确保其他线程可以进入该方法之前所有的步骤都会完成（如同原子不可分割一样）。</p>
+<p>这里有时候不需要把整个方法都同步化，只需要把不可分割的步骤同步化，组成原子单位，换句话说，一个方法里不是所有的步骤都不可分割。</p>
+<div class="highlight"><pre><span class="n">public</span> <span class="kt">void</span> <span class="nf">go</span><span class="p">(){</span>
+<span class="n">doStuff</span><span class="p">();</span>
+
+<span class="n">synchronized</span><span class="p">(</span><span class="n">this</span><span class="p">){</span>
+<span class="n">criticalStuff</span><span class="p">();</span>
+<span class="n">moreCriticalStuff</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+
+
+<p>通常会以当前对象(this)来同步化。</p>
+<h3>死锁</h3>
+<p>死锁会发生时因为两个线程互相持有对方正在等待的东西。没有方法可以脱离这种情况，所以两个线程只好停下来等，一直等。</p>
+<h3>同步化的原则</h3>
+<p>听起来把所有的东西都同步化是个不错的注意，如此一来全部都会具有多线程执行的安全性，但是当然好东西也会有坏的地方：</p>
+<ul>
+<li>
+<p>代价</p>
+<p>同步化的方法有额外的成本，例如查询钥匙等性能上的损耗。</p>
+</li>
+<li>
+<p>单线程化</p>
+<p>同步化的方法会让你的程序因为要同步并行的问题而慢下来，换句话说，同步化会强制线程排队等着执行方法，你要想想你最开始为什么要写多线程并行的程序。</p>
+</li>
+<li>
+<p>死锁</p>
+<p>最可怕的是同步化可能会导致死锁现象。</p>
+</li>
+</ul>
+<p>原则上最好只做最少量的同步化。</p>
+<h2>总结</h2>
+<ul>
+<li>
+<p>如果两个或以上的线程存取堆上相同的对象可能会出现严重的问题，可能引发数据的损毁。</p>
+</li>
+<li>
+<p>要让对象在线程上有足够的安全性，就要判断哪些指令不能被分割执行。</p>
+</li>
+<li>
+<p>每个对象都有单一的锁，单一的钥匙，这只会在对象带有同步化的方法时才有实际的用途。</p>
+</li>
+<li>
+<p>对象就算是有多个同步化的方法，也还是只有一个锁。一旦某个线程进入该对象的同步化方法，其他线程就无法进入该对象上任何的同步化方法。</p>
+</li>
+</ul>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "JAVA多线程编程.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://buptlixin.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="http://getpelican.com/"><i class="icon-external-link"></i>Pelican</a></li>
+    <li><a href="http://python.org/"><i class="icon-external-link"></i>Python.org</a></li>
+    <li><a href="http://jinja.pocoo.org/"><i class="icon-external-link"></i>Jinja2</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="http://www.v2ex.com/member/buptlee"><i class="icon-V2EX-sign icon-large"></i>V2EX</a></li>
+    <li><a href="http://douban.com/people/77726008"><i class="icon-豆瓣-sign icon-large"></i>豆瓣</a></li>
+    <li><a href="http://github.com/Xiaoxin2009"><i class="icon-Github-sign icon-large"></i>Github</a></li>
+    <li><a href="http://stackoverflow.com/users/3373388/bupt-xiaoxin"><i class="icon-Stackoverflow-sign icon-large"></i>Stackoverflow</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="/category/fen-bu-shi.html">
+    <i class="icon-folder-open icon-large"></i>分布式
+</a>
+</li>
+<li>
+<a href="/category/java.html">
+    <i class="icon-folder-open icon-large"></i>JAVA
+</a>
+</li>
+<li>
+<a href="/category/machine-learning.html">
+    <i class="icon-folder-open icon-large"></i>Machine Learning
+</a>
+</li>
+<li>
+<a href="/category/perl.html">
+    <i class="icon-folder-open icon-large"></i>Perl
+</a>
+</li>
+<li>
+<a href="/category/python.html">
+    <i class="icon-folder-open icon-large"></i>Python
+</a>
+</li>
+<li>
+<a href="/category/scala.html">
+    <i class="icon-folder-open icon-large"></i>Scala
+</a>
+</li>
+<li>
+<a href="/category/shu-ju-ku.html">
+    <i class="icon-folder-open icon-large"></i>数据库
+</a>
+</li>
+<li>
+<a href="/category/technology.html">
+    <i class="icon-folder-open icon-large"></i>Technology
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-3">
+    <a href="/tag/storm.html">
+        <i class="icon-tag icon-large"></i>Storm
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/zheng-ze-biao-da-shi.html">
+        <i class="icon-tag icon-large"></i>正则表达式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/machine-learning.html">
+        <i class="icon-tag icon-large"></i>Machine Learning
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hadoop.html">
+        <i class="icon-tag icon-large"></i>Hadoop
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/perl.html">
+        <i class="icon-tag icon-large"></i>Perl
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/scala.html">
+        <i class="icon-tag icon-large"></i>scala
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programming.html">
+        <i class="icon-tag icon-large"></i>functional programming
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/svm.html">
+        <i class="icon-tag icon-large"></i>SVM
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/mongodb.html">
+        <i class="icon-tag icon-large"></i>MongoDB
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hash.html">
+        <i class="icon-tag icon-large"></i>Hash
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/sql.html">
+        <i class="icon-tag icon-large"></i>SQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/github.html">
+        <i class="icon-tag icon-large"></i>Github
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hdfs.html">
+        <i class="icon-tag icon-large"></i>HDFS
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/nosql.html">
+        <i class="icon-tag icon-large"></i>NoSQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programing.html">
+        <i class="icon-tag icon-large"></i>functional programing
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/java.html">
+        <i class="icon-tag icon-large"></i>java
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-50849437-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'buptlixin';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

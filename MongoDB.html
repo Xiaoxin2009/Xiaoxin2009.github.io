@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>MongoDB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Li,Gongfu">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="/" type="application/atom+xml" rel="alternate" title="晓新's Blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/index.html">晓新's Blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="/category/fen-bu-shi.html">
+						<i class="icon-folder-open icon-large"></i>分布式
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/java.html">
+						<i class="icon-folder-open icon-large"></i>JAVA
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/machine-learning.html">
+						<i class="icon-folder-open icon-large"></i>Machine Learning
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/perl.html">
+						<i class="icon-folder-open icon-large"></i>Perl
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/python.html">
+						<i class="icon-folder-open icon-large"></i>Python
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/scala.html">
+						<i class="icon-folder-open icon-large"></i>Scala
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="/category/shu-ju-ku.html">
+						<i class="icon-folder-open icon-large"></i>数据库
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/technology.html">
+						<i class="icon-folder-open icon-large"></i>Technology
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to MongoDB">
+                                        MongoDB
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-07-04T17:20:00">
+        <i class="icon-calendar"></i>五 04 七月 2014
+</abbr>
+<span class="label">By</span>
+<a href="/author/ligongfu.html"><i class="icon-user"></i>Li,Gongfu</a>
+<span class="label">Category</span>
+<a href="/category/shu-ju-ku.html"><i class="icon-folder-open"></i>数据库</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/mongodb.html"><i class="icon-tag"></i>MongoDB</a>
+</footer><!-- /.post-info -->                </div>
+                <h1>1 MongoDB简介</h1>
+<p>MongoDB是一个介于关系数据库和非关系数据库之间的产品，是非关系数据库当中功能最丰富，最像关系数据库的。他支持的数据结构非常松散，是类似json格式，因此可以存储比较复杂的数据类型。Mongo最大的特点是他支持的查询语言非常强大，其语法有点类似于面向对象的查询语言，几乎可以实现类似关系数据库单表查询的绝大部分功能，而且还支持对数据建立索引。它的特点是高性能、易部署、易使用，存储数据非常方便。</p>
+<p>mongodb中有三元素：数据库，集合，文档，其中“集合”就是对应关系数据库中的“表”，“文档”对应“行”。</p>
+<p>主要特性：</p>
+<ul>
+<li>
+<p>面向集合存储，易存储对象类型的数据
+“面向集合”（Collenction-Oriented），意思是数据被分组存储在数据集中，被称为一个集合（Collenction)。每个集合在数据库中都有一个唯一的标识名，并且可以包含无限数目的文档。集合的概念类似关系型数据库（RDBMS）里的表（table），不同的是它不需要定义任何模式（schema)。</p>
+</li>
+<li>
+<p>模式自由
+模式自由（schema-free)，意味着对于存储在mongodb数据库中的文件，我们不需要知道它的任何结构定义。如果需要的话，你完全可以把不同结构的文件存储在同一个数据库里.</p>
+</li>
+</ul>
+<h1>2 安装</h1>
+<h3>2.1 下载安装包</h3>
+<p><a href="http://www.mongodb.org/downloads">安装包</a>,根据你的系统选择32位/64位。关于版本，有两个问题要注意：</p>
+<ul>
+<li>
+<p>偶数为“稳定版”（如：1.6.X，1.8.X），奇数为“开发版”（如：1.7.X，1.9.X)，这两个版本的区别相信大家都知道吧。</p>
+</li>
+<li>
+<p>32bit的mongodb最大只能存放2G的数据，64bit就没有限制。</p>
+</li>
+</ul>
+<p>解压安装包，放到你希望存放的文件夹下，例如我的是<code>D:\software\mongodb</code>，</p>
+<h3>2.2 指定数据库路径</h3>
+<p>在<code>D:\software\mongodb</code>文件夹下创建db目录，用来存放数据库数据。
+在dos框里使用mongod命令初始化<code>dbpath</code>
+<img alt="" src="http://bupt-image.qiniudn.com/mongodb-1.jpg" /></p>
+<p>正常情况下，到这里你就已经安装完成了。</p>
+<h3>2.3 安装MongoVUE</h3>
+<p>这个软件是mongodb的一个可视化工作平台，使你可以免于使用mongodb命令行操作完成一部分功能，并且还可以看到数据库的内容，类似于这样的视图，非常方便。
+<img alt="" src="http://bupt-image.qiniudn.com/mongodb-3.jpg" />
+你可以到<a href="http://www.mongovue.com/">这里</a>下载.</p>
+<h1>3 基本操作</h1>
+<p>新打开一个dos框，输入mongo命令打开shell，其实这个shell就是mongodb的客户端，，默认连接的是“test”数据库。
+<img alt="" src="http://bupt-image.qiniudn.com/mongodb-2.jpg" /></p>
+<h3>3.1 insert</h3>
+<p>我们已经连到了test数据库，接下来创建一个集合，可以理解为关系型数据库中的一张表，这里就取集合名为“person”，要注意的就是文档是一个json的扩展（Bson)形式。这里我们为集合取名为person.</p>
+<div class="highlight"><pre><span class="n">db</span><span class="p">.</span><span class="n">person</span><span class="p">.</span><span class="n">insert</span><span class="p">({</span><span class="s">&quot;name&quot;</span><span class="o">:</span><span class="s">&quot;jack&quot;</span><span class="p">,</span><span class="s">&quot;age&quot;</span><span class="o">:</span><span class="mi">20</span><span class="p">})</span>
+<span class="n">db</span><span class="p">.</span><span class="n">person</span><span class="p">.</span><span class="n">insert</span><span class="p">({</span><span class="s">&quot;name&quot;</span><span class="o">:</span><span class="s">&quot;joe&quot;</span><span class="p">,</span><span class="s">&quot;age&quot;</span><span class="o">:</span><span class="mi">25</span><span class="p">})</span>
+</pre></div>
+
+
+<p>注意，mongodb会为每个记录生成一个“_id"：这个字段是数据库默认给我们加的GUID，目的就是保证数据的唯一性。</p>
+<h3>3.2 find</h3>
+<div class="highlight"><pre><span class="n">db</span><span class="p">.</span><span class="n">person</span><span class="p">.</span><span class="n">find</span><span class="p">({</span><span class="s">&quot;name&quot;</span><span class="o">:</span><span class="s">&quot;joe&quot;</span><span class="p">})</span>
+</pre></div>
+
+
+<h3>3.3 update</h3>
+<div class="highlight"><pre><span class="n">db</span><span class="p">.</span><span class="n">person</span><span class="p">.</span><span class="n">update</span><span class="p">({</span><span class="s">&quot;name&quot;</span><span class="o">:</span><span class="s">&quot;joe&quot;</span><span class="p">},{</span><span class="s">&quot;name&quot;</span><span class="o">:</span><span class="s">&quot;joe&quot;</span><span class="p">,</span><span class="s">&quot;age&quot;</span><span class="o">:</span><span class="mi">30</span><span class="p">})</span>
+</pre></div>
+
+
+<p>很显然，第一个参数是查找条件，第二个参数是将满足查找条件的记录替换成当前值。</p>
+<h3>3.4 remove</h3>
+<div class="highlight"><pre><span class="n">db</span><span class="p">.</span><span class="n">person</span><span class="p">.</span><span class="n">remove</span><span class="p">({</span><span class="s">&quot;name&quot;</span><span class="o">:</span><span class="s">&quot;joe&quot;</span><span class="p">})</span>
+</pre></div>
+
+
+<p>注意remove()函数如果没有传进参数，则会删除全部记录，并且不可恢复，因此一定要小心。</p>
+<p>下图演示了上面的几步操作：
+<img alt="" src="http://bupt-image.qiniudn.com/mongodb-5.jpg" /></p>
+<h1>4 在python里访问mongodb</h1>
+<p>相比上面在shell里面操作数据库，更多的时候，我们是在程序里面访问数据库，比如创建表，存储，查找等。首先是在python里import pymongo,这是一个第三方库，你需要自己安装。下面是我写的一个小例子程序，包含了pymongo的常用API.</p>
+<div class="highlight"><pre><span class="n">import</span> <span class="n">os</span>
+<span class="n">import</span> <span class="n">json</span>
+<span class="n">import</span> <span class="n">pymongo</span>
+
+<span class="n">HOST</span> <span class="o">=</span> <span class="err">&#39;</span><span class="mf">127.0.0.1</span><span class="err">&#39;</span>
+<span class="n">PORT</span> <span class="o">=</span> <span class="mi">27017</span>
+
+<span class="n">def</span> <span class="n">parse</span><span class="p">(</span><span class="n">yelp_dir</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">yelp_dir</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="sc">&#39;r&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">eachLine</span> <span class="n">in</span> <span class="n">f</span><span class="o">:</span>
+        <span class="n">content_dict</span> <span class="o">=</span> <span class="n">dict</span><span class="p">()</span>
+        <span class="n">content_dict</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">eachLine</span><span class="p">)</span>
+        <span class="n">conn</span> <span class="o">=</span> <span class="n">pymongo</span><span class="p">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">HOST</span><span class="p">,</span><span class="n">PORT</span><span class="p">)</span>  <span class="c1">//建立连接，参数是IP和端口号</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">yelp</span><span class="p">.</span><span class="n">user</span>          <span class="c1">//创建了一个名为yelp的数据库，并在其下创建名为user的集合</span>
+        <span class="n">db</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">content_dict</span><span class="p">)</span>        <span class="c1">//将数据存到刚刚建立的集合里</span>
+    <span class="n">f</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">db</span><span class="p">.</span><span class="n">insert</span><span class="p">({</span><span class="s">&quot;city&quot;</span><span class="o">:</span><span class="s">&quot;Buffalo&quot;</span><span class="p">,</span><span class="s">&quot;state&quot;</span><span class="o">:</span><span class="s">&quot;New York&quot;</span><span class="p">})</span> <span class="c1">//插入记录</span>
+    <span class="n">db</span><span class="p">.</span><span class="n">remove</span><span class="p">({</span><span class="s">&quot;city&quot;</span><span class="o">:</span><span class="s">&quot;Buffalo&quot;</span><span class="p">,</span><span class="s">&quot;state&quot;</span><span class="o">:</span><span class="s">&quot;New York&quot;</span><span class="p">})</span> <span class="c1">//删除满足条件的记录</span>
+    <span class="n">db</span><span class="p">.</span><span class="n">find</span><span class="p">({</span><span class="s">&quot;state&quot;</span><span class="o">:</span><span class="s">&quot;AZ&quot;</span><span class="p">}).</span><span class="n">count</span><span class="p">()</span>         <span class="c1">//查看记录的统计次数</span>
+    <span class="n">db</span><span class="p">.</span><span class="n">find</span><span class="p">({</span><span class="s">&quot;state&quot;</span><span class="o">:</span><span class="s">&quot;AZ&quot;</span><span class="p">}).</span><span class="n">sort</span><span class="p">(</span><span class="s">&quot;city&quot;</span><span class="p">)</span>    <span class="c1">//对查找结果按city字段排序</span>
+    <span class="n">db</span><span class="p">.</span><span class="n">update</span><span class="p">({</span><span class="s">&quot;city&quot;</span><span class="o">:</span><span class="s">&quot;Buffalo&quot;</span><span class="p">},{</span><span class="s">&quot;$set&quot;</span><span class="o">:</span><span class="p">{</span><span class="s">&quot;Email&quot;</span><span class="o">:</span><span class="s">&quot;libing@126.com&quot;</span><span class="p">,</span><span class="s">&quot;Password&quot;</span><span class="o">:</span><span class="s">&quot;123&quot;</span><span class="p">}})</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="n">in</span> <span class="n">db</span><span class="p">.</span><span class="n">find</span><span class="p">()</span><span class="o">:</span>
+        <span class="n">print</span> <span class="n">item</span><span class="p">[</span><span class="s">&quot;city&quot;</span><span class="p">]</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">db</span><span class="p">.</span><span class="n">find_one</span><span class="p">({</span><span class="s">&quot;city&quot;</span><span class="o">:</span><span class="s">&quot;Yuma&quot;</span><span class="p">,</span> <span class="s">&quot;state&quot;</span><span class="o">:</span><span class="s">&quot;AZ&quot;</span><span class="p">}))</span><span class="o">:</span>                             
+        <span class="n">print</span> <span class="err">&#39;</span><span class="n">oops</span><span class="p">,</span><span class="n">got</span> <span class="n">the</span> <span class="n">city</span><span class="o">!</span><span class="err">&#39;</span>
+                                 <span class="c1">//在集合里查找city字段为Yuma,state字段为AZ的记录，找到就输出</span>
+</pre></div>
+
+
+<h1>5 更高级的mongodb操作</h1>
+<h3>5.1 find</h3>
+<div class="highlight"><pre><span class="err">$</span><span class="n">gt</span><span class="p">,</span> <span class="err">$</span><span class="n">gte</span><span class="p">,</span> <span class="err">$</span><span class="n">lt</span><span class="p">,</span> <span class="err">$</span><span class="n">lte</span><span class="p">,</span> <span class="err">$</span><span class="n">ne</span> <span class="err">分别表示</span><span class="o">&gt;</span><span class="p">,</span><span class="o">&gt;=</span><span class="p">,</span><span class="o">&lt;</span><span class="p">,</span><span class="o">&lt;=</span><span class="p">,</span><span class="o">!=</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="n">db</span><span class="p">.</span><span class="n">person</span><span class="p">.</span><span class="n">find</span><span class="p">({</span><span class="s">&quot;age&quot;</span><span class="o">:</span><span class="p">{</span><span class="err">$</span><span class="n">gt</span><span class="o">:</span><span class="mi">35</span><span class="p">}})</span>
+</pre></div>
+
+
+<h3>5.3 支持正则表达式</h3>
+<div class="highlight"><pre><span class="n">db</span><span class="p">.</span><span class="n">person</span><span class="p">.</span><span class="n">find</span><span class="p">({</span><span class="s">&quot;name&quot;</span><span class="o">:/^</span><span class="n">j</span><span class="o">/</span><span class="p">,</span><span class="s">&quot;name&quot;</span><span class="o">:/</span><span class="n">e</span><span class="err">$</span><span class="o">/</span><span class="p">})</span>  
+</pre></div>
+
+
+<h3>5.2 支持 where</h3>
+<p>有时查询很复杂，很蛋疼，不过没关系，mongodb给我们祭出了大招，它就是$where，</p>
+<div class="highlight"><pre><span class="n">db</span><span class="p">.</span><span class="n">person</span><span class="p">.</span><span class="n">find</span><span class="p">({</span><span class="err">$</span><span class="n">where</span><span class="o">:</span><span class="n">funtion</span><span class="p">(){</span><span class="k">return</span> <span class="n">this</span><span class="p">.</span><span class="n">name</span><span class="o">==</span><span class="s">&quot;jack&quot;</span><span class="p">}})</span>
+</pre></div>
+
+
+<h3>5.3 $set修改器</h3>
+<h3>5.4 update</h3>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "MongoDB.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://buptlixin.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="http://getpelican.com/"><i class="icon-external-link"></i>Pelican</a></li>
+    <li><a href="http://python.org/"><i class="icon-external-link"></i>Python.org</a></li>
+    <li><a href="http://jinja.pocoo.org/"><i class="icon-external-link"></i>Jinja2</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="http://www.v2ex.com/member/buptlee"><i class="icon-V2EX-sign icon-large"></i>V2EX</a></li>
+    <li><a href="http://douban.com/people/77726008"><i class="icon-豆瓣-sign icon-large"></i>豆瓣</a></li>
+    <li><a href="http://github.com/Xiaoxin2009"><i class="icon-Github-sign icon-large"></i>Github</a></li>
+    <li><a href="http://stackoverflow.com/users/3373388/bupt-xiaoxin"><i class="icon-Stackoverflow-sign icon-large"></i>Stackoverflow</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="/category/fen-bu-shi.html">
+    <i class="icon-folder-open icon-large"></i>分布式
+</a>
+</li>
+<li>
+<a href="/category/java.html">
+    <i class="icon-folder-open icon-large"></i>JAVA
+</a>
+</li>
+<li>
+<a href="/category/machine-learning.html">
+    <i class="icon-folder-open icon-large"></i>Machine Learning
+</a>
+</li>
+<li>
+<a href="/category/perl.html">
+    <i class="icon-folder-open icon-large"></i>Perl
+</a>
+</li>
+<li>
+<a href="/category/python.html">
+    <i class="icon-folder-open icon-large"></i>Python
+</a>
+</li>
+<li>
+<a href="/category/scala.html">
+    <i class="icon-folder-open icon-large"></i>Scala
+</a>
+</li>
+<li>
+<a href="/category/shu-ju-ku.html">
+    <i class="icon-folder-open icon-large"></i>数据库
+</a>
+</li>
+<li>
+<a href="/category/technology.html">
+    <i class="icon-folder-open icon-large"></i>Technology
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-3">
+    <a href="/tag/storm.html">
+        <i class="icon-tag icon-large"></i>Storm
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/zheng-ze-biao-da-shi.html">
+        <i class="icon-tag icon-large"></i>正则表达式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/machine-learning.html">
+        <i class="icon-tag icon-large"></i>Machine Learning
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hadoop.html">
+        <i class="icon-tag icon-large"></i>Hadoop
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/perl.html">
+        <i class="icon-tag icon-large"></i>Perl
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/scala.html">
+        <i class="icon-tag icon-large"></i>scala
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programming.html">
+        <i class="icon-tag icon-large"></i>functional programming
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/svm.html">
+        <i class="icon-tag icon-large"></i>SVM
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/mongodb.html">
+        <i class="icon-tag icon-large"></i>MongoDB
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hash.html">
+        <i class="icon-tag icon-large"></i>Hash
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/sql.html">
+        <i class="icon-tag icon-large"></i>SQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/github.html">
+        <i class="icon-tag icon-large"></i>Github
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hdfs.html">
+        <i class="icon-tag icon-large"></i>HDFS
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/nosql.html">
+        <i class="icon-tag icon-large"></i>NoSQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programing.html">
+        <i class="icon-tag icon-large"></i>functional programing
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/java.html">
+        <i class="icon-tag icon-large"></i>java
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-50849437-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'buptlixin';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

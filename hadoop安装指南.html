@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>hadoop安装指南</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Li,Gongfu">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="/" type="application/atom+xml" rel="alternate" title="晓新's Blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/index.html">晓新's Blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li class="active">
+                    <a href="/category/fen-bu-shi.html">
+						<i class="icon-folder-open icon-large"></i>分布式
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/java.html">
+						<i class="icon-folder-open icon-large"></i>JAVA
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/machine-learning.html">
+						<i class="icon-folder-open icon-large"></i>Machine Learning
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/perl.html">
+						<i class="icon-folder-open icon-large"></i>Perl
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/python.html">
+						<i class="icon-folder-open icon-large"></i>Python
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/scala.html">
+						<i class="icon-folder-open icon-large"></i>Scala
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/shu-ju-ku.html">
+						<i class="icon-folder-open icon-large"></i>数据库
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/technology.html">
+						<i class="icon-folder-open icon-large"></i>Technology
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to hadoop安装指南">
+                                        hadoop安装指南
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-05-07T20:20:00">
+        <i class="icon-calendar"></i>三 07 五月 2014
+</abbr>
+<span class="label">By</span>
+<a href="/author/ligongfu.html"><i class="icon-user"></i>Li,Gongfu</a>
+<span class="label">Category</span>
+<a href="/category/fen-bu-shi.html"><i class="icon-folder-open"></i>分布式</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/hadoop.html"><i class="icon-tag"></i>Hadoop</a>
+</footer><!-- /.post-info -->                </div>
+                <p>经过半个星期的折腾，终于搭起来一个hadoop-2.4.0 3节点的集群，跑了个wordcount例程，回过头来总结一下。</p>
+<h1>1. 准备工作</h1>
+<p>在安装hadoop之前有很多东西需要做。</p>
+<h2>1.1 创建分布式用户</h2>
+<p>hadoop 要求所有的机器有相同的用户名，这时hadoop最基本的要求，我取的名字是hdusr。
+   <code>sudo useradd hdusr</code>
+在ubuntu下这个命令会自动创建一个同名字的用户组，但是suse则不同，这个命令只是创建了hdusr用户，没有它的分组，这个时候需要手动的创建同名group：
+   <code>sudo groupadd hdusr</code>
+然后修改把hdusr用户加入到hdusr用户组中：
+可以直接修改/etc/group文件，在hdusr用户组后面添加上hdusr就行了。当然也可以使用命令行来做，但是其实命令行也是去修改/etc/group文件和/etc/passwd文件，直接用vim修改就行了。更简单。
+好了，从现在开始，下面所有的步骤你都应该在hdusr下面去做，尽管我不知道不这么做有什么不行，但是我还是建议你这么做。</p>
+<h2>1.2 java环境</h2>
+<p>要求安装jdk6及以上版本。推荐jdk6和jdk7.
+安装方法网上很多，我就不赘述了。简单的说就是就是解压，修改/etc/profile，source /etc/profile。</p>
+<h2>1.3 maven环境</h2>
+<p>maven是用来编译hadoop安装文件的，64位的hadoop与32位的不同，需要在自己的机器上本地编译，要下载一些依赖库，不同的机器环境可能不太一样，所以最好还是在自己的机器上编译源文件。
+大家可以执行一下 <code>mnv -v</code>命令看看自己是什么版本的，我装的是maven-3.2.1。
+安装的方法非常简单，就是下载，解压到制定地方，例如/usr/local，修改环境变量</p>
+<div class="highlight"><pre><span class="n">export</span> <span class="n">MAVEN_HOME</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">maven</span>
+<span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="err">$</span><span class="n">PATH</span><span class="o">:</span><span class="err">$</span><span class="n">MAVEN_HOME</span><span class="o">/</span><span class="n">bin</span>
+</pre></div>
+
+
+<p><strong>生效</strong>：</p>
+<div class="highlight"><pre><span class="n">source</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">profile</span>
+</pre></div>
+
+
+<p>在这里我犯了个错误，用了</p>
+<div class="highlight"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">maven2</span>
+</pre></div>
+
+
+<p>来安装，结果装了个低版本的maven.编译的时候出了问题，改成自己手动安装，配置环境变量之后发现<code>mvn -v</code>的结果还是<code>maven2</code>,而不是我刚刚装的maven3.2.1，原因是bash会先去/usr/bin下去找maven，如果没找到才会去/etc/profile下去找，所以即使我配置来环境变量，一样没用。其实可以用<code>which mvn</code> 查看bash是去哪儿取的maven命令，我解决的办法是</p>
+<div class="highlight"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">remove</span> <span class="n">maven2</span>
+</pre></div>
+
+
+<h2>1.4 protobuf环境</h2>
+<p>protobuf工具在我们编译hadoop源文件时会用到，我就不解释了，引用官方文档：</p>
+<blockquote>
+<p>Protocol buffers are Google’s language-neutral, platform-neutral, extensible mechanism for serializing structured data – think XML, but smaller, faster, and simpler.</p>
+</blockquote>
+<p>可以在<a href="https://code.google.com/p/protobuf/downloads/list">这里</a>下载到最新的版本protobuf-2.5.0。
+安装方法：</p>
+<div class="highlight"><pre> <span class="n">tar</span> <span class="o">-</span><span class="n">xvzf</span> <span class="n">protobuf</span><span class="o">-</span><span class="mf">2.5.0</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span> 
+ <span class="n">cd</span> <span class="n">protobuf</span><span class="o">-</span><span class="mf">2.5.0</span> 
+ <span class="p">.</span><span class="o">/</span><span class="n">configure</span> <span class="o">--</span><span class="n">prefix</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">protobuf</span> <span class="p">(</span><span class="err">这里是你想安装的位置</span><span class="p">)</span>
+ <span class="n">make</span> 
+ <span class="n">make</span> <span class="n">check</span> 
+ <span class="n">make</span> <span class="n">install</span> 
+</pre></div>
+
+
+<p>我在执行./configure步骤的时候出了个奇怪的错误</p>
+<blockquote>
+<p><strong>C compiler cannot create executables</strong></p>
+</blockquote>
+<p>可能是因为你的linux编译器有问题，有点系统可能gcc版本比较旧。可以这样：</p>
+<div class="highlight"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">gcc</span> <span class="n">g</span><span class="o">++</span>
+<span class="n">export</span> <span class="n">LIBS</span><span class="o">=</span>
+<span class="n">export</span> <span class="n">CFLAGS</span><span class="o">=</span>
+</pre></div>
+
+
+<p>我做了之后发现还是没用，最后是切换到root用户下执行./configue等，我是受到有同学说可能是权限问题造成的，我表示怀疑，anyway，总算是解决了。</p>
+<p><strong>修改/etc/profile</strong>：</p>
+<div class="highlight"><pre> <span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="err">$</span><span class="n">PATH</span><span class="o">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">protobuf</span><span class="o">/</span><span class="n">bin</span>
+ <span class="n">export</span> <span class="n">PKG_CONFIG_PATH</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">protobuf</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">pkgconfig</span>
+</pre></div>
+
+
+<p><strong>生效</strong>：
+ <code>source /etc/profile</code>
+ <strong>配置动态链接库</strong>:</p>
+<div class="highlight"><pre> <span class="n">sudo</span> <span class="n">vim</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ld</span><span class="p">.</span><span class="n">so</span><span class="p">.</span><span class="n">conf</span>
+ <span class="p">(</span><span class="err">在后面插入</span><span class="p">)</span><span class="err">：</span>
+ <span class="n">include</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">protobuf</span><span class="o">/</span><span class="n">lib</span>
+ <span class="n">su</span>  <span class="err">#</span><span class="n">root</span> <span class="err">权限</span>
+ <span class="n">ldconfig</span>
+</pre></div>
+
+
+<p><strong>测试，查看版本</strong>：
+ <code>protoc --version</code></p>
+<p>如果显示：<code>libprotoc 2.5.0</code>你就妥了。</p>
+<h1>2 配置 /etc/hosts和/etc/hostname</h1>
+<h2>2.1 主机名</h2>
+<p>先为每台机器取个主机名，这是为了用ssh命令的时候可以用主机名代替网址，方便输入。主机名是保存在/etc/hostname文件中的。
+我为集群设置的主机名为：</p>
+<ul>
+<li>master</li>
+<li>hdslave1</li>
+<li>hdslave2</li>
+</ul>
+<p>分别到各个机器上修改/etc/hostname即可。</p>
+<h2>2.2 /etc/hosts</h2>
+<p>打开/etc/hosts 插入下面三行。</p>
+<div class="highlight"><pre><span class="mf">10.103.12.243</span>   <span class="n">master</span>
+<span class="mf">10.103.12.80</span>    <span class="n">hdslave1</span>
+<span class="mf">10.103.15.75</span>    <span class="n">hdslave2</span>
+</pre></div>
+
+
+<p>这一步是在每个机器上都要做的，并且是一样的。
+做完这一步之后，机器互相之间应该能用类似于 <code>ping hdslave1</code>这样的主机名ping通。</p>
+<h1>3 配置SSH</h1>
+<p>hadoop控制脚本是通过ssh来执行针对整个集群的操作的，需要允许hadoop用户无需输入密码即可访问到集群内的机器，方法是：在master上创建一对公玥/私玥，并将master上的公玥拷贝到各个slave上。
+<strong>master</strong>：</p>
+<div class="highlight"><pre><span class="n">scd</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">hduser</span>
+<span class="n">sudo</span> <span class="n">mkdir</span> <span class="p">.</span><span class="n">ssh</span><span class="err">（如果没有这个文件的话）</span>
+<span class="n">ssh</span><span class="o">-</span><span class="n">keygen</span> <span class="o">-</span><span class="n">t</span> <span class="n">rsa</span> <span class="err">（会创建一对公玥</span><span class="o">/</span><span class="err">私玥）</span>
+<span class="n">cat</span> <span class="p">.</span><span class="n">ssh</span><span class="o">/</span><span class="n">id_rsa</span><span class="p">.</span><span class="n">pub</span> <span class="o">&gt;&gt;</span> <span class="p">.</span><span class="n">ssh</span><span class="o">/</span><span class="n">authorized_keys</span><span class="p">(</span><span class="err">创建</span><span class="n">authorized_keys</span><span class="err">文件，并写入公玥</span><span class="p">)</span>
+</pre></div>
+
+
+<p><strong>测试一下</strong>：</p>
+<div class="highlight"><pre><span class="n">ssh</span> <span class="n">localhost</span>
+</pre></div>
+
+
+<p>第一次应该是有提问，回答yes即可，以后登录就应该会免问答了。</p>
+<p><strong>slave</strong>
+步骤跟master一样，不同地方在于是将master的id_rsa.pub 拷贝到其authorized_keys中。
+<strong>测试</strong>
+在master上分别</p>
+<div class="highlight"><pre><span class="n">ssh</span> <span class="n">hdslave1</span>
+<span class="n">ssh</span> <span class="n">hdslave2</span>
+</pre></div>
+
+
+<p>看能不能无密码登录，如果能，则说明可以了。第一次登可能要问答一下，以后就不需要了。</p>
+<h1>4 安装hadoop</h1>
+<h2>4.1 编译hadoop安装包</h2>
+<p>64bit与32bit不同之处在于，64bit需要在本地编译，借助maven来完成。
+首先下载<a href="http://www.gaidso.com/apache/hadoop/common/">源文件</a>,我下载的是hadoop-2.4.0-src.tar.gz,解压并用maven编译：</p>
+<div class="highlight"><pre><span class="n">tar</span> <span class="o">-</span><span class="n">xvzf</span> <span class="n">hadoop</span><span class="o">-</span><span class="mf">2.4.0</span><span class="o">-</span><span class="n">src</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span>
+<span class="n">cd</span> <span class="n">hadoop</span><span class="o">-</span><span class="mf">2.4.0</span><span class="o">-</span><span class="n">src</span>
+<span class="n">mvn</span> <span class="n">package</span> <span class="o">-</span><span class="n">Pdist</span><span class="p">,</span><span class="n">native</span> <span class="o">-</span><span class="n">DskipTests</span> <span class="o">-</span><span class="n">Dtar</span> <span class="o">-</span><span class="n">e</span> <span class="o">-</span><span class="n">X</span> 
+</pre></div>
+
+
+<p>正常应该不会有错了，如果出错了也不要慌，我安装花费的至少一半时间都在这一步上面。我就遇到了下面的错误，废了很大劲，最后看到stackoverflow上有同学说可能是权限问题。</p>
+<blockquote>
+<p>[ERROR] Failed to execute goal org.apache.maven.plugins:maven-antrun-plugin:1.6:run (create-testdirs) on project hadoop-project</p>
+</blockquote>
+<p>我解决的方法是：</p>
+<div class="highlight"><pre><span class="n">sudo</span> <span class="n">chown</span> <span class="o">-</span><span class="n">R</span> <span class="n">hdusr</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">bupt</span><span class="o">/</span><span class="n">hadoop</span><span class="o">-</span><span class="mf">2.4.0</span><span class="o">-</span><span class="n">src</span>
+</pre></div>
+
+
+<p>果然好了。
+编译的过程还取决于网速，至少两三个小时吧，这个过程就不要等啦，干点别的吧。</p>
+<h2>4.2 安装</h2>
+<p>编译好的安装包在<code>hadoop-2.2.0-src/hadoop-dist/target/hadoop-2.4.0/</code>目录下 ,你需要把它拷贝到你想安装的地方，例如我的：</p>
+<div class="highlight"><pre><span class="n">sudo</span> <span class="n">mv</span> <span class="n">hadoop</span><span class="o">-</span><span class="mf">2.4.0</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span>
+<span class="n">sudo</span> <span class="n">mv</span> <span class="n">hadoop</span><span class="o">-</span><span class="mf">2.4.0</span> <span class="n">hadoop</span>
+</pre></div>
+
+
+<p>将hadoop文件夹的权限赋给hdusr用户：</p>
+<div class="highlight"><pre><span class="n">cd</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span>
+<span class="n">sudo</span> <span class="n">chown</span> <span class="o">-</span><span class="n">R</span> <span class="n">hdusr</span><span class="o">:</span><span class="n">hdusr</span> <span class="n">hadoop</span>
+</pre></div>
+
+
+<h2>4.3 Edit /etc/profile</h2>
+<div class="highlight"><pre><span class="n">export</span> <span class="n">HADOOP_HOME</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">hadoop</span>
+<span class="n">export</span> <span class="n">HADOOP_MAPRED_HOME</span><span class="o">=</span><span class="err">$</span><span class="n">HADOOP_HOME</span>
+<span class="n">export</span> <span class="n">HADOOP_COMMON_HOME</span><span class="o">=</span><span class="err">$</span><span class="n">HADOOP_HOME</span>
+<span class="n">export</span> <span class="n">HADOOP_HDFS_HOME</span><span class="o">=</span><span class="err">$</span><span class="n">HADOOP_HOME</span>
+<span class="n">export</span> <span class="n">YARN_HOME</span><span class="o">=</span><span class="err">$</span><span class="n">HADOOP_HOME</span>
+<span class="n">export</span> <span class="n">HADOOP_CONF_DIR</span><span class="o">=</span><span class="err">$</span><span class="n">HADOOP_HOME</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">hadoop</span>
+<span class="n">export</span> <span class="n">YARN_CONF_DIR</span><span class="o">=</span><span class="err">$</span><span class="n">HADOOP_HOME</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">hadoop</span>
+</pre></div>
+
+
+<h2>4.4 Edit Hadoop environment files</h2>
+<ul>
+<li>hadoop/libexec/hadoop­config.sh 
+  在文件的开头插入</li>
+</ul>
+<div class="highlight"><pre>    <span class="n">export</span> <span class="n">JAVA_HOME</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">jvm</span><span class="o">/</span><span class="n">jdk1</span><span class="mf">.6.0</span>
+</pre></div>
+
+
+<ul>
+<li>hadoop/etc/hadoop/yarn-­env.sh 
+  在文件的开头插入</li>
+</ul>
+<div class="highlight"><pre>    <span class="n">export</span> <span class="n">JAVA_HOME</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">jvm</span><span class="o">/</span><span class="n">jdk1</span><span class="mf">.6.0</span>
+    <span class="n">export</span> <span class="n">HADOOP_HOME</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">hadoop</span>
+    <span class="n">export</span> <span class="n">HADOOP_MAPRED_HOME</span><span class="o">=</span><span class="err">$</span><span class="n">HADOOP_HOME</span>
+    <span class="n">export</span> <span class="n">HADOOP_COMMON_HOME</span><span class="o">=</span><span class="err">$</span><span class="n">HADOOP_HOME</span>
+    <span class="n">export</span> <span class="n">HADOOP_HDFS_HOME</span><span class="o">=</span><span class="err">$</span><span class="n">HADOOP_HOME</span>
+    <span class="n">export</span> <span class="n">YARN_HOME</span><span class="o">=</span><span class="err">$</span><span class="n">HADOOP_HOME</span>
+    <span class="n">export</span> <span class="n">HADOOP_CONF_DIR</span><span class="o">=</span><span class="err">$</span><span class="n">HADOOP_HOME</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">hadoop</span>
+    <span class="n">export</span> <span class="n">YARN_CONF_DIR</span><span class="o">=</span><span class="err">$</span><span class="n">HADOOP_HOME</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">hadoop</span>
+</pre></div>
+
+
+<h2>4.5 建立tmp文件夹</h2>
+<div class="highlight"><pre><span class="n">cd</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">hadoop</span>
+<span class="n">sudo</span> <span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="n">tmp</span>
+</pre></div>
+
+
+<h2>4.6 配置configuration files</h2>
+<p>下面的配置对所有的机器都是一样的。</p>
+<ul>
+<li>4.6.1 $HADOOP_CONF_DIR/core-­site.xml:</li>
+</ul>
+<div class="highlight"><pre><span class="nt">&lt;configuration&gt;</span>
+<span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;name&gt;</span>fs.default.name<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;value&gt;</span>hdfs://master:9000<span class="nt">&lt;/value&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;name&gt;</span>hadoop.tmp.dir<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;value&gt;</span>/usr/local/hadoop/tmp<span class="nt">&lt;/value&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+    <span class="nt">&lt;property&gt;</span>
+        <span class="nt">&lt;name&gt;</span>fs.defaultFS<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;value&gt;</span>hdfs://master:9000<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</pre></div>
+
+
+<p><strong>fs.default.name</strong> 这是一个描述集群中NameNode结点的URI(包括协议、主机名称、端口号)，集群里面的每一台机器都需要知道NameNode的地址。DataNode结点会先在NameNode上注册，这样它们的数据才可以被使用。独立的客户端程序通过这个URI跟DataNode交互，以取得文件的块列表.</p>
+<p><strong>hadoop.tmp.dir</strong> 是hadoop文件系统依赖的基础配置，很多路径都依赖它。</p>
+<ul>
+<li>4.6.2 $HADOOP_CONF_DIR/hdfs-­site.xml :</li>
+</ul>
+<div class="highlight"><pre><span class="nt">&lt;configuration&gt;</span>
+
+<span class="nt">&lt;property&gt;</span>
+        <span class="nt">&lt;name&gt;</span>dfs.replication<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;value&gt;</span>3<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;/property&gt;</span>
+ <span class="nt">&lt;property&gt;</span>
+     <span class="nt">&lt;name&gt;</span>dfs.permissions<span class="nt">&lt;/name&gt;</span>
+     <span class="nt">&lt;value&gt;</span>false<span class="nt">&lt;/value&gt;</span>
+   <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</pre></div>
+
+
+<p><strong>dfs.replication</strong> : 它决定着系统里面的文件块的数据备份个数。对于一个实际的应用，它 应该被设为3（这个数字并没有上限，但更多的备份可能并没有作用，而且会占用更多的空间）。少于三个的备份，可能会影响到数据的可靠性(系统故障时，也许会造成数据丢失).</p>
+<p><strong>dfs.permissions</strong> : If "true", enable permission checking in HDFS. If "false", permission checking is turned off,   but all other behavior is unchanged. Switching from one parameter value to the other does   not change the mode, owner or group of files or directories.</p>
+<ul>
+<li>4.6.3 $HADOOP_CONF_DIR/mapred-­site.xml :</li>
+</ul>
+<div class="highlight"><pre><span class="nt">&lt;configuration&gt;</span>
+<span class="nt">&lt;property&gt;</span>
+        <span class="nt">&lt;name&gt;</span>mapreduce.framework.name<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;value&gt;</span>yarn<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;property&gt;</span>
+       <span class="nt">&lt;name&gt;</span>mapred.job.tracker<span class="nt">&lt;/name&gt;</span>
+      <span class="nt">&lt;value&gt;</span>master:9001<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</pre></div>
+
+
+<p><strong>mapred.job.tracker</strong> JobTracker的主机（或者IP）和端口.</p>
+<ul>
+<li>4.6.4 $HADOOP_CONF_DIR/yarn-­site.xml :</li>
+</ul>
+<div class="highlight"><pre><span class="nt">&lt;configuration&gt;</span>
+    <span class="nt">&lt;property&gt;</span>
+        <span class="nt">&lt;name&gt;</span>yarn.nodemanager.aux-services<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;value&gt;</span>mapreduce_shuffle<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;name&gt;</span>yarn.nodemanager.aux-services.mapreduce.shuffle.class<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;value&gt;</span>org.apache.hadoop.mapred.ShuffleHandler<span class="nt">&lt;/value&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;name&gt;</span>yarn.resourcemanager.resource-tracker.address<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;value&gt;</span>master:8025<span class="nt">&lt;/value&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;name&gt;</span>yarn.resourcemanager.scheduler.address<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;value&gt;</span>master:8030<span class="nt">&lt;/value&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;name&gt;</span>yarn.resourcemanager.address<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;value&gt;</span>master:8040<span class="nt">&lt;/value&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</pre></div>
+
+
+<ul>
+<li>4.6.5 $HADOOP_CONF_DIR/slaves
+写入slave名字：</li>
+</ul>
+<div class="highlight"><pre><span class="n">hdslave1</span>
+<span class="n">hdslave2</span>
+</pre></div>
+
+
+<h2>4.7 format the namenode</h2>
+<div class="highlight"><pre><span class="n">cd</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">hadoop</span>
+<span class="n">bin</span><span class="o">/</span><span class="n">hadoop</span> <span class="n">namenode</span> <span class="o">-</span><span class="n">format</span>
+</pre></div>
+
+
+<h1>5 测试</h1>
+<h2>5.1  Start Hadoop Daemons</h2>
+<div class="highlight"><pre><span class="n">sbin</span><span class="o">/</span><span class="n">hadoop</span><span class="o">-</span><span class="n">daemon</span><span class="p">.</span><span class="n">sh</span> <span class="n">start</span> <span class="n">namenode</span>
+<span class="n">sbin</span><span class="o">/</span><span class="n">hadoop</span><span class="o">-</span><span class="n">daemons</span><span class="p">.</span><span class="n">sh</span> <span class="n">start</span> <span class="n">datanode</span>
+<span class="n">sbin</span><span class="o">/</span><span class="n">yarn</span><span class="o">-</span><span class="n">daemon</span><span class="p">.</span><span class="n">sh</span> <span class="n">start</span> <span class="n">resourcemanager</span>
+<span class="n">sbin</span><span class="o">/</span><span class="n">yarn</span><span class="o">-</span><span class="n">daemons</span><span class="p">.</span><span class="n">sh</span> <span class="n">start</span> <span class="n">nodemanager</span>
+<span class="n">sbin</span><span class="o">/</span><span class="n">mr</span><span class="o">-</span><span class="n">jobhistory</span><span class="o">-</span><span class="n">daemon</span><span class="p">.</span><span class="n">sh</span> <span class="n">start</span> <span class="n">historyserver</span>
+</pre></div>
+
+
+<h2>5.2 检查进程</h2>
+<div class="highlight"><pre><span class="n">jps</span>
+</pre></div>
+
+
+<p>对于master，应该有如下进程：
+<img alt="" src="http://bupt-image.qiniudn.com/hadoop2.png" /></p>
+<p>对于slave：
+<img alt="" src="http://bupt-image.qiniudn.com/hadoop3.png" /></p>
+<h2>5.3 运行例程验证安装</h2>
+<div class="highlight"><pre><span class="n">bin</span><span class="o">/</span><span class="n">hadoop</span> <span class="n">jar</span> <span class="n">share</span><span class="o">/</span><span class="n">hadoop</span><span class="o">/</span><span class="n">mapreduce</span><span class="o">/</span><span class="n">hadoop</span><span class="o">-</span><span class="n">mapreduce</span><span class="o">-</span><span class="n">examples</span><span class="o">-</span><span class="mf">2.4.0</span><span class="p">.</span><span class="n">jar</span> <span class="n">randomwriter</span> <span class="n">out</span>
+</pre></div>
+
+
+<p><img alt="" src="http://bupt-image.qiniudn.com/hadoop4.png" />
+可以看到job已经开始map了。</p>
+<h2>5.4 网页ui</h2>
+<p>在浏览器中输入localhost:50070/dfshealth.html#tab-overview
+可以看到这样的网页。
+<img alt="" src="http://bupt-image.qiniudn.com/hadoop5.png" /> </p>
+<p><strong>Celebrate &amp; Congratulations!</strong></p>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "hadoop安装指南.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://buptlixin.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="http://getpelican.com/"><i class="icon-external-link"></i>Pelican</a></li>
+    <li><a href="http://python.org/"><i class="icon-external-link"></i>Python.org</a></li>
+    <li><a href="http://jinja.pocoo.org/"><i class="icon-external-link"></i>Jinja2</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="http://www.v2ex.com/member/buptlee"><i class="icon-V2EX-sign icon-large"></i>V2EX</a></li>
+    <li><a href="http://douban.com/people/77726008"><i class="icon-豆瓣-sign icon-large"></i>豆瓣</a></li>
+    <li><a href="http://github.com/Xiaoxin2009"><i class="icon-Github-sign icon-large"></i>Github</a></li>
+    <li><a href="http://stackoverflow.com/users/3373388/bupt-xiaoxin"><i class="icon-Stackoverflow-sign icon-large"></i>Stackoverflow</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="/category/fen-bu-shi.html">
+    <i class="icon-folder-open icon-large"></i>分布式
+</a>
+</li>
+<li>
+<a href="/category/java.html">
+    <i class="icon-folder-open icon-large"></i>JAVA
+</a>
+</li>
+<li>
+<a href="/category/machine-learning.html">
+    <i class="icon-folder-open icon-large"></i>Machine Learning
+</a>
+</li>
+<li>
+<a href="/category/perl.html">
+    <i class="icon-folder-open icon-large"></i>Perl
+</a>
+</li>
+<li>
+<a href="/category/python.html">
+    <i class="icon-folder-open icon-large"></i>Python
+</a>
+</li>
+<li>
+<a href="/category/scala.html">
+    <i class="icon-folder-open icon-large"></i>Scala
+</a>
+</li>
+<li>
+<a href="/category/shu-ju-ku.html">
+    <i class="icon-folder-open icon-large"></i>数据库
+</a>
+</li>
+<li>
+<a href="/category/technology.html">
+    <i class="icon-folder-open icon-large"></i>Technology
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-3">
+    <a href="/tag/storm.html">
+        <i class="icon-tag icon-large"></i>Storm
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/zheng-ze-biao-da-shi.html">
+        <i class="icon-tag icon-large"></i>正则表达式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/machine-learning.html">
+        <i class="icon-tag icon-large"></i>Machine Learning
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hadoop.html">
+        <i class="icon-tag icon-large"></i>Hadoop
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/perl.html">
+        <i class="icon-tag icon-large"></i>Perl
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/scala.html">
+        <i class="icon-tag icon-large"></i>scala
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programming.html">
+        <i class="icon-tag icon-large"></i>functional programming
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/svm.html">
+        <i class="icon-tag icon-large"></i>SVM
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/mongodb.html">
+        <i class="icon-tag icon-large"></i>MongoDB
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hash.html">
+        <i class="icon-tag icon-large"></i>Hash
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/sql.html">
+        <i class="icon-tag icon-large"></i>SQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/github.html">
+        <i class="icon-tag icon-large"></i>Github
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hdfs.html">
+        <i class="icon-tag icon-large"></i>HDFS
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/nosql.html">
+        <i class="icon-tag icon-large"></i>NoSQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programing.html">
+        <i class="icon-tag icon-large"></i>functional programing
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/java.html">
+        <i class="icon-tag icon-large"></i>java
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-50849437-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'buptlixin';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

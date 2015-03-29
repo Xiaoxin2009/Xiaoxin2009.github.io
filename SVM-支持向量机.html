@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>SVM-支持向量机</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Li,Gongfu">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="/" type="application/atom+xml" rel="alternate" title="晓新's Blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/index.html">晓新's Blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="/category/fen-bu-shi.html">
+						<i class="icon-folder-open icon-large"></i>分布式
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/java.html">
+						<i class="icon-folder-open icon-large"></i>JAVA
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="/category/machine-learning.html">
+						<i class="icon-folder-open icon-large"></i>Machine Learning
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/perl.html">
+						<i class="icon-folder-open icon-large"></i>Perl
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/python.html">
+						<i class="icon-folder-open icon-large"></i>Python
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/scala.html">
+						<i class="icon-folder-open icon-large"></i>Scala
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/shu-ju-ku.html">
+						<i class="icon-folder-open icon-large"></i>数据库
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/technology.html">
+						<i class="icon-folder-open icon-large"></i>Technology
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to SVM-支持向量机">
+                                        SVM-支持向量机
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-04-09T10:22:00">
+        <i class="icon-calendar"></i>三 09 四月 2014
+</abbr>
+<span class="label">By</span>
+<a href="/author/ligongfu.html"><i class="icon-user"></i>Li,Gongfu</a>
+<span class="label">Category</span>
+<a href="/category/machine-learning.html"><i class="icon-folder-open"></i>Machine Learning</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/svm.html"><i class="icon-tag"></i>SVM</a>
+</footer><!-- /.post-info -->                </div>
+                <p>最近因为要在实验室大组例会上做报告的原因，需要讲一下SVM算法，花了两个星期仔细研究了SVM算法，也用libsvm包做了些实验。SVM是目前最重要的机器学习算法之一，这篇博客会着重讲数学原理，泛泛而谈的东西网上太多了，看了没啥用，当然肯定会介绍一下当前的研究热点。可能很多同学都知道这个技术，甚至多次使用过，但是我敢说一半以上的同学都不太清楚原理，甚至支持向量机分为三种：线性可分，线性不可分，非线性可分，为啥要叫支持向量机，都不清楚，我不会笑话你，因为几乎两周前我也不知道。我会尽量简单的介绍SVM中的数学原理，相信你一定能看懂，哪怕你的线性代数曾经挂过科，Let's have a try。</p>
+<h1>SVM简介</h1>
+<ul>
+<li>SVM它本质上即是一个二类分类方法，它的基本模型是定义在特征空间上的间隔最大的线性分类器，间隔最大化使它有别于感知机。对于现行可分的训练集，感知机的分离超平面是不惟一的，有无穷多个。依赖于初始值(w,b)的选择，也依赖于迭代过程中误分类点的选择顺序，如果想得到唯一的超平面，需要对分离超平面增加约束条件。而这正是支持向量机的想法。当训练集线性不可分时，感知及学习算法不收敛，迭代结果会发生震荡。这时就需要借助核方法来解决问题了。</li>
+<li>支持向量机还包括核技巧，这使它成为实质上的非线性分类器。</li>
+<li>支持向量机的学习策略是间隔最大化，可形式化为一个求解凸二次规划的问题。</li>
+<li>给定线性可分训练数据集，通过间隔最大化学习到分离超平面：</li>
+</ul>
+<div class="highlight"><pre>                                <span class="n">w</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">b</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+
+
+<p>以及相应的分类决策函数：</p>
+<div class="highlight"><pre>                                <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">=</span><span class="n">sign</span><span class="p">(</span><span class="n">w</span><span class="p">.</span><span class="n">x</span><span class="o">+</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+
+
+<p>如下图</p>
+<p><img alt="" src="http://bupt-image.qiniudn.com/SVM-1.png" /></p>
+<h1>SVM的原理</h1>
+<p>在讲SVM的模型之前，首先要明确几个概念。</p>
+<h3>函数间隔和几何间隔</h3>
+<p>对训练数据集找到几何间隔最大的超平面意味着以充分大的确信度对训练数据进行分类。即，既要将正负实例点分开，又要对最难分的实例点（离超平面最近的点）也有足够大的确信度将他们分开。这样的超平面应该对未知的新实例有较好的分类预测能力。</p>
+<p><img alt="" src="http://bupt-image.qiniudn.com/SVM-2.png" />
+如上图，红色和黑色的平面都能将 <code>红/蓝</code>两类分开，但红色平面更好，因为它使得离它最近的样本点的距离更大了，用它来分类有更大的确信度。</p>
+<ul>
+<li>函数间隔</li>
+</ul>
+<div class="highlight"><pre>                    <span class="err">ŕ</span><span class="n">i</span><span class="o">=</span><span class="n">yi</span><span class="p">(</span><span class="n">w</span><span class="p">.</span><span class="n">xi</span><span class="o">+</span><span class="n">b</span><span class="p">)</span>
+                    <span class="err">ŕ</span><span class="o">=</span><span class="n">min</span>  <span class="err">ŕ</span><span class="n">i</span>               <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mf">2.</span><span class="p">.</span><span class="n">N</span>
+</pre></div>
+
+
+<ul>
+<li>
+<p>几何间隔</p>
+<p><img alt="" src="http://bupt-image.qiniudn.com/SVM-3.png" /></p>
+</li>
+</ul>
+<p>可以看到函数间隔是变化的，它随着w，b值不同而不同，如果w，b成比例增加，分离超平面没有变，但函数间隔却变了。而几何间隔则不同，它是固定的，是将函数间隔用||w||归一化的结果。</p>
+<h3>最大间隔法</h3>
+<p>我们的目的可以表示为下面的约束最优化问题：
+      <img alt="" src="http://bupt-image.qiniudn.com/SVM-4.png" />
+约束条件表示超平面（w,b）关于每个训练样本的几何间隔至少是 r。考虑到几何间隔和函数间隔的关系，可将上式改写成：
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-5.png" />
+函数间隔r'的取值并不影响最优化问题的求解。于是可取r'=1。注意到
+最大化<img alt="" src="http://bupt-image.qiniudn.com/SVM-6.png" />和最小化<img alt="" src="http://bupt-image.qiniudn.com/SVM-7.png" />             是等价的。于是就得到下面的线性可分支持向
+量机学习的最优化问题：
+ <img alt="" src="http://bupt-image.qiniudn.com/SVM-8.png" /></p>
+<h3>支持向量</h3>
+<p>训练数据集的样本点中与分离超平面距离最近的样本点的实例称为支持向量。即满足约束条件的点：
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-9.png" />
+在决定分离超平面的时候，只有支持向量起作用，如果移动支持向量将改变所求的解，但是移动间隔之外的点，不会改变解.支持向量的个数一般很少，所以支持向量机由很少的“重要的”训练样本确定。这也是为什么成为支持向量机算法的原因，这里的机可以理解成为算法的意思，比如感知机，玻尔兹曼机等等。通过下图可以清晰的看到支持向量对于决定分离超平面的决定作用。
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-10.png" /></p>
+<p>搞清楚函数间隔，几何间隔，最大间隔法，支持向量以及我们的目标函数之后，就可以来看看SVM的基本模型吧。</p>
+<h1>SVM的三种模型</h1>
+<p>根据数据集是否线性可分，可以将SVM分成线性可分支持向量机，线性支持向量机，非线性支持向量机。</p>
+<h2>线性可分支持向量机与硬间隔最大化</h2>
+<p>通过构建拉格朗日函数将原始问题转化为对偶问题：
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-11.png" />
+求解：
+<img alt="" src="http://bupt-image.qiniudn.com/svm-12.png" /></p>
+<p>代入原式，得对偶目标函数为：
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-13.png" />
+求解最优解a，再根据a求解 w,b.
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-14.png" /></p>
+<p>并选择一个a的正分量ai，计算：
+<img alt="" src="http://bupt-image.qiniudn.com/SVM15.png" /></p>
+<p>正分量ai对应的样本点(xi,yi)称为支持向量。
+求的分类超平面： 
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-16.png" />
+分类决策函数：
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-17.png" /></p>
+<p>分类决策函数只依赖于输入x和训练样本输入的内积。
+这种算法称为线性可分支持向量机的对偶学习算法，是线性可分支持向量机学习的基本算法。</p>
+<h2>线性支持向量机与软间隔最大化</h2>
+<p>通常，训练数据中有一些特异点（outlier），它们的存在导致训练集是不可分的，但是将它们除去之后，训练集变得线性可分。
+原来的约束条件：
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-18.png" /></p>
+<p>考虑到outlier的存在，引入松弛变量：
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-19.png" />
+引入罚项：
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-20.png" /></p>
+<p>目标函数的两层含义：       间隔尽量大，同时使误分类点的个数尽量小，C是二者的调和系数。
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-21.png" />
+如上图，被虚线圆圈起来的蓝色点就是一个outlier，我们可以引入松弛变量，将它划分位红色类，但是要加上一个惩罚项。</p>
+<h2>非线性支持向量机</h2>
+<p>并不是所有的数据集都是线性可分的，如果能用一个超曲面将正负例正确分开，则称这个问题为非线性可分问题。
+用线性分类方法求解非线性问题分为两步：首先使用一个变换将原空间的数据映射到新空间；然后在新空间里用线性分类学习方法从训练数据中学习分类模型。核计巧就是这样的方法。这要归功于核方法——除了SVM之外，任何将计算表示为数据点的内积的方法，都可以使用核方法进行非线性扩展。</p>
+<p><img alt="" src="http://bupt-image.qiniudn.com/SVM-22.png" />
+如上图，我们虽然不能一个线性超平面来将红/蓝两类分开，但是可以用一个曲面来分，这时可以将样本点映射到一个高维空间，如下：
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-23.png" /></p>
+<p>设X为输入空间，H为特征空间，如果存在一个从X到H的映射：</p>
+<div class="highlight"><pre>                            <span class="err">ϕ</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="err">：</span><span class="n">X</span><span class="o">-&gt;</span><span class="n">H</span>
+</pre></div>
+
+
+<p>使得所有x,z 属于X，都有：
+    <img alt="" src="http://bupt-image.qiniudn.com/SVM-24.png" />
+则称K(x,z)为核函数， ϕ(x)为映射函数。</p>
+<p>核函数的想法是，在学习中只定义核函数，而不显示的定义映射函数，因为直接计算核函数K(x,z)比较容易，而通过ϕ(x)，ϕ(z)计算K(x,z)并不容易，而且没有必要，它巧妙的利用了线性分类学习方法与核函数解决非线性问题的。H和ϕ(x)的取法不唯一。实际应用中往往依赖领域知识直接选择核函数，并通过实验验证选择的有效性。</p>
+<p>常用的核函数有多项式核函数，高斯核函数等.
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-25.png" /></p>
+<p>将输入空间映射到特征空间后的目标函数为：
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-26.png" /></p>
+<p>用<img alt="" src="http://bupt-image.qiniudn.com/SVM-24.png" />代替上式的ϕ(x). ϕ(z).</p>
+<p>用求解方法跟线性可分SVM的解法相同，即求得最优解：               <br />
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-27.png" />
+选择a的一个正分量ai，计算:
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-28.png" /></p>
+<p>构造决策函数：
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-29.png" /></p>
+<h1>SMO算法</h1>
+<p>上面所讲的都是SVM建模方法，模型建出来之后需要有效且收敛快的算法来求解，求解SVM的算法有很多，但是最流行的是SMO算法。序列最小最优化算法（SMO）是一种启发式算法，由Microsoft Research的John C.Platt在1998年提出，并成为最快的二次规划优化算法。</p>
+<p>其基本思想是不断地将原二次规划问题分解为只有两个变量的二次规划子问题，一个变量是违反KKT条件最严重的那一个，另外一个由约束条件自动确定，并对子问题进行解析求解，直到所有变量满足KKT条件为止，因为子问题有解析解，所以每次计算子问题都很快，虽然计算子问题次数多，但是总体上很高效。</p>
+<p>SMO算法分为两部分：求解两个变量二次规划的解析方法和选择变量的启发式算法。
+这个算法的原理稍显复杂，我推荐你去看《统计学习方法》Page124页，上面有详细的描述。</p>
+<h1>SVM的多类别分类方法</h1>
+<p>支持向量机是针对二类分类问题提出的，如何扩展到多类别分类是SVM研究的重要内容。主要有3种方法：
+<strong>设训练样本分属于c1,c2,...,ck个类别</strong></p>
+<ul>
+<li>逐一鉴别法：构造k个SVM分类器，选取判别函数值最大所对应的类别为测试数据的类别.</li>
+<li>一一区分法：构造k(k-1)/2个分类器，即每两类之间构成一个SVM，累计各类别的得分, 选择得分最高者所对应的类别为测试数据的类别. </li>
+<li>M-ary法.</li>
+</ul>
+<p>下面是我做的一个文本分类的实验，分别来叙述这几种方法。
+我的问题是，我有四类文档，分别是娱乐，体育，财经，政治类，用A，B，C，D来标记。我取来自每一类的各200篇文章作为训练集，学习SVM来对新的文章进行分类。算法的代码全部来自《机器学习实战》这本书。</p>
+<h4>一一区分法：</h4>
+<p><img alt="" src="http://bupt-image.qiniudn.com/SVM-34.png" />
+如上图，我对每两类都构造一个SVM，得到4(4-1)/2=6个SVM，然后将输入经过每一个SVM，按照投票原则决定最后的分类。</p>
+<h4>Mary法：</h4>
+<p><img alt="" src="http://bupt-image.qiniudn.com/SVM-35.png" />
+为了克服一一区分法分类器较多的缺点的，有了Mary法。如上图，它只需要构造两个SVM，第一个SVM将A，B看作一类，将C，D看作一类，第二个SVM将A，C看作一类，将B，D看作一类 ，当输入分别通过两个SVM之后，可以通过如图的映射关系分出它的类别。
+Mary法的缺点是，分类的结果依赖于构造SVM的方案，比如如果在上面的方案中这样构造：</p>
+<ul>
+<li>分类器1: AD/BC</li>
+<li>分类器2：AC/BD</li>
+</ul>
+<p>分类的结果可能跟图中的分类结果不同。因此Mary法需要较好的SVM构造策略，好的经验是将根据先验知识将相对较相似的类分做一类，把相对差别大的类分做另一类。</p>
+<h1>调参方法</h1>
+<p><strong>交叉验证：</strong></p>
+<p>在给定的样本中，拿出大部分样本进行训练，留小部分样本进行验证。常用的交叉验证方法有:Holdout验证、K折交叉验证和留一验证。</p>
+<p><strong>网格法寻找最优参数：</strong></p>
+<p>根据SVM的原理以及实际的实验结果可以分析得到，对分类准确率影响比较大的参数是惩罚参数C以及径向基核函数里的参数γ。为了对这两个参数同时进行调整以达到最好的效果，我们可以使用网格法寻优。由于C与γ之间没有依存关系，故可以使用两层循环的方式，将一定范围内的C与γ遍历，选择准确率最高的一组数据。并且根据经验可知，C与γ以指数形式变化会得到较好的效果，比如:
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-36.png" /></p>
+<h1>小结</h1>
+<p>最后我用一段我自己的话来对SVM做个总结。很浅显，但包括了SVM最关键的东西。</p>
+<blockquote>
+<p>SVM它本质上即是一个分类方法，用w^T+b定义分类函数，于是求w、b，为寻最大间隔，引出1/2||w||^2，继而引入拉格朗日因子，化为对拉格朗日乘子a的求解（求解过程中会涉及到一系列最优化或凸二次规划等问题），如此，求w.b与求a等价，而a的求解可以用一种快速学习算法SMO，至于核函数，是为处理非线性情况，若直接映射到高维计算恐维度爆炸，故在低维计算，等效高维表现。</p>
+</blockquote>
+<p>最后副一张SVM与逻辑斯蒂回归，决策树分类效果的图，同学们感受一下。
+<img alt="" src="http://bupt-image.qiniudn.com/SVM-30.png" /></p>
+<p>这篇文章仅仅知识抛砖引玉，让你对于SVM有个概念，同时又能对它的原理说的出个大概。如果你真的以为这就够了，那你真是too young了啊。
+想了解更多去看看<a href="http://book.douban.com/subject/10590856/">统计学习方法</a>吧，至少我还没有说清楚什么是对偶问题，为啥要转化成对偶问题，什么是KKT条件，以及很重要的SMO算法是怎么实现的，这些内容都不容你错过。</p>
+<p><strong>Happy ending.</strong></p>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "SVM-支持向量机.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://buptlixin.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="http://getpelican.com/"><i class="icon-external-link"></i>Pelican</a></li>
+    <li><a href="http://python.org/"><i class="icon-external-link"></i>Python.org</a></li>
+    <li><a href="http://jinja.pocoo.org/"><i class="icon-external-link"></i>Jinja2</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="http://www.v2ex.com/member/buptlee"><i class="icon-V2EX-sign icon-large"></i>V2EX</a></li>
+    <li><a href="http://douban.com/people/77726008"><i class="icon-豆瓣-sign icon-large"></i>豆瓣</a></li>
+    <li><a href="http://github.com/Xiaoxin2009"><i class="icon-Github-sign icon-large"></i>Github</a></li>
+    <li><a href="http://stackoverflow.com/users/3373388/bupt-xiaoxin"><i class="icon-Stackoverflow-sign icon-large"></i>Stackoverflow</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="/category/fen-bu-shi.html">
+    <i class="icon-folder-open icon-large"></i>分布式
+</a>
+</li>
+<li>
+<a href="/category/java.html">
+    <i class="icon-folder-open icon-large"></i>JAVA
+</a>
+</li>
+<li>
+<a href="/category/machine-learning.html">
+    <i class="icon-folder-open icon-large"></i>Machine Learning
+</a>
+</li>
+<li>
+<a href="/category/perl.html">
+    <i class="icon-folder-open icon-large"></i>Perl
+</a>
+</li>
+<li>
+<a href="/category/python.html">
+    <i class="icon-folder-open icon-large"></i>Python
+</a>
+</li>
+<li>
+<a href="/category/scala.html">
+    <i class="icon-folder-open icon-large"></i>Scala
+</a>
+</li>
+<li>
+<a href="/category/shu-ju-ku.html">
+    <i class="icon-folder-open icon-large"></i>数据库
+</a>
+</li>
+<li>
+<a href="/category/technology.html">
+    <i class="icon-folder-open icon-large"></i>Technology
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-3">
+    <a href="/tag/storm.html">
+        <i class="icon-tag icon-large"></i>Storm
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/zheng-ze-biao-da-shi.html">
+        <i class="icon-tag icon-large"></i>正则表达式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/machine-learning.html">
+        <i class="icon-tag icon-large"></i>Machine Learning
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hadoop.html">
+        <i class="icon-tag icon-large"></i>Hadoop
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/perl.html">
+        <i class="icon-tag icon-large"></i>Perl
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/scala.html">
+        <i class="icon-tag icon-large"></i>scala
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programming.html">
+        <i class="icon-tag icon-large"></i>functional programming
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/svm.html">
+        <i class="icon-tag icon-large"></i>SVM
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/mongodb.html">
+        <i class="icon-tag icon-large"></i>MongoDB
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hash.html">
+        <i class="icon-tag icon-large"></i>Hash
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/sql.html">
+        <i class="icon-tag icon-large"></i>SQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/github.html">
+        <i class="icon-tag icon-large"></i>Github
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hdfs.html">
+        <i class="icon-tag icon-large"></i>HDFS
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/nosql.html">
+        <i class="icon-tag icon-large"></i>NoSQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programing.html">
+        <i class="icon-tag icon-large"></i>functional programing
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/java.html">
+        <i class="icon-tag icon-large"></i>java
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-50849437-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'buptlixin';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>我的机器学习方法</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Li,Gongfu">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="/" type="application/atom+xml" rel="alternate" title="晓新's Blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/index.html">晓新's Blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="/category/fen-bu-shi.html">
+						<i class="icon-folder-open icon-large"></i>分布式
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/java.html">
+						<i class="icon-folder-open icon-large"></i>JAVA
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="/category/machine-learning.html">
+						<i class="icon-folder-open icon-large"></i>Machine Learning
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/perl.html">
+						<i class="icon-folder-open icon-large"></i>Perl
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/python.html">
+						<i class="icon-folder-open icon-large"></i>Python
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/scala.html">
+						<i class="icon-folder-open icon-large"></i>Scala
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/shu-ju-ku.html">
+						<i class="icon-folder-open icon-large"></i>数据库
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/technology.html">
+						<i class="icon-folder-open icon-large"></i>Technology
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to 我的机器学习方法">
+                                        我的机器学习方法
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-03-02T22:10:00">
+        <i class="icon-calendar"></i>日 02 三月 2014
+</abbr>
+<span class="label">By</span>
+<a href="/author/ligongfu.html"><i class="icon-user"></i>Li,Gongfu</a>
+<span class="label">Category</span>
+<a href="/category/machine-learning.html"><i class="icon-folder-open"></i>Machine Learning</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/machine-learning.html"><i class="icon-tag"></i>Machine Learning</a>
+</footer><!-- /.post-info -->                </div>
+                <p>我的导师有句口头禅：机器都开始学习了，你还好意思不好好学机器学习？！
+从大四保研开始就开始接触ML，到现在也已经快两年了，杂乱的看了不少书，对ML也有一点点想法。写出来跟大家分享一下。</p>
+<p>引用实验室一位大牛师兄的说法：</p>
+<blockquote>
+<p>机器学习就好像未成年人讨论性。每个人都在说，但是从来没人知道到底该怎么做。每个人都认为别人真的做了，所以自己也假装做过。</p>
+</blockquote>
+<h1>机器学习是什么</h1>
+<p>机器学习现在是一大热门，研究的人特多，越来越多的新人涌进来。不少人其实并没有真正想过，这是不是自己喜欢搞的东西，只不过看见别人都在搞，觉着跟大伙儿走总不会吃亏吧。 问题是，真有个“大伙儿”吗？就不会是“两伙儿”、“三伙儿”？如果有“几伙儿”，那到底该跟着“哪伙儿”走呢？ 很多人可能没有意识到，所谓的machine learning community，现在至少包含了两个有着完全不同的文化、完全不同的价值观的群体，称为machine learning "communities"也许更合适一些。</p>
+<ul>
+<li>
+<p>第一个community，是把机器学习看作人工智能分支的一个群体，这群人的主体是计算机科学家。 现在的“机器学习研究者”可能很少有人读过1983年出的“Machine Learning: An Artificial Intelligence Approach”这本书。这本书的出版标志着机器学习成为人工智能中一个独立的领域。它其实是一部集早期机器学习研究之大成的文集，收罗了若干先贤（例 如Herbert Simon，那位把诺贝尔奖、图灵奖以及各种各样和他相关的奖几乎拿遍了的科学天才）的大作，主编是Ryszard S. Michalski（此君已去世多年了，他可算是机器学习的奠基人之一）、Jaime G. Carbonell（此君曾是Springer的LNAI的总编）、Tom Mitchell（此君是CMU机器学习系首任系主任、著名教材的作者，机器学习界没人不知道他吧）。Machine Learning杂志的创刊，正是这群人努力的结果。这本书值得一读。虽然技术手段早就日新月异了，但有一些深刻的思想现在并没有过时。各个学科领域总有 不少东西，换了新装之后又粉墨登场，现在热火朝天的transfer learning，其实就是learning by analogy的升级版。</p>
+<p>人工智能的研究从以“推理”为重点到以“知识”为重点，再到以“学习”为重点，是有一条自然、清晰的脉络。人工智能出身的机器学习研究者，绝大部分 是把机器学习作为实现人工智能的一个途径，正如1983年的书名那样。他们关注的是人工智能中的问题，希望以机器学习为手段，但具体采用什么样的学习手 段，是基于统计的、代数的、还是逻辑的、几何的，他们并不care。 这群人可能对统计学习目前dominating的地位未必满意。靠统计学习是不可能解决人工智能中大部分问题的，如果统计学习压制了对其他手段的研究，可能不是好事。这群人往往也不care在文章里show自己的数学水平，甚至可能是以简化表达自己的思想为荣。人工智能问题不是数学问题，甚至未必是依靠数学能够解决的问题。人工智能中许多事情的难处，往往在于我们不知道困难的本质在哪里，不知道“问题”在哪里。一旦“问题”清楚了，解决起来可能并不 困难。</p>
+</li>
+<li>
+<p>第二个community，是把机器学习看作“应用统计学”的一个群体，这群人的主体是统计学家。 和纯数学相比，统计学不太“干净”，不少数学家甚至拒绝承认统计学是数学。但如果和人工智能相比，统计学就太干净了，统计学研究的问题是清楚的，不象人工智能那样，连问题到底在哪里都不知道。在相当长时间里，统计学家和机器学习一直保持着距离。 慢慢地，不少统计学家逐渐意识到，统计学本来就该面向应用，而机器学习天生就是一个很好的切入点。因为机器学习虽然用到各种各样的数学，但要分析大量数据中蕴涵的规律，统计学是必不可少的。统计学出身的机器学习研究者，绝大部分是把机器学习当作应用统计学。他们关注的是如何把统计学中的理论和方法变成可以在计算机上有效实现的算法，至于这样的算法对人工智能中的什么问题有用，他们并不care。</p>
+<p>这群人可能对人工智能毫无兴趣，在他们眼中，机器学习就是统计学习，是统计学比较偏向应用的一个分支，充其量是统计学与计算机科学的交叉。这群人对统计学习之外的学习手段往往是排斥的，这很自然，基于代数的、逻辑的、几何的学习，很难纳入统计学的范畴。</p>
+<p>两个群体的文化和价值观完全不同。第一个群体认为好的工作，第二个群体可能觉得没有技术含量，但第一个群体可能恰恰认为，简单的才好，正因为很好地抓住了问题本质，所以问题变得容易解决。第二个群体欣赏的工作，第一个群体可能觉得是故弄玄虚，看不出他想解决什么人工智能问题，根本就不是在搞人工智 能、搞计算机，但别人本来也没说自己是在“搞人工智能”、“搞计算机”，本来就不是在为人工智能做研究。</p>
+</li>
+</ul>
+<p>两个群体各有其存在的意义，应该宽容一点，不需要去互较什么短长。但是既然顶着Machine Learning这个帽子的不是“一伙儿”，而是“两伙儿”，那么要“跟进”的新人就要谨慎了，先搞清楚自己更喜欢“哪伙儿”。 引两位著名学者的话结尾，一位是人工智能大奖得主、一位是统计学习大家，名字我不说了，省得惹麻烦：</p>
+<blockquote>
+<p>“I do not come to AI to do statistics”</p>
+<p>“I do not have interest in AI”</p>
+</blockquote>
+<h1>我的机器学习方法</h1>
+<p>不出意外，我是一个统计学系的学习者和支持者，一来是从数学上去理解和证明机器学习让我更加容易接受，更重要的是，如果你是一个初学者的话，统计学系的机器学习方法能让你迅速作出点能够称得上是机器学习的工作，比如基于SVM文本分类，基于Adaboost的人脸检测算法等等。当然还有Bayes这种神器，我觉得能用机器学习算法去实现一些实际的工程应该是最好的学习方法。而且各种机器学习算法之间本身没有优劣区别，试了才知道哪个好。</p>
+<p>从我们实验室的情况来看我所了解到的，对于ML的初学者来说，不外乎以下四种学习策略,或者兼而有之。</p>
+<ul>
+<li>从选择一个好用的机器学习工具包开始，常用的有R, Weka, scikit-learn, waffles, and orange. 我推荐WEKA，简单好用，非常适合学院派的同学们。</li>
+<li>从选择一个好的机器学习数据集开始，好的站点有UCI ML Repository, Kaggle and data.gov.</li>
+<li>选择一个机器学习算法，会用，知道参数怎么设，用不同的数据集了解充分了解其性能.</li>
+<li>实现一个机器学习算法，选择一个编程语言，开始可以参考一些开源的实现，重写一些算法，优化的部分不要太深究.</li>
+</ul>
+<p>最重要的是，我觉得机器学习是一个非常非常需要很系统学习的学科，如果你总是徘徊在看“机器学习N大算法”之类的书，我觉得你可能机器学习的门都还没有摸到， 或者将在门外徘徊相当长的一段时间。我的建议是沉下心来，好好读一本书，比去折腾这算法，那技巧要好得多。因为机器学习更多的不是技巧，而是你对数据，模型的敏感，而这就要求你对机器学习有全局上的认识。</p>
+<p>如果你比较习惯别人教给你知识，那我吐血推荐Machine Learning by Andrew Ng公开课~，华裔教授讲的不错，一共20多集，不多。</p>
+<p>如果，你看书的效率足够高，那我推荐两本书：</p>
+<blockquote>
+<p>《统计学习方法》，华为诺亚方舟实验室首席科学家 李航著
+《机器学习实战》，Peter Harrington著</p>
+</blockquote>
+<p>这两本书配合起来对机器学习新手来说，效果绝对是金刚经级别的，这也是我采用的学习方法。</p>
+<p>第一本书讲的是机器学习的策略，模型，算法，从理论上阐述了机器学习的套路，而这些东西是所有算法所通用的。对数学公式无感的同学算是有福了，这本书里尽量简化了公式的堆砌，这也是我不推荐《模式分类》的原因，书非常经典，但是不适合菜鸟，容易被繁杂的公式磨平你学习的热情，好吧，我承认，我说的是我自己。</p>
+<p>第二本书讲了一些常用算法，如SVM、MaxEntropy、Bayes、DecisionTree的python实现，讲的还算到位，详略得当。而这些方法的理论基础在李航大大的书里都有讲到，这本书里面的代码全是用python实现的，如果你不熟悉的话，我不会建议不看这本书，想反，我会建议你好好学学python，因为python对于机器学习算法不能更重要了。</p>
+<p>机器学习是一个高深并且复杂的学科，我也只是抓到了点皮毛，所以写起来感觉到特别虚。Anyway,肯定还有很多刚刚接触ML，有着极高的热情但找不着门路的同学，就与你们共勉吧！</p>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "我的机器学习方法.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://buptlixin.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="http://getpelican.com/"><i class="icon-external-link"></i>Pelican</a></li>
+    <li><a href="http://python.org/"><i class="icon-external-link"></i>Python.org</a></li>
+    <li><a href="http://jinja.pocoo.org/"><i class="icon-external-link"></i>Jinja2</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="http://www.v2ex.com/member/buptlee"><i class="icon-V2EX-sign icon-large"></i>V2EX</a></li>
+    <li><a href="http://douban.com/people/77726008"><i class="icon-豆瓣-sign icon-large"></i>豆瓣</a></li>
+    <li><a href="http://github.com/Xiaoxin2009"><i class="icon-Github-sign icon-large"></i>Github</a></li>
+    <li><a href="http://stackoverflow.com/users/3373388/bupt-xiaoxin"><i class="icon-Stackoverflow-sign icon-large"></i>Stackoverflow</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="/category/fen-bu-shi.html">
+    <i class="icon-folder-open icon-large"></i>分布式
+</a>
+</li>
+<li>
+<a href="/category/java.html">
+    <i class="icon-folder-open icon-large"></i>JAVA
+</a>
+</li>
+<li>
+<a href="/category/machine-learning.html">
+    <i class="icon-folder-open icon-large"></i>Machine Learning
+</a>
+</li>
+<li>
+<a href="/category/perl.html">
+    <i class="icon-folder-open icon-large"></i>Perl
+</a>
+</li>
+<li>
+<a href="/category/python.html">
+    <i class="icon-folder-open icon-large"></i>Python
+</a>
+</li>
+<li>
+<a href="/category/scala.html">
+    <i class="icon-folder-open icon-large"></i>Scala
+</a>
+</li>
+<li>
+<a href="/category/shu-ju-ku.html">
+    <i class="icon-folder-open icon-large"></i>数据库
+</a>
+</li>
+<li>
+<a href="/category/technology.html">
+    <i class="icon-folder-open icon-large"></i>Technology
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-3">
+    <a href="/tag/storm.html">
+        <i class="icon-tag icon-large"></i>Storm
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/zheng-ze-biao-da-shi.html">
+        <i class="icon-tag icon-large"></i>正则表达式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/machine-learning.html">
+        <i class="icon-tag icon-large"></i>Machine Learning
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hadoop.html">
+        <i class="icon-tag icon-large"></i>Hadoop
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/perl.html">
+        <i class="icon-tag icon-large"></i>Perl
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/scala.html">
+        <i class="icon-tag icon-large"></i>scala
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programming.html">
+        <i class="icon-tag icon-large"></i>functional programming
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/svm.html">
+        <i class="icon-tag icon-large"></i>SVM
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/mongodb.html">
+        <i class="icon-tag icon-large"></i>MongoDB
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hash.html">
+        <i class="icon-tag icon-large"></i>Hash
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/sql.html">
+        <i class="icon-tag icon-large"></i>SQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/github.html">
+        <i class="icon-tag icon-large"></i>Github
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hdfs.html">
+        <i class="icon-tag icon-large"></i>HDFS
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/nosql.html">
+        <i class="icon-tag icon-large"></i>NoSQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programing.html">
+        <i class="icon-tag icon-large"></i>functional programing
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/java.html">
+        <i class="icon-tag icon-large"></i>java
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-50849437-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'buptlixin';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

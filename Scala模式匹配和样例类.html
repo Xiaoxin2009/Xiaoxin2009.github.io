@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Scala模式匹配和样例类</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Li,Gongfu">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="/" type="application/atom+xml" rel="alternate" title="晓新's Blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/index.html">晓新's Blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="/category/fen-bu-shi.html">
+						<i class="icon-folder-open icon-large"></i>分布式
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/java.html">
+						<i class="icon-folder-open icon-large"></i>JAVA
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/machine-learning.html">
+						<i class="icon-folder-open icon-large"></i>Machine Learning
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/perl.html">
+						<i class="icon-folder-open icon-large"></i>Perl
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/python.html">
+						<i class="icon-folder-open icon-large"></i>Python
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="/category/scala.html">
+						<i class="icon-folder-open icon-large"></i>Scala
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/shu-ju-ku.html">
+						<i class="icon-folder-open icon-large"></i>数据库
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/technology.html">
+						<i class="icon-folder-open icon-large"></i>Technology
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to Scala模式匹配和样例类">
+                                        Scala模式匹配和样例类
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2015-01-17T11:20:00">
+        <i class="icon-calendar"></i>六 17 一月 2015
+</abbr>
+<span class="label">By</span>
+<a href="/author/ligongfu.html"><i class="icon-user"></i>Li,Gongfu</a>
+<span class="label">Category</span>
+<a href="/category/scala.html"><i class="icon-folder-open"></i>Scala</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/scala.html"><i class="icon-tag"></i>scala</a>
+</footer><!-- /.post-info -->                </div>
+                <ul>
+<li>match表达式是一个更好的switch，不会有意外调入下一个分支的问题。其他语言需要使用break来避免。</li>
+<li>如果没有模式能够匹配，会抛出MatchError，可以用case _模式来避免。</li>
+<li>模式可以包含一个随意定义的条件，叫做守卫。</li>
+<li>你可以对表达式的类型进行匹配。优先选择模式匹配而不是isInstanceOf。</li>
+<li>你可以匹配数组，元组，样例类的模式，然后将匹配到的不同部分帮顶到变量。</li>
+<li>在for表达式中，不能匹配的情况会被安静的跳过。</li>
+<li>样例类是编译器会为之自动产出模式匹配所需要的方法的类。</li>
+<li>用Option来存放对于可能存在也可能不存在的值，这比null更安全。</li>
+</ul>
+<h3>更好的switch</h3>
+<div class="highlight"><pre><span class="n">var</span> <span class="n">sign</span> <span class="o">=</span> <span class="n">ch</span> <span class="n">match</span> <span class="p">{</span>
+<span class="k">case</span> <span class="sc">&#39;+&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+<span class="k">case</span> <span class="sc">&#39;-&#39;</span> <span class="o">=&gt;</span> <span class="o">-</span><span class="mi">1</span>
+<span class="k">case</span> <span class="n">_</span> <span class="k">if</span> <span class="n">Character</span><span class="p">.</span><span class="n">isDigit</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">digit</span> <span class="o">=</span> <span class="n">Character</span><span class="p">.</span><span class="n">digit</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+<span class="c1">//添加守卫，守卫可以是任何Boolean条件</span>
+<span class="k">case</span> <span class="n">_</span> <span class="o">=&gt;</span> <span class="mi">0</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>模式中的变量</h3>
+<p>如果case后面跟着一个变量名，那么匹配的表达式会被赋值给那个变量。你当然可以在守卫中使用变量：</p>
+<div class="highlight"><pre><span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="n">match</span> <span class="p">{</span>
+<span class="k">case</span> <span class="sc">&#39;+&#39;</span> <span class="o">=&gt;</span> <span class="n">sign</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">case</span> <span class="sc">&#39;-&#39;</span> <span class="o">=&gt;</span> <span class="n">sign</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="k">case</span> <span class="n">ch</span> <span class="k">if</span> <span class="n">Character</span><span class="p">.</span><span class="n">isDigit</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">digit</span> <span class="o">=</span> <span class="n">Character</span><span class="p">.</span><span class="n">digit</span><span class="p">(</span><span class="n">ch</span><span class="p">)}</span>
+</pre></div>
+
+
+<p>scala可以识别你匹配的是变量还是常量：</p>
+<div class="highlight"><pre><span class="n">import</span> <span class="n">scala</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">_</span>
+<span class="n">x</span> <span class="n">match</span><span class="p">{</span>
+<span class="k">case</span> <span class="n">Pi</span> <span class="o">=&gt;</span> <span class="p">...</span>
+<span class="c1">//scala不会把Pi当成一个变量。</span>
+<span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>类型匹配</h3>
+<div class="highlight"><pre><span class="n">obj</span> <span class="n">match</span> <span class="p">{</span>
+<span class="k">case</span> <span class="n">x</span> : <span class="n">Int</span> <span class="o">=&gt;</span> <span class="n">x</span>
+<span class="c1">//匹配的表达式会被绑定到变量x</span>
+<span class="k">case</span> <span class="n">s</span> : <span class="n">String</span> <span class="o">=&gt;</span> <span class="n">Integer</span><span class="p">.</span><span class="n">parseInt</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="k">case</span> <span class="n">_</span> : <span class="n">BigInt</span> <span class="o">=&gt;</span> <span class="n">Int</span><span class="p">.</span><span class="n">MaxValue</span>
+<span class="k">case</span> <span class="n">_</span> : <span class="o">=&gt;</span> <span class="mi">0</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>匹配数组，列表和元组</h3>
+<p>利用模式匹配可以很轻松的访问复杂结构的各组成部分，这种操作被称作“析构”。</p>
+<div class="highlight"><pre><span class="n">arr</span> <span class="n">match</span><span class="p">{</span>
+<span class="k">case</span> <span class="n">Array</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="s">&quot;0&quot;</span>
+<span class="c1">//匹配包含0的数组</span>
+<span class="k">case</span> <span class="n">Array</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="n">y</span>
+<span class="c1">//匹配两个元素的数组，并把数组元素分别赋值给x，y</span>
+<span class="k">case</span> <span class="n">Array</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">_</span><span class="o">*</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="s">&quot;0...&quot;</span>
+<span class="c1">//匹配以0开始的数组</span>
+<span class="k">case</span> <span class="n">_</span> <span class="o">=&gt;</span> <span class="s">&quot;something else&quot;</span><span class="p">}</span>
+
+<span class="n">lst</span> <span class="n">match</span> <span class="p">{</span> 
+<span class="k">case</span> <span class="mi">0</span> :<span class="o">:</span> <span class="n">Nil</span> <span class="o">=&gt;</span> <span class="s">&quot;0&quot;</span>
+<span class="k">case</span> <span class="n">x</span> :<span class="o">:</span> <span class="n">y</span> <span class="o">::</span> <span class="n">Nil</span> <span class="o">=&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="n">y</span>
+<span class="k">case</span> <span class="mi">0</span> :<span class="o">:</span> <span class="n">tail</span> <span class="o">=&gt;</span> <span class="s">&quot;0...&quot;</span>
+<span class="k">case</span> <span class="n">_</span> <span class="o">=&gt;</span> <span class="s">&quot;something else&quot;</span><span class="p">}</span>
+
+<span class="n">pair</span> <span class="n">match</span> <span class="p">{</span>
+<span class="k">case</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">_</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="s">&quot;0...&quot;</span>
+<span class="k">case</span> <span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">y</span> <span class="o">+</span> <span class="s">&quot; 0&quot;</span>
+<span class="k">case</span> <span class="n">_</span> <span class="o">=&gt;</span> <span class="s">&quot;neither is 0&quot;</span><span class="p">}</span>
+</pre></div>
+
+
+<h3>提取器</h3>
+<p>上面的模式匹配数组，列表和元组，这些操作的背后是提取器机制----带有从对象中提取值的unapply,unapplySeq方法的对象。unapply用于提取固定数量的对象，unapplySeq提取的是一个序列。</p>
+<div class="highlight"><pre><span class="n">arr</span> <span class="n">match</span> <span class="p">{</span>
+<span class="k">case</span> <span class="n">Array</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">x</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">...</span>
+<span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Array伴生对象是一个提取器，它定义了unapplySeq方法，Array.unapplySeq(arr)产出一个序列的值，第一个值与0进行比较，第二个值赋值给x。</p>
+<div class="highlight"><pre><span class="n">val</span> <span class="n">pattern</span> <span class="o">=</span> <span class="s">&quot;([0-9]+) ([a-z]+)&quot;</span><span class="p">.</span><span class="n">r</span>
+<span class="s">&quot;99 bottles&quot;</span> <span class="n">match</span><span class="p">{</span>
+<span class="k">case</span> <span class="n">pattern</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">item</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">...</span>
+<span class="c1">//将num设为99，item设为&quot;bottles&quot;}</span>
+</pre></div>
+
+
+<h3>变量声明中的模式</h3>
+<div class="highlight"><pre><span class="n">val</span> <span class="p">(</span><span class="n">x</span> <span class="p">,</span> <span class="n">y</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">val</span> <span class="n">Array</span><span class="p">(</span><span class="n">first</span> <span class="p">,</span> <span class="n">second</span> <span class="p">,</span> <span class="n">_</span><span class="o">*</span><span class="p">)</span> <span class="o">=</span>  <span class="n">arr</span>
+</pre></div>
+
+
+<h3>for表达式中的模式</h3>
+<div class="highlight"><pre><span class="kr">for</span><span class="p">((</span>k<span class="p">,</span>v<span class="p">)</span> <span class="o">&lt;-</span> System.getProperties<span class="p">())</span>
+    println<span class="p">(</span>k <span class="o">+</span> <span class="s">&quot;-&gt;&quot;</span><span class="o">+</span>v<span class="p">)</span>
+<span class="kr">for</span><span class="p">((</span>k<span class="p">,</span><span class="s">&quot;&quot;</span><span class="p">)</span> <span class="o">&lt;-</span> System.getProperties<span class="p">())</span>
+    println<span class="p">(</span>k<span class="p">)</span>
+<span class="o">//</span>失败的匹配会被安静的忽略，这条语句只会打印出值为空白的键
+</pre></div>
+
+
+<h3>样例类</h3>
+<p>样例类是一种特殊的类，它们经过优化以被用于模式匹配。
+当你声明样例类时，下面几件事情会自动发生：</p>
+<ul>
+<li>构造器中的每个参数都成为val</li>
+<li>在伴生对象中提供apply方法，让你不用new关键字就能构造出相应的对象。</li>
+<li>提供unapply方法让模式匹配可以工作。 </li>
+</ul>
+<div class="highlight"><pre><span class="n">object</span> <span class="n">CaseClassDemo</span> <span class="n">extends</span> <span class="n">App</span><span class="p">{</span>
+    <span class="n">def</span> <span class="n">m</span><span class="p">(</span><span class="n">p</span> <span class="o">:</span> <span class="n">Person</span><span class="p">){</span>
+        <span class="n">p</span> <span class="n">match</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">Teacher</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;This is a teacher&quot;</span><span class="p">)</span>
+        <span class="k">case</span> <span class="n">Teacher</span><span class="p">(</span><span class="s">&quot;Peter&quot;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;This is teacher Peter&quot;</span><span class="p">)</span>
+        <span class="k">case</span> <span class="n">Student</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;This is a student&quot;</span><span class="p">)</span>
+        <span class="k">case</span> <span class="n">_</span> <span class="o">=&gt;</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;This is unknown&quot;</span><span class="p">)</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">m</span><span class="p">(</span><span class="n">Student</span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="p">))</span>
+    <span class="c1">//&quot;This is a student&quot;</span>
+    <span class="n">m</span><span class="p">(</span><span class="n">Teacher</span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="p">))</span>
+    <span class="c1">//&quot;This is a teacher&quot;</span>
+    <span class="n">m</span><span class="p">(</span><span class="n">Teacher</span><span class="p">(</span><span class="s">&quot;Peter&quot;</span><span class="p">))</span>
+    <span class="c1">//&quot;This is a teacher Peter&quot;</span>
+<span class="p">}</span>
+<span class="n">abstract</span> <span class="n">class</span> <span class="n">Person</span>
+<span class="k">case</span> <span class="n">class</span> <span class="n">Teacher</span><span class="p">(</span><span class="n">name</span> : <span class="n">String</span><span class="p">)</span> <span class="n">extends</span> <span class="n">Person</span>
+<span class="k">case</span> <span class="n">class</span> <span class="n">Student</span><span class="p">(</span><span class="n">name</span> : <span class="n">String</span><span class="p">)</span> <span class="n">extends</span> <span class="n">Person</span>
+</pre></div>
+
+
+<h3>模拟枚举</h3>
+<p>样例类可以让你在Scala中模拟出枚举类型</p>
+<div class="highlight"><pre><span class="n">sealed</span> <span class="n">abstract</span> <span class="n">class</span> <span class="n">TrafficLightColor</span>
+<span class="c1">//将TrafficLightColor声明为sealed（密封类）可以让编译器为我们检查match语句是否列出了所有的情况。</span>
+<span class="k">case</span> <span class="n">object</span> <span class="n">Red</span> <span class="n">extends</span> <span class="n">TrafficLightColor</span>
+<span class="k">case</span> <span class="n">object</span> <span class="n">Yellow</span> <span class="n">extends</span> <span class="n">TrafficLightColor</span>
+<span class="k">case</span> <span class="n">object</span> <span class="n">Green</span> <span class="n">extends</span> <span class="n">TrafficLightColor</span>
+
+<span class="n">color</span> <span class="n">match</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="n">Red</span> <span class="o">=&gt;</span> <span class="s">&quot;stop&quot;</span>
+    <span class="k">case</span> <span class="n">Yellow</span> <span class="o">=&gt;</span> <span class="s">&quot;hurry up&quot;</span>
+    <span class="k">case</span> <span class="n">Green</span> <span class="o">=&gt;</span> <span class="s">&quot;go&quot;</span>
+    <span class="p">}</span>
+</pre></div>
+
+
+<h3>Option类型</h3>
+<p>标准库中的Option类型用样例类来表示那些可能存在，也可能不存在的值。
+Option支持泛型，Some("Fred")的类型为Option[String]</p>
+<div class="highlight"><pre><span class="n">scores</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;Alice&quot;</span><span class="p">)</span> <span class="n">match</span> <span class="p">{</span>
+<span class="k">case</span> <span class="n">Some</span><span class="p">(</span><span class="n">score</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">println</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+<span class="k">case</span> <span class="n">None</span> <span class="o">=&gt;</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;No score&quot;</span><span class="p">)}</span>
+
+<span class="n">scores</span><span class="p">.</span><span class="n">getOrElse</span><span class="p">(</span><span class="s">&quot;Alice&quot;</span><span class="p">,</span><span class="s">&quot;No score&quot;</span><span class="p">)</span>
+</pre></div>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "Scala模式匹配和样例类.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://buptlixin.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="http://getpelican.com/"><i class="icon-external-link"></i>Pelican</a></li>
+    <li><a href="http://python.org/"><i class="icon-external-link"></i>Python.org</a></li>
+    <li><a href="http://jinja.pocoo.org/"><i class="icon-external-link"></i>Jinja2</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="http://www.v2ex.com/member/buptlee"><i class="icon-V2EX-sign icon-large"></i>V2EX</a></li>
+    <li><a href="http://douban.com/people/77726008"><i class="icon-豆瓣-sign icon-large"></i>豆瓣</a></li>
+    <li><a href="http://github.com/Xiaoxin2009"><i class="icon-Github-sign icon-large"></i>Github</a></li>
+    <li><a href="http://stackoverflow.com/users/3373388/bupt-xiaoxin"><i class="icon-Stackoverflow-sign icon-large"></i>Stackoverflow</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="/category/fen-bu-shi.html">
+    <i class="icon-folder-open icon-large"></i>分布式
+</a>
+</li>
+<li>
+<a href="/category/java.html">
+    <i class="icon-folder-open icon-large"></i>JAVA
+</a>
+</li>
+<li>
+<a href="/category/machine-learning.html">
+    <i class="icon-folder-open icon-large"></i>Machine Learning
+</a>
+</li>
+<li>
+<a href="/category/perl.html">
+    <i class="icon-folder-open icon-large"></i>Perl
+</a>
+</li>
+<li>
+<a href="/category/python.html">
+    <i class="icon-folder-open icon-large"></i>Python
+</a>
+</li>
+<li>
+<a href="/category/scala.html">
+    <i class="icon-folder-open icon-large"></i>Scala
+</a>
+</li>
+<li>
+<a href="/category/shu-ju-ku.html">
+    <i class="icon-folder-open icon-large"></i>数据库
+</a>
+</li>
+<li>
+<a href="/category/technology.html">
+    <i class="icon-folder-open icon-large"></i>Technology
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-3">
+    <a href="/tag/storm.html">
+        <i class="icon-tag icon-large"></i>Storm
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/zheng-ze-biao-da-shi.html">
+        <i class="icon-tag icon-large"></i>正则表达式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/machine-learning.html">
+        <i class="icon-tag icon-large"></i>Machine Learning
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hadoop.html">
+        <i class="icon-tag icon-large"></i>Hadoop
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/perl.html">
+        <i class="icon-tag icon-large"></i>Perl
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/scala.html">
+        <i class="icon-tag icon-large"></i>scala
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programming.html">
+        <i class="icon-tag icon-large"></i>functional programming
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/svm.html">
+        <i class="icon-tag icon-large"></i>SVM
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/mongodb.html">
+        <i class="icon-tag icon-large"></i>MongoDB
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hash.html">
+        <i class="icon-tag icon-large"></i>Hash
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/sql.html">
+        <i class="icon-tag icon-large"></i>SQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/github.html">
+        <i class="icon-tag icon-large"></i>Github
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hdfs.html">
+        <i class="icon-tag icon-large"></i>HDFS
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/nosql.html">
+        <i class="icon-tag icon-large"></i>NoSQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programing.html">
+        <i class="icon-tag icon-large"></i>functional programing
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/java.html">
+        <i class="icon-tag icon-large"></i>java
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-50849437-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'buptlixin';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

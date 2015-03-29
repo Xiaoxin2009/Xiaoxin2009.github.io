@@ -1,0 +1,1037 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>晓新's Blog</title><link href="/" rel="alternate"></link><link href="/feeds/fen-bu-shi.atom.xml" rel="self"></link><id>/</id><updated>2014-05-27T10:20:00+08:00</updated><entry><title>HDFS文件系统及常用命令</title><link href="/HDFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html" rel="alternate"></link><updated>2014-05-27T10:20:00+08:00</updated><author><name>Li,Gongfu</name></author><id>tag:,2014-05-27:HDFS文件系统及常用命令.html</id><summary type="html">&lt;p&gt;像大多数文件系统一样,Hadoop为每个用户保留一个主目录,这些主目录都位于HDFS上的/user路径下.在继续深入之前,如果主目录不存在的话,需要我们自己创建主目录.&lt;/p&gt;
+&lt;p&gt;当启动了hadoop集群之后,可以到在浏览器中输入&lt;code&gt;http://localhost:50070/dfshealth.html&lt;/code&gt;进入hadoop提供的ui页面.里面有HDFS的文件系统.&lt;/p&gt;
+&lt;h2&gt;常用命令&lt;/h2&gt;
+&lt;p&gt;fs命令类似于unix系统命令,只是在前面加了"-".&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;-mkdir
+创建文件夹.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt; &lt;span class="n"&gt;fs&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;mkdir&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;  &lt;span class="c1"&gt;//如果主目录不存在的话,需要我们自己创建user主目录&lt;/span&gt;
+&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt; &lt;span class="n"&gt;fs&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;mkdir&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hdusr&lt;/span&gt;  &lt;span class="c1"&gt;//创建自己的用户目录&lt;/span&gt;
+&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt; &lt;span class="n"&gt;fs&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;mkdir&lt;/span&gt; &lt;span class="n"&gt;input&lt;/span&gt;      &lt;span class="c1"&gt;// 默认创建的文件夹位于/user/hdusr/下&lt;/span&gt;
+&lt;span class="err"&gt;当然也可以指定创建的路径&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt; &lt;span class="n"&gt;fs&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;mkdir&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;input&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;-rmdir
+注意-rmdir命令只能删除空文件夹,如果你想删除的文件夹里有内容,你需要先用-rm命令删除里面的文件.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt; &lt;span class="n"&gt;fs&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;rmdir&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;input&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;-rm
+删除文件.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt; &lt;span class="n"&gt;fs&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;rm&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;part&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mo"&gt;00000&lt;/span&gt;
+&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt; &lt;span class="n"&gt;fs&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;rm&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="o"&gt;/*&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;-cat
+显示文件内容.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt; &lt;span class="n"&gt;fs&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;cat&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hdusr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;part&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;r00000&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;-ls
+显示指定目录下的文件夹.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt; &lt;span class="n"&gt;fs&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ls&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hdusr&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;-put
+上传文件.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt; &lt;span class="n"&gt;fs&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;put&lt;/span&gt; &lt;span class="n"&gt;myfile&lt;/span&gt;&lt;span class="o"&gt;/*&lt;/span&gt; &lt;span class="n"&gt;input&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;-copyToLocal
+从HDFS里拷贝文件到本地&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt; &lt;span class="n"&gt;fs&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;copyToLocal&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hdusr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="o"&gt;/*&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如果在-put或者-copyToLocal时遇到了&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Permission&lt;/span&gt; &lt;span class="n"&gt;denied&lt;/span&gt; &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="n"&gt;hdfs&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;的错误,检查一下你操作的本地文件的权限,如果不是hadoop用户,使用chown命令修改权限&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;chown&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;R&lt;/span&gt; &lt;span class="n"&gt;hdusr&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;hdusr&lt;/span&gt; &lt;span class="n"&gt;hadoop&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="http://stackoverflow.com/questions/11593374/permission-denied-at-hdfs"&gt;stackoverflow&lt;/a&gt;有更详细的解答,只是修改权限这个方法恰好适合我.如果不适合你,你可以试试上面提到的其他方法.&lt;/p&gt;
+&lt;h2&gt;重建HDFS系统&lt;/h2&gt;
+&lt;p&gt;有时候你可能需要删除core-site.xml中的hadoop.tmp.dir的value所在路径，即/usr/local/hadoop/tmp删除，然后重新建立一遍，你需要用chown指令再把文件的所属更改一下。最后还要重新format.即:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;rm&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;rf&lt;/span&gt; &lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;mkdir&lt;/span&gt; &lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="p"&gt;..&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;chown&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;R&lt;/span&gt; &lt;span class="n"&gt;hdusr&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;hdusr&lt;/span&gt; &lt;span class="n"&gt;hadoop&lt;/span&gt;
+&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt; &lt;span class="n"&gt;namenode&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;完成之后的HDFS文件系统下什么都没有,你要手动建立自己的用户主目录.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt; &lt;span class="n"&gt;fs&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;mkdir&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;  &lt;span class="c1"&gt;//如果主目录不存在的话,需要我们自己创建user主目录&lt;/span&gt;
+&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt; &lt;span class="n"&gt;fs&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;mkdir&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hdusr&lt;/span&gt;  &lt;span class="c1"&gt;//创建自己的用户目录&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="HDFS"></category></entry><entry><title>hadoop安装指南</title><link href="/hadoop%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97.html" rel="alternate"></link><updated>2014-05-07T20:20:00+08:00</updated><author><name>Li,Gongfu</name></author><id>tag:,2014-05-07:hadoop安装指南.html</id><summary type="html">&lt;p&gt;经过半个星期的折腾，终于搭起来一个hadoop-2.4.0 3节点的集群，跑了个wordcount例程，回过头来总结一下。&lt;/p&gt;
+&lt;h1&gt;1. 准备工作&lt;/h1&gt;
+&lt;p&gt;在安装hadoop之前有很多东西需要做。&lt;/p&gt;
+&lt;h2&gt;1.1 创建分布式用户&lt;/h2&gt;
+&lt;p&gt;hadoop 要求所有的机器有相同的用户名，这时hadoop最基本的要求，我取的名字是hdusr。
+   &lt;code&gt;sudo useradd hdusr&lt;/code&gt;
+在ubuntu下这个命令会自动创建一个同名字的用户组，但是suse则不同，这个命令只是创建了hdusr用户，没有它的分组，这个时候需要手动的创建同名group：
+   &lt;code&gt;sudo groupadd hdusr&lt;/code&gt;
+然后修改把hdusr用户加入到hdusr用户组中：
+可以直接修改/etc/group文件，在hdusr用户组后面添加上hdusr就行了。当然也可以使用命令行来做，但是其实命令行也是去修改/etc/group文件和/etc/passwd文件，直接用vim修改就行了。更简单。
+好了，从现在开始，下面所有的步骤你都应该在hdusr下面去做，尽管我不知道不这么做有什么不行，但是我还是建议你这么做。&lt;/p&gt;
+&lt;h2&gt;1.2 java环境&lt;/h2&gt;
+&lt;p&gt;要求安装jdk6及以上版本。推荐jdk6和jdk7.
+安装方法网上很多，我就不赘述了。简单的说就是就是解压，修改/etc/profile，source /etc/profile。&lt;/p&gt;
+&lt;h2&gt;1.3 maven环境&lt;/h2&gt;
+&lt;p&gt;maven是用来编译hadoop安装文件的，64位的hadoop与32位的不同，需要在自己的机器上本地编译，要下载一些依赖库，不同的机器环境可能不太一样，所以最好还是在自己的机器上编译源文件。
+大家可以执行一下 &lt;code&gt;mnv -v&lt;/code&gt;命令看看自己是什么版本的，我装的是maven-3.2.1。
+安装的方法非常简单，就是下载，解压到制定地方，例如/usr/local，修改环境变量&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;MAVEN_HOME&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;maven&lt;/span&gt;
+&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;MAVEN_HOME&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;生效&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;source&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;profile&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在这里我犯了个错误，用了&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;maven2&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;来安装，结果装了个低版本的maven.编译的时候出了问题，改成自己手动安装，配置环境变量之后发现&lt;code&gt;mvn -v&lt;/code&gt;的结果还是&lt;code&gt;maven2&lt;/code&gt;,而不是我刚刚装的maven3.2.1，原因是bash会先去/usr/bin下去找maven，如果没找到才会去/etc/profile下去找，所以即使我配置来环境变量，一样没用。其实可以用&lt;code&gt;which mvn&lt;/code&gt; 查看bash是去哪儿取的maven命令，我解决的办法是&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;remove&lt;/span&gt; &lt;span class="n"&gt;maven2&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;1.4 protobuf环境&lt;/h2&gt;
+&lt;p&gt;protobuf工具在我们编译hadoop源文件时会用到，我就不解释了，引用官方文档：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Protocol buffers are Google’s language-neutral, platform-neutral, extensible mechanism for serializing structured data – think XML, but smaller, faster, and simpler.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;可以在&lt;a href="https://code.google.com/p/protobuf/downloads/list"&gt;这里&lt;/a&gt;下载到最新的版本protobuf-2.5.0。
+安装方法：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="n"&gt;tar&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;xvzf&lt;/span&gt; &lt;span class="n"&gt;protobuf&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.5.0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt; 
+ &lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="n"&gt;protobuf&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.5.0&lt;/span&gt; 
+ &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;configure&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;prefix&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;protobuf&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="err"&gt;这里是你想安装的位置&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+ &lt;span class="n"&gt;make&lt;/span&gt; 
+ &lt;span class="n"&gt;make&lt;/span&gt; &lt;span class="n"&gt;check&lt;/span&gt; 
+ &lt;span class="n"&gt;make&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; 
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;我在执行./configure步骤的时候出了个奇怪的错误&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;C compiler cannot create executables&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;可能是因为你的linux编译器有问题，有点系统可能gcc版本比较旧。可以这样：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;gcc&lt;/span&gt; &lt;span class="n"&gt;g&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;
+&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;LIBS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
+&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;CFLAGS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;我做了之后发现还是没用，最后是切换到root用户下执行./configue等，我是受到有同学说可能是权限问题造成的，我表示怀疑，anyway，总算是解决了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;修改/etc/profile&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;:/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;protobuf&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;
+ &lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;PKG_CONFIG_PATH&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;protobuf&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lib&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;pkgconfig&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;生效&lt;/strong&gt;：
+ &lt;code&gt;source /etc/profile&lt;/code&gt;
+ &lt;strong&gt;配置动态链接库&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;vim&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;ld&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;so&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="err"&gt;在后面插入&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="err"&gt;：&lt;/span&gt;
+ &lt;span class="n"&gt;include&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;protobuf&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lib&lt;/span&gt;
+ &lt;span class="n"&gt;su&lt;/span&gt;  &lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="n"&gt;root&lt;/span&gt; &lt;span class="err"&gt;权限&lt;/span&gt;
+ &lt;span class="n"&gt;ldconfig&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;测试，查看版本&lt;/strong&gt;：
+ &lt;code&gt;protoc --version&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;如果显示：&lt;code&gt;libprotoc 2.5.0&lt;/code&gt;你就妥了。&lt;/p&gt;
+&lt;h1&gt;2 配置 /etc/hosts和/etc/hostname&lt;/h1&gt;
+&lt;h2&gt;2.1 主机名&lt;/h2&gt;
+&lt;p&gt;先为每台机器取个主机名，这是为了用ssh命令的时候可以用主机名代替网址，方便输入。主机名是保存在/etc/hostname文件中的。
+我为集群设置的主机名为：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;master&lt;/li&gt;
+&lt;li&gt;hdslave1&lt;/li&gt;
+&lt;li&gt;hdslave2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;分别到各个机器上修改/etc/hostname即可。&lt;/p&gt;
+&lt;h2&gt;2.2 /etc/hosts&lt;/h2&gt;
+&lt;p&gt;打开/etc/hosts 插入下面三行。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="mf"&gt;10.103.12.243&lt;/span&gt;   &lt;span class="n"&gt;master&lt;/span&gt;
+&lt;span class="mf"&gt;10.103.12.80&lt;/span&gt;    &lt;span class="n"&gt;hdslave1&lt;/span&gt;
+&lt;span class="mf"&gt;10.103.15.75&lt;/span&gt;    &lt;span class="n"&gt;hdslave2&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这一步是在每个机器上都要做的，并且是一样的。
+做完这一步之后，机器互相之间应该能用类似于 &lt;code&gt;ping hdslave1&lt;/code&gt;这样的主机名ping通。&lt;/p&gt;
+&lt;h1&gt;3 配置SSH&lt;/h1&gt;
+&lt;p&gt;hadoop控制脚本是通过ssh来执行针对整个集群的操作的，需要允许hadoop用户无需输入密码即可访问到集群内的机器，方法是：在master上创建一对公玥/私玥，并将master上的公玥拷贝到各个slave上。
+&lt;strong&gt;master&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;scd&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hduser&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;mkdir&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ssh&lt;/span&gt;&lt;span class="err"&gt;（如果没有这个文件的话）&lt;/span&gt;
+&lt;span class="n"&gt;ssh&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;keygen&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="n"&gt;rsa&lt;/span&gt; &lt;span class="err"&gt;（会创建一对公玥&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="err"&gt;私玥）&lt;/span&gt;
+&lt;span class="n"&gt;cat&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ssh&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;id_rsa&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pub&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ssh&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;authorized_keys&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="err"&gt;创建&lt;/span&gt;&lt;span class="n"&gt;authorized_keys&lt;/span&gt;&lt;span class="err"&gt;文件，并写入公玥&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;测试一下&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;ssh&lt;/span&gt; &lt;span class="n"&gt;localhost&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;第一次应该是有提问，回答yes即可，以后登录就应该会免问答了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;slave&lt;/strong&gt;
+步骤跟master一样，不同地方在于是将master的id_rsa.pub 拷贝到其authorized_keys中。
+&lt;strong&gt;测试&lt;/strong&gt;
+在master上分别&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;ssh&lt;/span&gt; &lt;span class="n"&gt;hdslave1&lt;/span&gt;
+&lt;span class="n"&gt;ssh&lt;/span&gt; &lt;span class="n"&gt;hdslave2&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;看能不能无密码登录，如果能，则说明可以了。第一次登可能要问答一下，以后就不需要了。&lt;/p&gt;
+&lt;h1&gt;4 安装hadoop&lt;/h1&gt;
+&lt;h2&gt;4.1 编译hadoop安装包&lt;/h2&gt;
+&lt;p&gt;64bit与32bit不同之处在于，64bit需要在本地编译，借助maven来完成。
+首先下载&lt;a href="http://www.gaidso.com/apache/hadoop/common/"&gt;源文件&lt;/a&gt;,我下载的是hadoop-2.4.0-src.tar.gz,解压并用maven编译：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;tar&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;xvzf&lt;/span&gt; &lt;span class="n"&gt;hadoop&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.4.0&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt;
+&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="n"&gt;hadoop&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.4.0&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt;
+&lt;span class="n"&gt;mvn&lt;/span&gt; &lt;span class="n"&gt;package&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Pdist&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;native&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;DskipTests&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Dtar&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt; 
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;正常应该不会有错了，如果出错了也不要慌，我安装花费的至少一半时间都在这一步上面。我就遇到了下面的错误，废了很大劲，最后看到stackoverflow上有同学说可能是权限问题。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[ERROR] Failed to execute goal org.apache.maven.plugins:maven-antrun-plugin:1.6:run (create-testdirs) on project hadoop-project&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我解决的方法是：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;chown&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;R&lt;/span&gt; &lt;span class="n"&gt;hdusr&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bupt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.4.0&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;果然好了。
+编译的过程还取决于网速，至少两三个小时吧，这个过程就不要等啦，干点别的吧。&lt;/p&gt;
+&lt;h2&gt;4.2 安装&lt;/h2&gt;
+&lt;p&gt;编译好的安装包在&lt;code&gt;hadoop-2.2.0-src/hadoop-dist/target/hadoop-2.4.0/&lt;/code&gt;目录下 ,你需要把它拷贝到你想安装的地方，例如我的：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;mv&lt;/span&gt; &lt;span class="n"&gt;hadoop&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.4.0&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;mv&lt;/span&gt; &lt;span class="n"&gt;hadoop&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.4.0&lt;/span&gt; &lt;span class="n"&gt;hadoop&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;将hadoop文件夹的权限赋给hdusr用户：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;chown&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;R&lt;/span&gt; &lt;span class="n"&gt;hdusr&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;hdusr&lt;/span&gt; &lt;span class="n"&gt;hadoop&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;4.3 Edit /etc/profile&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;HADOOP_HOME&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt;
+&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;HADOOP_MAPRED_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HADOOP_HOME&lt;/span&gt;
+&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;HADOOP_COMMON_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HADOOP_HOME&lt;/span&gt;
+&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;HADOOP_HDFS_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HADOOP_HOME&lt;/span&gt;
+&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;YARN_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HADOOP_HOME&lt;/span&gt;
+&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;HADOOP_CONF_DIR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HADOOP_HOME&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt;
+&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;YARN_CONF_DIR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HADOOP_HOME&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;4.4 Edit Hadoop environment files&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;hadoop/libexec/hadoop­config.sh 
+  在文件的开头插入&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;JAVA_HOME&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lib&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;jvm&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;jdk1&lt;/span&gt;&lt;span class="mf"&gt;.6.0&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;hadoop/etc/hadoop/yarn-­env.sh 
+  在文件的开头插入&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;JAVA_HOME&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lib&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;jvm&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;jdk1&lt;/span&gt;&lt;span class="mf"&gt;.6.0&lt;/span&gt;
+    &lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;HADOOP_HOME&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt;
+    &lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;HADOOP_MAPRED_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HADOOP_HOME&lt;/span&gt;
+    &lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;HADOOP_COMMON_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HADOOP_HOME&lt;/span&gt;
+    &lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;HADOOP_HDFS_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HADOOP_HOME&lt;/span&gt;
+    &lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;YARN_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HADOOP_HOME&lt;/span&gt;
+    &lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;HADOOP_CONF_DIR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HADOOP_HOME&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt;
+    &lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;YARN_CONF_DIR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;HADOOP_HOME&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;4.5 建立tmp文件夹&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;mkdir&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="n"&gt;tmp&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;4.6 配置configuration files&lt;/h2&gt;
+&lt;p&gt;下面的配置对所有的机器都是一样的。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;4.6.1 $HADOOP_CONF_DIR/core-­site.xml:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;configuration&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;fs.default.name&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;hdfs://master:9000&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;hadoop.tmp.dir&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;/usr/local/hadoop/tmp&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;fs.defaultFS&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;hdfs://master:9000&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/configuration&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;fs.default.name&lt;/strong&gt; 这是一个描述集群中NameNode结点的URI(包括协议、主机名称、端口号)，集群里面的每一台机器都需要知道NameNode的地址。DataNode结点会先在NameNode上注册，这样它们的数据才可以被使用。独立的客户端程序通过这个URI跟DataNode交互，以取得文件的块列表.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;hadoop.tmp.dir&lt;/strong&gt; 是hadoop文件系统依赖的基础配置，很多路径都依赖它。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;4.6.2 $HADOOP_CONF_DIR/hdfs-­site.xml :&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;configuration&amp;gt;&lt;/span&gt;
+
+&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;dfs.replication&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;3&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+ &lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+     &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;dfs.permissions&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+     &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;false&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+   &lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/configuration&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;dfs.replication&lt;/strong&gt; : 它决定着系统里面的文件块的数据备份个数。对于一个实际的应用，它 应该被设为3（这个数字并没有上限，但更多的备份可能并没有作用，而且会占用更多的空间）。少于三个的备份，可能会影响到数据的可靠性(系统故障时，也许会造成数据丢失).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;dfs.permissions&lt;/strong&gt; : If "true", enable permission checking in HDFS. If "false", permission checking is turned off,   but all other behavior is unchanged. Switching from one parameter value to the other does   not change the mode, owner or group of files or directories.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;4.6.3 $HADOOP_CONF_DIR/mapred-­site.xml :&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;configuration&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;mapreduce.framework.name&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;yarn&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+       &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;mapred.job.tracker&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;master:9001&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/configuration&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;mapred.job.tracker&lt;/strong&gt; JobTracker的主机（或者IP）和端口.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;4.6.4 $HADOOP_CONF_DIR/yarn-­site.xml :&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;configuration&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;yarn.nodemanager.aux-services&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;mapreduce_shuffle&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;yarn.nodemanager.aux-services.mapreduce.shuffle.class&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;org.apache.hadoop.mapred.ShuffleHandler&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;yarn.resourcemanager.resource-tracker.address&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;master:8025&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;yarn.resourcemanager.scheduler.address&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;master:8030&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;yarn.resourcemanager.address&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;master:8040&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/configuration&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;4.6.5 $HADOOP_CONF_DIR/slaves
+写入slave名字：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;hdslave1&lt;/span&gt;
+&lt;span class="n"&gt;hdslave2&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;4.7 format the namenode&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt;
+&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt; &lt;span class="n"&gt;namenode&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;5 测试&lt;/h1&gt;
+&lt;h2&gt;5.1  Start Hadoop Daemons&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sbin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;daemon&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="n"&gt;namenode&lt;/span&gt;
+&lt;span class="n"&gt;sbin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;daemons&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="n"&gt;datanode&lt;/span&gt;
+&lt;span class="n"&gt;sbin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;yarn&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;daemon&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="n"&gt;resourcemanager&lt;/span&gt;
+&lt;span class="n"&gt;sbin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;yarn&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;daemons&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="n"&gt;nodemanager&lt;/span&gt;
+&lt;span class="n"&gt;sbin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mr&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;jobhistory&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;daemon&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="n"&gt;historyserver&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;5.2 检查进程&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;jps&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;对于master，应该有如下进程：
+&lt;img alt="" src="http://bupt-image.qiniudn.com/hadoop2.png" /&gt;&lt;/p&gt;
+&lt;p&gt;对于slave：
+&lt;img alt="" src="http://bupt-image.qiniudn.com/hadoop3.png" /&gt;&lt;/p&gt;
+&lt;h2&gt;5.3 运行例程验证安装&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt; &lt;span class="n"&gt;jar&lt;/span&gt; &lt;span class="n"&gt;share&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mapreduce&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;mapreduce&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;examples&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.4.0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;jar&lt;/span&gt; &lt;span class="n"&gt;randomwriter&lt;/span&gt; &lt;span class="n"&gt;out&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="" src="http://bupt-image.qiniudn.com/hadoop4.png" /&gt;
+可以看到job已经开始map了。&lt;/p&gt;
+&lt;h2&gt;5.4 网页ui&lt;/h2&gt;
+&lt;p&gt;在浏览器中输入localhost:50070/dfshealth.html#tab-overview
+可以看到这样的网页。
+&lt;img alt="" src="http://bupt-image.qiniudn.com/hadoop5.png" /&gt; &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Celebrate &amp;amp; Congratulations!&lt;/strong&gt;&lt;/p&gt;</summary><category term="Hadoop"></category></entry><entry><title>storm--最火的流式分布式系统</title><link href="/storm--%E6%9C%80%E7%81%AB%E7%9A%84%E6%B5%81%E5%BC%8F%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F.html" rel="alternate"></link><updated>2014-04-10T22:04:00+08:00</updated><author><name>Li,Gongfu</name></author><id>tag:,2014-04-10:storm--最火的流式分布式系统.html</id><summary type="html">&lt;p&gt;折腾storm有一段时间了，上篇博客写了怎么部署自己的storm系统，有必要解释一下的架构和原理。结合我看到的一些资料，做个简单的总结，尤其是对于storm能做什么，适合做什么，应该是能给刚接触storm的同学们一些启发。&lt;/p&gt;
+&lt;h2&gt;storm诞生&lt;/h2&gt;
+&lt;p&gt;在2011年Storm开源之前，由于Hadoop的火红，整个业界都在喋喋不休地谈论大数据。Hadoop的高吞吐，海量数据处理的能力使得人们可以方便地处理海量数据。但是，Hadoop的缺点也和它的优点同样鲜明——延迟大，响应缓慢，运维复杂。有需求也就有创造，在Hadoop基本奠定了大数据霸主地位的时候，很多的开源项目都是以弥补Hadoop的实时性为目标而被创造出来。而在这个节骨眼上Storm横空出世了。
+Storm带着流式计算的标签华丽丽滴出场了，看看它的一些卖点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;分布式系统：可横向拓展,现在的项目不带个分布式特性都不好意思开源。&lt;/li&gt;
+&lt;li&gt;运维简单：Storm的部署的确简单。虽然没有Mongodb的解压即用那么简单，但是它也就是多安装两个依赖库而已。&lt;/li&gt;
+&lt;li&gt;高度容错：模块都是无状态的，随时宕机重启。&lt;/li&gt;
+&lt;li&gt;无数据丢失：Storm创新性提出的ack消息追踪框架和复杂的事务性处理,能够满足很多级别的数据处理需求。不过，越高的数据处理需求，性能下降越严重。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Storm 与传统的大数据&lt;/h2&gt;
+&lt;p&gt;Storm 与其他大数据解决方案的不同之处在于它的处理方式。Hadoop在本质上是一个批处理系统。数据被引入 Hadoop文件系统(HDFS)并分发到各个节点进行处理。当处理完成时，结果数据返回到 HDFS供始发者使用。Storm支持创建拓扑结构来转换没有终点的数据流。不同于 Hadoop 作业，这些转换从不停止，它们会持续处理到达的数据。&lt;/p&gt;
+&lt;h2&gt;Storm的基本架构&lt;/h2&gt;
+&lt;p&gt;Storm是一个免费开源、分布式、高容错的实时计算系统。Storm令持续不断的流计算变得容易，弥补了Hadoop批处理所不能满足的实时要求。Storm经常用于在实时分析、在线机器学习、持续计算、分布式远程调用和ETL等领域。Storm的部署管理非常简单，而且，在同类的流式计算工具，Storm的性能也是非常出众的。来看看storm的架构图：
+&lt;img alt="" src="http://bupt-image.qiniudn.com/storm1.jpeg" /&gt;&lt;/p&gt;
+&lt;p&gt;Storm主要分为两种组件Nimbus和Supervisor。这两种组件都是快速失败的，没有状态。任务状态和心跳信息等都保存在Zookeeper上的，提交的代码资源都在本地机器的硬盘上。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Nimbus负责在集群里面发送代码，分配工作给机器，并且监控状态。全局只有一个。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Supervisor会监听分配给它那台机器的工作，根据需要启动/关闭工作进程Worker。每一个要运行Storm的机器上都要部署一个，并且，按照机器的配置设定上面分配的槽位数。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Zookeeper是Storm重点依赖的外部资源。Nimbus和Supervisor甚至实际运行的Worker都是把心跳保存在Zookeeper上的。Nimbus也是根据Zookeerper上的心跳和任务运行状况，进行调度和任务分配的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Storm提交运行的程序称为Topology。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Tuple：Topology处理的最小的消息单位是一个Tuple，也就是一个任意对象的数组。一次消息传递的基本单元。本来应该是一个key-value的map，但是由于各个组件间传递的tuple的字段名称已经事先定义好，所以tuple中只要按序填入各个value就行了，所以就是一个value list.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Topology由Spout和Bolt构成。Spout是发出Tuple的结点。Bolt可以随意订阅某个Spout或者Bolt发出的Tuple。Spout和Bolt都统称为component。 &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Topology&lt;/h2&gt;
+&lt;p&gt;Topology由Spout和Bolt构成。Spout是发出Tuple的结点。Bolt可以随意订阅某个Spout或者Bolt发出的Tuple。Spout和Bolt都统称为component。 &lt;/p&gt;
+&lt;p&gt;spout和bolt以很多task的形式在topology里面同步执行。如果从task的粒度来看一个运行的topology，它应该是这样的:
+&lt;img alt="" src="http://bupt-image.qiniudn.com/storm2.jpeg" /&gt;
+当Bolt A的一个task要发送一个tuple给BoltB， 它应该发送给Bolt B的哪个task呢？stream grouping专门回答这种问题的。有好几种不同的streamgrouping:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;shuffle grouping:它随机发给任何一个task。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;fields grouping:这种grouping机制保证相同field值的tuple会去同一个task。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;AllGrouping：广播发送，将每一个Tuple发送到所有的Task。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;GlobalGrouping：所有的Tuple会被发送到某个Bolt中的id最小的那个Task。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;NoneGrouping：不关心Tuple发送给哪个Task来处理，等价于ShuffleGrouping。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;DirectGrouping：直接将Tuple发送到指定的Task来处理。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Storm的消息传输机制&lt;/h2&gt;
+&lt;p&gt;Storm的底层采用 zeromq（Omq,zeromq）——一个先进的嵌入式网络通讯库，为Storm提供了很多令人激动的功能。以下列出了 zeromq的特点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;支持高并发的网络通讯库&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;比TCP更快，适用于大型生产集群和超级计算&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;采用进程内通信、进程间通信、TCP和多播传递消息&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;异步I/O，适用于扩展的多核消息传递应用中&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;通过扇出、发布订阅、管道、请求-应答实现多对多连接&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;hadoop vs storm&lt;/h2&gt;
+&lt;p&gt;全量数据处理使用的大多是鼎鼎大名的hadoop或者hive，作为一个批处理系统，hadoop以其吞吐量大、自动容错等优点，在海量数据处理上得到了广泛的使用。但是，hadoop不擅长实时计算，因为它天然就是为批处理而生的，这也是业界一致的共识。否则最近这两年也不会有s4,storm,puma这些实时计算系统如雨后春笋般冒出来了。&lt;/p&gt;
+&lt;p&gt;storm的网络直传、内存计算，其时延必然比hadoop的通过hdfs传输低得多；当计算模型比较适合流式时，storm的流式处理，省去了批处理的收集数据的时间；因为storm是服务型的作业，也省去了作业调度的时延。所以从时延上来看，storm要快于hadoop。&lt;/p&gt;
+&lt;p&gt;下面是storm和hadoop组件的对应关系。
+ component      | hadoop    | storm
+---------   | -----    |------
+系统角色   | job tracker |nimbus
+系统角色   | TaskTracker  |Supervisor
+系统角色       | Child   |worker
+应用名称   | Job  |Topology
+组件接口|Mapper/Reducer|Spout/Bolt&lt;/p&gt;
+&lt;h2&gt;当前发展&lt;/h2&gt;
+&lt;p&gt;Storm已经发展到0.9.1版本了，看一下3年多来，它取得的成就：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;有100个大大小小的公司在使用Storm，相信更多的不留名的公司也在使用。这些公司中不乏淘宝，百度，携程，Twitter，Groupon，雅虎等重量级公司。来看一些实际的应用：&lt;blockquote&gt;
+&lt;p&gt;一淘-实时分析系统pora：实时分析用户的属性，并反馈给搜索引擎。最初，用户属性分析是通过每天在云梯上定时运行的MR job来完成的。为了满足实时性的要求，希望能够实时分析用户的行为日志，将最新的用户属性反馈给搜索引擎，能够为用户展现最贴近其当前需求的结果。
+    携程-网站性能监控：实时分析系统监控携程网的网站性能。利用HTML5提供的performance标准获得可用的指标，并记录日志。Storm集群实时分析日志和入库。使用DRPC聚合成报表，通过历史数据对比等判断规则，触发预警事件。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;从开源时候的0.5.0版本，到现在的0.9.0+。先后添加了以下重大的新特性：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;§&lt;/span&gt; &lt;span class="err"&gt;使用&lt;/span&gt;&lt;span class="n"&gt;kryo&lt;/span&gt;&lt;span class="err"&gt;作为&lt;/span&gt;&lt;span class="n"&gt;Tuple&lt;/span&gt;&lt;span class="err"&gt;序列化的框架（&lt;/span&gt;&lt;span class="mf"&gt;0.6.0&lt;/span&gt;&lt;span class="err"&gt;）&lt;/span&gt;
+
+&lt;span class="err"&gt;§&lt;/span&gt; &lt;span class="err"&gt;添加了&lt;/span&gt;&lt;span class="n"&gt;Transactional&lt;/span&gt; &lt;span class="n"&gt;topologies&lt;/span&gt;&lt;span class="err"&gt;（事务性拓扑）的支持（&lt;/span&gt;&lt;span class="mf"&gt;0.7.0&lt;/span&gt;&lt;span class="err"&gt;）&lt;/span&gt;
+
+&lt;span class="err"&gt;§&lt;/span&gt; &lt;span class="err"&gt;添加了&lt;/span&gt;&lt;span class="n"&gt;Trident&lt;/span&gt;&lt;span class="err"&gt;的支持（&lt;/span&gt;&lt;span class="mf"&gt;0.8.0&lt;/span&gt;&lt;span class="err"&gt;）&lt;/span&gt;
+
+&lt;span class="err"&gt;§&lt;/span&gt; &lt;span class="err"&gt;引入&lt;/span&gt;&lt;span class="n"&gt;netty&lt;/span&gt;&lt;span class="err"&gt;作为底层消息机制（&lt;/span&gt;&lt;span class="mf"&gt;0.9.0&lt;/span&gt;&lt;span class="err"&gt;）&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Transactional topologies和Trident都是针对实际应用中遇到的重复计数问题和应用性问题的解决方案。可以看出，实际的商用给予了Storm很多良好的反馈。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在GitHub上超过4000个项目负责人。Storm集成了许多库，支持包括Kestrel、Kafka、JMS、Cassandra、Memcached以及更多系统。随着支持的库越来越多，Storm更容易与现有的系统协作。Storm拥有一个活跃的社区和一群热心的贡献者。过去3年，Storm的发展是非常成功的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果，业务场景中需要低延迟的响应，希望在秒级或者毫秒级完成分析、并得到响应，而且希望能够随着数据量的增大而拓展。那就可以考虑下，使用Storm了。&lt;/p&gt;
+&lt;h2&gt;未来&lt;/h2&gt;
+&lt;p&gt;在流式处理领域里，Storm的直接对手是S4。不过，S4冷淡的社区、半成品的代码，在实际商用方面输给Storm不止一条街。&lt;/p&gt;
+&lt;p&gt;如果把范围扩大到实时处理，Storm就一点都不寂寞了。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Puma：Facebook使用puma和Hbase相结合来处理实时数据,使批处理计算平台具备一定实时能力。不过这不算是一个开源的产品。只是内部使用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;HStreaming：尝试为Hadoop环境添加一个实时的组件HStreaming能让一个Hadoop平台在几天内转为一个实时系统。分商业版和免费版。也许HStreaming可以借Hadoop的东风，撼动Storm。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Spark Streaming：作为UC Berkeley云计算software stack的一部分，Spark Streaming是建立在Spark上的应用框架，利用Spark的底层框架作为其执行基础，并在其上构建了DStream的行为抽象。利用DStream所提供的api，用户可以在数据流上实时进行count，join，aggregate等操作。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;当然，Storm也有Yarn-Storm项目，能让Storm运行在Hadoop2.0的Yarn框架上，可以让Hadoop的MapReduce和Storm共享资源。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;主要参考的网站资源：&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/nathanmarz/storm/wiki/Tutorial"&gt;storm官方tutorial&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://book.douban.com/subject/11229716/"&gt;Getting Started with Storm&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://my.oschina.net/leejun2005/blog/147607"&gt;一篇对照一个例子讲storm原理和应用的不错文章&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.cnblogs.com/XjChenny/p/3214039.html"&gt;非常完整的storm安装教程，但没有提到安装过程可能遇到的问题&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://javanlu.github.io/blog/2013/10/11/storm-deploy-tutorial/#storm-starterwordcount"&gt;一个github上的博客，《Getting Started with Storm》一书部分的个人翻译&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;其他开源的大数据解决方案&lt;/h2&gt;
+&lt;p&gt;自 Google 在 2004 年推出 MapReduce 范式以来，已诞生了多个使用原始 MapReduce 范式（或拥有该范式的质量）的解决方案。Google对MapReduce的最初应用是建立万维网的索引。尽管此应用程序仍然很流行，但这个简单模型解决的问题也正在增多。&lt;/p&gt;
+&lt;p&gt;表一提供了一个可用开源大数据解决方案的列表，包括传统的批处理和流式处理应用程序。在将Storm引入开源之前将近一年的时间里，Yahoo!的S4分布式流计算平台已向 Apache开源。S4于2010年10月发布它提供了一个高性能计算 (HPC) 平台，向应用程序开发人员隐藏了并行处理的复杂性。S4 实现了一个可扩展的、分散化的集群架构，并纳入了部分容错功能。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;表 1. 开源大数据解决方案&lt;/em&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;解决方案&lt;/th&gt;
+&lt;th&gt;开发商&lt;/th&gt;
+&lt;th&gt;类型&lt;/th&gt;
+&lt;th&gt;描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Storm&lt;/td&gt;
+&lt;td&gt;Twitter&lt;/td&gt;
+&lt;td&gt;流式处理&lt;/td&gt;
+&lt;td&gt;Twitter 的新流式大数据分析解决方案&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;S4&lt;/td&gt;
+&lt;td&gt;Yahoo!&lt;/td&gt;
+&lt;td&gt;流式处理&lt;/td&gt;
+&lt;td&gt;来自 Yahoo! 的分布式流计算平台&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Hadoop&lt;/td&gt;
+&lt;td&gt;Apache&lt;/td&gt;
+&lt;td&gt;批处理&lt;/td&gt;
+&lt;td&gt;MapReduce 范式的第一个开源实现&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Spark&lt;/td&gt;
+&lt;td&gt;UC Berkeley AMPLab&lt;/td&gt;
+&lt;td&gt;批处理&lt;/td&gt;
+&lt;td&gt;支持内存中数据集和恢复能力的最新分析平台&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Disco&lt;/td&gt;
+&lt;td&gt;Nokia&lt;/td&gt;
+&lt;td&gt;批处理&lt;/td&gt;
+&lt;td&gt;Nokia 的分布式 MapReduce 框架&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;</summary><category term="Storm"></category></entry><entry><title>Storm单机版的安装与部署</title><link href="/Storm%E9%9B%86%E7%BE%A4%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E9%83%A8%E7%BD%B2.html" rel="alternate"></link><updated>2014-03-07T16:26:00+08:00</updated><author><name>Li,Gongfu</name></author><id>tag:,2014-03-07:Storm集群的安装与部署.html</id><summary type="html">&lt;p&gt;经过一周多的努力，我的storm安装折腾之路终于在这个寒冷的周五结束了，觉得一定要写下来，一则为了即将开始的Storm集群部署保留一手资料，二来也为了给更多没接触过但需要使用Storm的同学提供点指导。网上虽然有很多关于storm的安装教程，但我觉得有两个方面的不足，一是作者默认你已经有了不错的linux，分布式架构，github开源项目的经验，所以有些地方点到即止，让新手好不恼火。另一方面，很少提到遇到的问题，但是，相信我，安装不是困难的，难的是你即将遇到一些你百思不得其解的问题，对于新手来说同样是极其影响心情和士气的，幸好有立鑫学长的倾情指导，为我解决了一个个难题，鞠躬。&lt;/p&gt;
+&lt;p&gt;这篇文章写的有点罗嗦，但是为了尽量把我在安装过程中遇到的困难都描述清楚，为你提供比较详细的参考，即使你是一个完全没有接触过storm的新手，甚至刚接触linux不久，我相信你也能通过这篇教程搭出一个storm系统。&lt;/p&gt;
+&lt;p&gt;另外，注意一下，这个教程描述的是单机版的storm，集群版我后面再写，两者配置是不一样的。话不多说，开始吧。&lt;/p&gt;
+&lt;h1&gt;准备工作&lt;/h1&gt;
+&lt;p&gt;我的机器是Ubuntu 12.04，虽然storm可以在windows下部署，但是我不建议你么做，我同样建议你安装一个全新的系统，以防止各种各种别的问题。&lt;/p&gt;
+&lt;h2&gt;1.1 安装JDK6&lt;/h2&gt;
+&lt;p&gt;Storm需要JVM的支持，我选择的是Java1.6，只要是Java1.6以上版本就可以。不过我还是建议你安装JDK6，安装步骤非常简单，我就不赘述了，网上也有很多教程。简单的说就是就是下载安装包，解压到安装路径，如/usr/lib/jvm，修改&lt;code&gt;/etc/profile&lt;/code&gt;，&lt;code&gt;source /etc/profile&lt;/code&gt;。&lt;/p&gt;
+&lt;h2&gt;1.2  安装Eclipse&lt;/h2&gt;
+&lt;p&gt;storm的Topology需要被打成jar包上传，可以使用lein，maven等，不过我建议使用eclipse，因为这个大家可能更熟悉一点，最后我也会以eclipse为例子演示怎么制作storm的jar包。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;下载安装包&lt;/p&gt;
+&lt;p&gt;这是&lt;a href="http://www.eclipse.org/downloads/"&gt;下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;注意根据机器的位数下载不同版本。我下载的是：eclipse-standard-kepler-SR1-linux-gtk-x86_64.tar.gz
+- 如果你的系统是刚装的，那么在根目录下创建opt文件夹：&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;mkdir&lt;/span&gt;   &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;将eclipse的安装包拷贝到/opt下：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt;  &lt;span class="n"&gt;cpeclipse&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;standard&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;kepler&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;SR1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;gtk&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x86_64&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt;  &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;解压安装：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;
+&lt;span class="n"&gt;tar&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;zvxf&lt;/span&gt; &lt;span class="n"&gt;eclipse&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;standard&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;kepler&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;SR1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;gtk&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x86_64&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;测试是否成功：
+进入opt/eclipse文件夹下，打开eclipse，第一次登陆还是要设置workspace，跟windows一样，编写一个helloworld程序试试就知道了，一般是没有问题的。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;安装zookeeper&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;下载安装包
+同学们可以到&lt;a href="http://zookeeper.apache.org/releases.html"&gt;官网&lt;/a&gt;上去下载.我使用的是目前最新的版本：zookeeper-3.4.5。安装非常简单，解压即可：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bupt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;installpack&lt;/span&gt;             &lt;span class="err"&gt;我存放安装包的地方&lt;/span&gt;
+&lt;span class="n"&gt;tar&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;zvxfzookeeper&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;3.4.5&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;设置环境变量：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;vim&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;profile&lt;/span&gt; 
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在后面加上： &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;ZOOKEEPER_HOME&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bupt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;installpack&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;zookeeper&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;3.4.5&lt;/span&gt;
+&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;ZOOKEEPER_HOME&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;PATH&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;使其生效：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;source&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;profile&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;修改配置文件
+在zookeeper-3.4.5/conf文件下有一个叫zoo_sample.cfg的文件，它是zookeeper配置文件的模版，复制它，并改名为zoo.cfg，打开，修改配置如下：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;tickTime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2000&lt;/span&gt;  
+&lt;span class="n"&gt;dataDir&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bupt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;installpack&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;zookeeper&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;3.4.5&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;zkdata&lt;/span&gt;  &lt;span class="err"&gt;这里&lt;/span&gt;&lt;span class="n"&gt;zkdata&lt;/span&gt;&lt;span class="err"&gt;是我自己造的&lt;/span&gt;
+&lt;span class="n"&gt;clientPort&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2181&lt;/span&gt;  
+&lt;span class="n"&gt;initLimit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;  
+&lt;span class="n"&gt;syncLimit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; 
+&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="mf"&gt;.1&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;10.103.12.243&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;2888&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;3888&lt;/span&gt; 
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;一点说明 ：&lt;code&gt;server.1=10.103.12.243:2888:3888&lt;/code&gt;中的IP地址是我本机的地址，你配置的时候要改成你的机器的地址。
+上述参数的解释在zoo.cfg文件中有介绍，我就不讲了。你甚至不需要知道意思，照着我的参数配置也可以，等你想了解的时候再回过头来看看。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;配置myid文件
+在dataDir目录下新建myid文件，打开并写入id号，id号即为zoo.cfg文件中server.后的数字， 如server.1=IP1:2888:3888即表示IP1机器中的myid号为1。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;测试&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bupt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;installpack&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;zookeeper&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;3.4.5&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;
+&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="n"&gt;zkServer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;正常情况下会提示：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;JMX&lt;/span&gt; &lt;span class="n"&gt;enabled&lt;/span&gt; &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="k"&gt;default&lt;/span&gt;
+&lt;span class="n"&gt;Using&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bupt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;installpack&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;zookeeper&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;3.4.5&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;..&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;zoo&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cfg&lt;/span&gt;
+&lt;span class="n"&gt;Starting&lt;/span&gt; &lt;span class="n"&gt;zookeeper&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;STARTED&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;查看状态，执行：                            &lt;br /&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="n"&gt;zkServer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="n"&gt;status&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如果正常会显示：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;JMX&lt;/span&gt; &lt;span class="n"&gt;enabled&lt;/span&gt; &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="k"&gt;default&lt;/span&gt;
+&lt;span class="n"&gt;Using&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bupt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;installpack&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;zookeeper&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;3.4.5&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;..&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;zoo&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cfg&lt;/span&gt;
+&lt;span class="nl"&gt;Mode:&lt;/span&gt; &lt;span class="n"&gt;standalone&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这里的standalone是因为我安装的是单机版。如果是集群的话，应该是leader或者follower。
+至此，zookeeper就安装完了。
+不过我曾经遇到过一个神奇的问题：当我运行完start之后，显示 STARTED，但是运行status之后，显示如下：     &lt;br /&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;JMX&lt;/span&gt; &lt;span class="n"&gt;enabled&lt;/span&gt; &lt;span class="n"&gt;bydefault&lt;/span&gt;
+&lt;span class="n"&gt;Using&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;zookeeper&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;..&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;zoo&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cfg&lt;/span&gt;
+&lt;span class="n"&gt;Error&lt;/span&gt; &lt;span class="n"&gt;contacting&lt;/span&gt; &lt;span class="n"&gt;service&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="n"&gt;It&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;probably&lt;/span&gt; &lt;span class="n"&gt;not&lt;/span&gt; &lt;span class="n"&gt;running&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;我相信你很可能已经遇到这个问题，相信你同样发现网上的说法都是nc命令的版本问题，解决方法是：用文本编辑器打开zkServer.sh，找到&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;STAT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="n"&gt;stat&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;nc&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;  &lt;span class="n"&gt;localhost&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;grep&lt;/span&gt; &lt;span class="n"&gt;clientPort&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;$ZOOCFG&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;sed&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;*=&lt;/span&gt;&lt;span class="c1"&gt;//&amp;#39;) 2&amp;gt; /dev/null| grep Mode`&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这行，去掉-q 1 即可，或者，如果缺少-q 1，则加上即可，但是我的zkServer.sh问价压根儿就没有这一行，我猜测这应该zookeeper 早期版本的问题，我使用的zookeeper3.4.5已经修改过zkServer.sh文件了。无奈，只好找别的方法。这里教大家一个好的办法，就是去zookeeper.out文件中去察看日志，里面会记录status失败的原因，例如，我的就是：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“无法打开java命令 usr/lib/jvm/jdk目录不存在”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;原来是由于我卸载JDK7，重装成JDK6造成的，jdk文件夹确实已经不存在了。于是我修改环境变量，各种设置，凡是涉及到JDK的地方统统修改路径，这也给大家提个醒，尽量不要在机器上装太多JDK，否则容易乱，卸载的时候也要卸载干净，记得修改环境变量等，造成不必要的麻烦。
+事情还没完，等我修改了所有我认为应该修改的设置之后，依然是&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Error&lt;/span&gt; &lt;span class="n"&gt;contacting&lt;/span&gt; &lt;span class="n"&gt;service&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="n"&gt;It&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;probably&lt;/span&gt; &lt;span class="n"&gt;not&lt;/span&gt; &lt;span class="n"&gt;running&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;我已经抓狂了，剧情当然发展到有大神来指导啦，师兄看了半天也不知道怎么回事，觉得所有的地方都对，但zookeeper.out 文件里总是显示：“无法打开java命令 usr/lib/jvm/jdk目录不存在”。于是他索性删除了zookeeper.out文件，并重新创建了同名的空文件，结果就好了。我们得出的结论是Zookeeper 的status命令太SB，经常出一些莫名其妙的bug，需要我们手动的更新zookeeper.out文件，如果你也遇到了这个问题，不妨试试这个方法吧。我真是屡试不爽。&lt;/p&gt;
+&lt;h2&gt;安装ZeroMQ和JZMQ&lt;/h2&gt;
+&lt;h3&gt;3.1 安装libtool  automake  autoconf  m4&lt;/h3&gt;
+&lt;p&gt;在安装这两个组件之前，我强烈建议你检查一下你是否已经安装了上面这写组件，因为他们会在安装ZeroMQ和JZMQ时用到，如果你不想在后续安装的时候频繁的被打断，那就索性先一股脑的安装了吧。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;libtool&lt;/p&gt;
+&lt;p&gt;这是&lt;a href="http://mirrors.ustc.edu.cn/gnu/libtool/"&gt;下载地址&lt;/a&gt;。我使用的是libtool-2.4.2.tar.gz。    &lt;br /&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;tar&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;xzvf&lt;/span&gt; &lt;span class="n"&gt;libtool&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.4.2&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt; 
+&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="n"&gt;libtool&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.4.2&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;configure&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;prefix&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;
+&lt;span class="n"&gt;make&lt;/span&gt; 
+&lt;span class="n"&gt;make&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;m4
+这是&lt;a href="http://ftp.gnu.org/gnu/m4/"&gt;下载地址&lt;/a&gt;。我下载的是：m4-1.4.17.tar.gz。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;tar&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;xzvf&lt;/span&gt; &lt;span class="n"&gt;m4&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.4.17&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt; 
+&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="n"&gt;m4&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.4.17&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;configure&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;prefix&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;
+&lt;span class="n"&gt;make&lt;/span&gt; 
+&lt;span class="n"&gt;make&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;automake
+这是&lt;a href="http://ftp.gnu.org/gnu/automake/"&gt;下载地址&lt;/a&gt;。我下载的是：automake-1.14.tar.gz。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;tar&lt;/span&gt; &lt;span class="n"&gt;xzvf&lt;/span&gt; &lt;span class="n"&gt;automake&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.14&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt;
+&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="n"&gt;automake&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.14&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;configure&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;prefix&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;
+&lt;span class="n"&gt;make&lt;/span&gt; 
+&lt;span class="n"&gt;make&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;autoconf
+这是&lt;a href="http://ftp.gnu.org/gnu/autoconf/"&gt;下载地址&lt;/a&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;tar&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;xzvf&lt;/span&gt; &lt;span class="n"&gt;autoconf&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.69&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt;
+&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="n"&gt;autoconf&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.69&lt;/span&gt;
+&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;configure&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;prefix&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;
+&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;make&lt;/span&gt;
+&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;make&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;3.2  安装ZeroMQ&lt;/h3&gt;
+&lt;p&gt;跟上面的安装步骤类似，先是下载&lt;a href="http://download.zeromq.org/"&gt;安装包&lt;/a&gt;。我使用的是最新版本的 zeromq-4.0.3.tar.gz&lt;br /&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;tar&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;xzvf&lt;/span&gt; &lt;span class="n"&gt;zeromq&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;4.0.3&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt;  
+&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="n"&gt;zeromq&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;4.0.3&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;autogen&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;configure&lt;/span&gt;  
+&lt;span class="n"&gt;make&lt;/span&gt;  
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;make&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;3.3  安装JZMQ&lt;/h3&gt;
+&lt;p&gt;这是&lt;a href="：https://github.com/zeromq/jzmq"&gt;下载地址&lt;/a&gt;。直接下载.zip文件就可以了。我使用的是jzmq-master.zip。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;unzip&lt;/span&gt; &lt;span class="n"&gt;jzmq&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;zip&lt;/span&gt;
+&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="n"&gt;jzmq&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;master&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;autogen&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;configure&lt;/span&gt;  
+&lt;span class="n"&gt;make&lt;/span&gt;  
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;make&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;注意，在安装ZREOMQ 或者JZMQ的过程中，你很可能会遇到:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;没有规则可以创建“org/zeromq/ZMQ.class”需要的目标“classdist_noinst.stamp”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这个奇怪的错误，这时你就直接到src文件夹下去手动创建classdist_noinst.stamp文件：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;touch&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;classdist_noinst&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stamp&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;你可能还会遇到类似的问题：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;***&lt;/span&gt; &lt;span class="err"&gt;没有规则可以创建“&lt;/span&gt;&lt;span class="n"&gt;XXOO&lt;/span&gt;&lt;span class="err"&gt;”需要的目标“&lt;/span&gt;&lt;span class="n"&gt;xxoo&lt;/span&gt;&lt;span class="err"&gt;”&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;解决方法是类似的。就是手动去创建一个就可以啦。&lt;/p&gt;
+&lt;h1&gt;安装Storm&lt;/h1&gt;
+&lt;h2&gt;4.1下载安装：&lt;/h2&gt;
+&lt;p&gt;到目前为止，终于开始安装storm啦。&lt;a href="http://storm.incubator.apache.org/downloads.html"&gt;下载地址&lt;/a&gt;.我使用的是最新版本的storm-0.9.1。Storm也是解压就能用的：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;unzip&lt;/span&gt; &lt;span class="n"&gt;storm&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.9.1&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;zip&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;mv&lt;/span&gt; &lt;span class="n"&gt;storm&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.8.2&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;4.2  修改环境变量：&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;vim&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;profile&lt;/span&gt;
+&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;STORM_HOME&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;storm&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.8.2&lt;/span&gt;
+&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;STORM_HOME&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;4.3  修改配置文件：&lt;/h2&gt;
+&lt;p&gt;配置storm/conf/storm.yaml文件：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;storm&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.9.1&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;vim&lt;/span&gt; &lt;span class="n"&gt;storm&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;yaml&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;配置项：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;storm.zookeeper.servers:
+     - "10.103.15.85"
+ nimbus.host : "10.103.15.85"
+ storm.zookeeper.port : 2181
+ storm.local.dir : "/home/bupt/storm/data"
+ ui.port : 8080
+ supervisor.slots.ports:
+ - 6700
+ - 6701
+ - 6702
+ - 6703
+ - 
+必要的说明：&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;storm.zookeeper.servers ： 指定Storm系统所使用的Zookeeper的地址。如果安装的是单机版，那就是你的本机地址。&lt;/li&gt;
+&lt;li&gt;nimbus.host : "10.103.12.243"， storm nimbus的IP地址，指定此机器为Storm的Nimbus结点，也是本机地址。&lt;/li&gt;
+&lt;li&gt;storm.local.dir :Storm的一些配置文件或jar包，或日志存放的地方，注意这个目录下，一定要保证有权限生成文件，否则会报错，因此最好是本地用户的文件路径。&lt;/li&gt;
+&lt;li&gt;storm.zookeeper.port :zookeeper 与storm通信的 端 口，通常默认为2181。但是最好还是检查一下zookeeper的zoo .cfg文件，保证配置相同。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;网上不少同学说，storm.yaml文件的格式很重要，行首与冒号后面都要空一格，否则文件会无法识别。我没有证实是不是必须如此，虽然我不是，不过我还是建议你就这样吧。&lt;/p&gt;
+&lt;h2&gt;4.4 测试storm&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bupt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;installpack&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;zookeeper&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;3.4.5&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;
+&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="n"&gt;zkServer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt;
+&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;storm&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.8.2&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;storm&lt;/span&gt; &lt;span class="n"&gt;nimbus&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;storm&lt;/span&gt; &lt;span class="n"&gt;supervisor&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;storm&lt;/span&gt; &lt;span class="n"&gt;ui&lt;/span&gt; 
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;注意要先运行&lt;code&gt;zkServer.sh start&lt;/code&gt;。然后在浏览器中输入：http://localhost:8080/
+&lt;img alt="" src="http://bupt-image.qiniudn.com/storm3.jpeg" /&gt;
+如上图，则你已经成功安装了storm了。&lt;/p&gt;
+&lt;h1&gt;运行storm-starter中的WordCount&lt;/h1&gt;
+&lt;p&gt;storm-starter是storm提供的官方例子，我使用的是里面的WordCountTopology。&lt;/p&gt;
+&lt;h2&gt;5.1 准备工作&lt;/h2&gt;
+&lt;p&gt;运行这个例子需要如下文件：commons-collections-3.2.1-bin.tar.gz ，twitter4j-2.2.6.zip，storm-starter.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;commons-collections-3.2.1-bin.tar.gz&lt;a href="http://commons.apache.org/proper/commons-collections/download_collections.cgi"&gt;下载地址&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;twitter4j-2.2.6.zip&lt;a href="http://ishare.iask.sina.com.cn/f/34337146.html?sudaref=www.google.com.hk&amp;amp;retcode=0"&gt;下载地址&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;storm-starter&lt;a href="https://github.com/nathanmarz/storm-starter"&gt;下载地址&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;注意twitter要被墙，说起这个还跟我们校长有关呢，默默的不爽一下，由此可见翻墙是多么必要的一项技能。大家需要手动下载，网上有好心人提供的，如果使用maven这种自动到twitter官网去下载的工具，很可能不能成功下载，就要坑了。&lt;/p&gt;
+&lt;h2&gt;5.2 生成jar包&lt;/h2&gt;
+&lt;p&gt;官方文档里介绍了两种方法来生成jar包：lein，maven，我对这两种方法不是很熟悉，选择了用eclipse来代替，在这里也推荐大家使用，毕竟eclipse大家都会用，效果也一样，非常简单。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;使用eclipse建立java project。 &lt;/p&gt;
+&lt;p&gt;追加twitter4j，commons-collections-3.2.1和storm的jar文件。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;File&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;New&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;Java&lt;/span&gt; &lt;span class="n"&gt;Project&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="err"&gt;为项目取名（如我取的是&lt;/span&gt;&lt;span class="n"&gt;MyStormCase&lt;/span&gt;&lt;span class="err"&gt;）&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;Next&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;Libraries&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;add&lt;/span&gt; &lt;span class="n"&gt;External&lt;/span&gt; &lt;span class="n"&gt;JARs&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;
+
+&lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="err"&gt;追加&lt;/span&gt;&lt;span class="n"&gt;twitter4j&lt;/span&gt;&lt;span class="err"&gt;的&lt;/span&gt;&lt;span class="n"&gt;jar&lt;/span&gt;&lt;span class="err"&gt;文件&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;twitter4j&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lib&lt;/span&gt;&lt;span class="err"&gt;下所有的&lt;/span&gt;&lt;span class="n"&gt;jar&lt;/span&gt;&lt;span class="err"&gt;包&lt;/span&gt;
+&lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="err"&gt;追加&lt;/span&gt;&lt;span class="n"&gt;commons&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;collections&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;3.2.1&lt;/span&gt;&lt;span class="err"&gt;的&lt;/span&gt;&lt;span class="n"&gt;jar&lt;/span&gt;&lt;span class="err"&gt;文件&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;commons&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;collections&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;3.2.1&lt;/span&gt;&lt;span class="err"&gt;文件夹下所有的&lt;/span&gt;&lt;span class="n"&gt;jar&lt;/span&gt;&lt;span class="err"&gt;包。&lt;/span&gt;
+&lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="err"&gt;追加&lt;/span&gt;&lt;span class="n"&gt;storm&lt;/span&gt;&lt;span class="err"&gt;的&lt;/span&gt;&lt;span class="n"&gt;jar&lt;/span&gt;&lt;span class="err"&gt;文件：&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;storm&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.8.2&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lib&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="err"&gt;下的所有&lt;/span&gt;&lt;span class="n"&gt;jar&lt;/span&gt;&lt;span class="err"&gt;包和&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;storm&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.8.2&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;storm&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.8.2&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;jar&lt;/span&gt;&lt;span class="err"&gt;）&lt;/span&gt;
+&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;Finsh&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如下图：
+&lt;img alt="" src="http://bupt-image.qiniudn.com/storm4.jpeg" /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;导入storm-start&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;右键点击工程&lt;/span&gt;&lt;span class="n"&gt;MyStormCase&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;Import&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;General&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;File&lt;/span&gt; &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;Next&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;Browse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;From&lt;/span&gt; &lt;span class="n"&gt;directory&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bupt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;installpack&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;storm&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;jvm&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;storm&lt;/span&gt;
+&lt;span class="err"&gt;并且在“&lt;/span&gt;&lt;span class="n"&gt;Create&lt;/span&gt; &lt;span class="n"&gt;top&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;levelfolder&lt;/span&gt;&lt;span class="err"&gt;”前打勾&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;Finish&lt;/span&gt;&lt;span class="err"&gt;。&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如下图。
+&lt;img alt="" src="http://bupt-image.qiniudn.com/storm5.jpeg" /&gt;&lt;/p&gt;
+&lt;p&gt;完成后，将storm文件夹托拽到src目录下，工程视图如下：
+&lt;img alt="" src="http://bupt-image.qiniudn.com/storm6.jpeg" /&gt;
+特别注意：分别删除两个文件:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;storm.starter下的: PrintSampleStream.java
+storm.starter.spout下的:TwitterSampleSpout.java&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;否则最后导出的时候会出错。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;追加源文件storm-start/multilang/resources×（python 文件wordcount用）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;File&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;Import&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;General&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;File&lt;/span&gt; &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;Next&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;Browse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;From&lt;/span&gt; &lt;span class="n"&gt;directory&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bupt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;installpack&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;storm&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;multilang&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;resources&lt;/span&gt;
+&lt;span class="err"&gt;并且在“&lt;/span&gt;&lt;span class="n"&gt;Create&lt;/span&gt; &lt;span class="n"&gt;top&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;levelfolder&lt;/span&gt;&lt;span class="err"&gt;”前打勾&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;Finish&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这一步类似于上一步。最后的工程图如下：
+&lt;img alt="" src="http://bupt-image.qiniudn.com/storm7.jpeg" /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;JAR export&lt;blockquote&gt;
+&lt;p&gt;File -&amp;gt; Export-&amp;gt; JAR -&amp;gt; JAR file -&amp;gt;取消 “.classpath” ，“.project” 和 “&amp;lt;.settings”-&amp;gt;的勾
+    browse -&amp;gt;你要保存的路径/保存的名字.jar -&amp;gt; next-&amp;gt; next -&amp;gt;点击main class右边的browse键，选择你要运行的例子。然后点击finish。这时候可能会有一些warning,忽略就好了。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;5.3 编译jar包：&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;mv&lt;/span&gt; &lt;span class="n"&gt;StormStarterOne&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;jar&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;storm&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.8.2&lt;/span&gt;           
+&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bupt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;installpack&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;zookeeper&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;3.4.5&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;
+&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="n"&gt;zkServer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt;
+&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;storm&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.8.2&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;storm&lt;/span&gt; &lt;span class="n"&gt;nimbus&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;storm&lt;/span&gt; &lt;span class="n"&gt;supervisor&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;storm&lt;/span&gt; &lt;span class="n"&gt;ui&lt;/span&gt; 
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;storm&lt;/span&gt; &lt;span class="n"&gt;jar&lt;/span&gt; &lt;span class="n"&gt;StormStarterOne&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;jar&lt;/span&gt; &lt;span class="n"&gt;storm&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;starter&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;WordCountTopology&lt;/span&gt; &lt;span class="n"&gt;test1&lt;/span&gt; 
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后在浏览器中输入localhost：8080，显示如下，则说明运行成功了。
+&lt;img alt="" src="http://bupt-image.qiniudn.com/storm8.jpeg" /&gt;&lt;/p&gt;
+&lt;h1&gt;使用中遇到的问题：&lt;/h1&gt;
+&lt;p&gt;到目前为止，我们成功运行了一些官方提供的例子，但是还不太熟悉storm的内部机制，尤其是怎么写一个自己的topology，这是接下来学习的重点，每天也都会遇到一些不可预知的问题，解决就好了，问题的表单可能会越来越长。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;问题一：supervisor kill: No such process
+跑了一下storm-starter这个例子，最开始的时候是成功了。后来重新运行了一下WordCountTopology这个例子。在启动supervisor这一步失败了，在终端中会不停的出现错误：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;kill&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;No&lt;/span&gt; &lt;span class="n"&gt;such&lt;/span&gt; &lt;span class="n"&gt;process&lt;/span&gt;
+&lt;span class="n"&gt;kill&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;No&lt;/span&gt; &lt;span class="n"&gt;such&lt;/span&gt; &lt;span class="n"&gt;process&lt;/span&gt;
+&lt;span class="n"&gt;kill&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;No&lt;/span&gt; &lt;span class="n"&gt;such&lt;/span&gt; &lt;span class="n"&gt;process&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;我检查了logs,主要的有用的log如下：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;2014-03-11 09:45:09 supervisor [INFO] 16b6673f-31d1-4f58-b41c-e88cd8974ddc still hasn't started
+2014-03-11 09:45:46 supervisor [INFO] Shutting down and clearing state for id 4ee29ce1-1f75-47ee-8aaa-e0a8ea513537. Current supervisor time: 1394502346. State: :timed-out, Heartbeat:
+2014-03-11 09:45:46 supervisor [INFO] Shutting down f2ed3b8d-3a23-4c23-9c3c-af94a06cbad9:4ee29ce1-1f75-47ee-8aaa-e0a8ea513537
+2014-03-11 09:45:46 util [INFO] Error when trying to kill 2981. Process is probably already dead.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我在stackoverflow上问过别人，有提到说是进程假死造成的，但是具体怎么做没人说，看了storm的官方文档， 说这个问题好像是0.8.2版本的一个bug。我重装成0.9.1，问题确实也解决了，虽然我不太确定是版本原因造成的。这个问题是storm的一个普遍问题，网上讨论得也比较多，但是解决方法却很少，不妨试一试这个办法吧。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;问题二：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Session 0x0 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.NoRouteToHostException: No route to host&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;刚刚修改了这个bug，没找到bug信息，不想再修改回去重现bug啦。问题的原因是实验室的ip地址难道是变化的吗？上个星期还是10.103.10.243，刚刚才发现是10.103.15.85，导致了连结失败。如果你发现一堆java.lang.connect exception之类的信息，就察看一下你的ip地址和zookeeper,storm的配置文件中的地址是否一致，否则肯定会造成链接问题。网上也有同学说，可能是防火墙的问题，我没有遇到这个问题，如果ip地址配置没有问题，还是连不上，那就试试关闭防火墙吧。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;问题三：storm启动supervisor错误
+当我运行sudo bin/storm supervisor启动supervisor的时候，发现启动失败，看/log文件夹下的supervisor.log文件，是如下的出错信息：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;2014-03-24 14:19:55 b.s.d.supervisor [INFO] Starting supervisor with id f2ed3b8d-3a23-4c23-9c3c-af94a06cbad9 at host bupt-Shangqi-N720
+2014-03-24 14:19:56 b.s.event [ERROR] Error when processing event
+java.lang.RuntimeException: java.io.EOFException&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;解决办法是这样的：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;删除storm配置文件中storm.local.dir（你在stom.yaml文件中配置的）所指向的目录中的supervisor和workers两个文件夹。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;暂时想到这么多，enjoy，同学们.&lt;/p&gt;
+&lt;h1&gt;主要参考的网站资源：&lt;/h1&gt;
+&lt;p&gt;&lt;a href="http://my.oschina.net/leejun2005/blog/147607"&gt;一篇对照一个例子讲storm原理和应用的不错文章&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.cnblogs.com/XjChenny/p/3214039.html"&gt;非常完整的storm安装教程，我主要是参照这篇文章安装的，缺点是文中几乎没有提到遇到的问题，需要自己去查找解决问题的办法&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://javanlu.github.io/blog/2013/10/11/storm-deploy-tutorial/#storm-starterwordcount"&gt;一个github上的博客，有非常全面的storm使用经验指导&lt;/a&gt;&lt;/p&gt;</summary><category term="Storm"></category></entry></feed>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>JAVA对象的前世今生</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Li,Gongfu">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="/" type="application/atom+xml" rel="alternate" title="晓新's Blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/index.html">晓新's Blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="/category/fen-bu-shi.html">
+						<i class="icon-folder-open icon-large"></i>分布式
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="/category/java.html">
+						<i class="icon-folder-open icon-large"></i>JAVA
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/machine-learning.html">
+						<i class="icon-folder-open icon-large"></i>Machine Learning
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/perl.html">
+						<i class="icon-folder-open icon-large"></i>Perl
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/python.html">
+						<i class="icon-folder-open icon-large"></i>Python
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/scala.html">
+						<i class="icon-folder-open icon-large"></i>Scala
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/shu-ju-ku.html">
+						<i class="icon-folder-open icon-large"></i>数据库
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/technology.html">
+						<i class="icon-folder-open icon-large"></i>Technology
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to JAVA对象的前世今生">
+                                        JAVA对象的前世今生
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-05-23T14:26:00">
+        <i class="icon-calendar"></i>五 23 五月 2014
+</abbr>
+<span class="label">By</span>
+<a href="/author/ligongfu.html"><i class="icon-user"></i>Li,Gongfu</a>
+<span class="label">Category</span>
+<a href="/category/java.html"><i class="icon-folder-open"></i>JAVA</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/java.html"><i class="icon-tag"></i>java</a>
+</footer><!-- /.post-info -->                </div>
+                <h2>我的困惑</h2>
+<p>最近做的一个项目涉及到数据量比较大,涉及一个约200G大的excel表格,是不可能在内存里打开的.我要做的事情其中一步是遍历整个大表,拿出其中一部分数据.我计算了一下我需要的内存大小,应该是在6-8G,再考虑到我机器的性能(16g内存),想想应该可以用一个hashmap来存我想要的数据.于是开心的写出了程序,用一个全局的hashmap变量来保存数据.结果每次是运行了差不多两个小时的时候程序就崩了,出现的错误当然是内存溢出:</p>
+<div class="highlight"><pre><span class="n">java</span><span class="p">.</span><span class="n">lang</span><span class="p">.</span><span class="n">outofMemery</span><span class="o">:</span><span class="n">gc</span> <span class="n">overhead</span> <span class="n">limit</span> <span class="n">exceeded</span>
+<span class="err">或者</span><span class="o">:</span>
+<span class="n">java</span><span class="p">.</span><span class="n">lang</span><span class="p">.</span><span class="n">outofMemery</span><span class="o">:</span><span class="n">Java</span> <span class="n">heap</span> <span class="n">space</span>
+</pre></div>
+
+
+<p>我试了修改eclipse.ini文件,增加了jvm的内存分配:</p>
+<div class="highlight"><pre><span class="o">-</span><span class="n">Xms1024m</span>
+<span class="o">-</span><span class="n">Xmx8192m</span>
+<span class="o">-</span><span class="n">XX</span><span class="o">:</span><span class="n">PermSize</span><span class="o">=</span><span class="mi">512</span><span class="n">m</span>
+<span class="o">-</span><span class="n">XX</span><span class="o">:</span><span class="n">MaxPermSize</span><span class="o">=</span><span class="mi">2048</span><span class="n">m</span>  
+</pre></div>
+
+
+<p>结果依然没有解决问题,有的同学说,eclipse.ini只是为jvm分配内存的.而你真正运行的这个java程序不一定就分配到了那么多的内存,因为可能你正在运行好几个java程序,他们要一起竞争jvm内存.如果想要为我的java程序单独分配内存,需要为它添加启动参数,具体是这么做的:</p>
+<div class="highlight"><pre><span class="n">Run</span><span class="o">--&gt;</span><span class="n">Run</span> <span class="n">Configuration</span><span class="o">--&gt;</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">=</span><span class="n">arguments</span>
+<span class="err">在</span><span class="n">VM</span> <span class="n">arguments</span><span class="err">下输入</span>
+<span class="o">-</span><span class="n">Xms1024m</span>
+<span class="o">-</span><span class="n">Xmx8192m</span>
+<span class="err">以及其他你想要的参数</span><span class="p">,</span><span class="err">然后点击</span><span class="n">aplly</span><span class="p">.</span>
+</pre></div>
+
+
+<p>如下图.
+<img alt="" src="http://bupt-image.qiniudn.com/java1.png" /></p>
+<p>看到有人说可以用:</p>
+<div class="highlight"><pre><span class="o">-</span><span class="nv">XX</span><span class="p">:-</span><span class="nv">UseGCOverheadLimit</span>
+</pre></div>
+
+
+<p>来Disabling the error check altogether.但又出现:</p>
+<div class="highlight"><pre><span class="n">java</span><span class="p">.</span><span class="n">lang</span><span class="p">.</span><span class="n">outofMemery</span><span class="o">:</span><span class="n">Java</span> <span class="n">heap</span> <span class="n">space</span>
+</pre></div>
+
+
+<p>的错误.所以我想问题应该不仅仅是内存不够用那么简单,至少通过增加jvm内存的方式来解决似乎让人看不到尽头.于是我好好学习了一下java的GC机制,看到底是什么地方导致了内存溢出.</p>
+<h2>堆与栈:生存空间</h2>
+<ul>
+<li>堆(heap):对象的生存空间.</li>
+<li>栈(stack):方法调用和局部变量.</li>
+<li>实例变量 :被声明在类里面的变量,它代表某个独立对象的"字段",存在于所属的对象中.</li>
+<li>局部变量 :声明在方法中,生命周期只限于方法被放在栈上的这段期间.也就是方法被调用到结束的时间.</li>
+</ul>
+<p>注意到一个事实,对象永远存在于堆上,如果我们在方法中定义了一个类类型变量,并赋值给它一个对象,其实我们只是定义了该对象的一个引用,引用变量本身是放在栈上面的,它所引用的对象还是在堆里.</p>
+<p>当你调用一个方法时,该方法会放在调用栈的栈顶,它带有方法的状态,包括执行到那一行程序以及所有的局部变量的值,如果在方法中又调用了其他的方法,那么被调用的方法又被推到了堆栈顶,直到执行完毕被释放,回到上一个方法.</p>
+<h2>构造函数的执行顺序</h2>
+<div class="highlight"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">Animal</span><span class="p">{</span>
+    <span class="n">public</span> <span class="n">Animal</span><span class="p">(){</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;making an animal&quot;</span><span class="p">);}</span>
+<span class="p">}</span>
+
+<span class="n">public</span> <span class="n">class</span> <span class="n">Hippo</span> <span class="n">extends</span> <span class="n">Animal</span><span class="p">{</span>
+    <span class="n">public</span> <span class="n">Hippo</span><span class="p">(){</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;making a hippo&quot;</span><span class="p">);}</span>
+<span class="p">}</span>
+
+<span class="n">public</span> <span class="n">class</span> <span class="n">TestHippo</span><span class="p">{</span>
+    <span class="n">public</span> <span class="k">static</span> <span class="kt">void</span> <span class="n">main</span><span class="p">()(</span><span class="n">String</span> <span class="n">args</span><span class="p">[]){</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;making a hippo&quot;</span><span class="p">);</span>
+        <span class="n">Hippo</span> <span class="n">h</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Hippo</span><span class="p">();}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>所有的java对象都有一个共同的祖先:Object类.
+所以执行顺序是:</p>
+<div class="highlight"><pre>                       <span class="n">Object</span><span class="p">()</span>
+          <span class="n">Animal</span><span class="p">()</span>     <span class="n">Animal</span><span class="p">()</span>       <span class="n">Animal</span><span class="p">()</span>
+<span class="n">Hippo</span><span class="p">()</span>   <span class="n">Hippo</span><span class="p">()</span>      <span class="n">Hippo</span><span class="p">()</span>        <span class="n">Hippo</span><span class="p">()</span>      <span class="n">Hippo</span><span class="p">()</span>
+</pre></div>
+
+
+<p>调用Hippo()时,会调用父类的构造函数,依次上升,直到Object类,然后依次返回,直到Hippo类.</p>
+<h3>如何调用父类的构造函数</h3>
+<p>可以使用super()函数,注意super();必须是你的构造函数的第一行代码.如果你没有显示使用super函数,编译器会为你生成一个super,使用父类的<strong>无参数构造函数</strong>,当然你完全可以使用父类的带参数的构造函数,只要往super里传入相应类型的值就可以了.</p>
+<div class="highlight"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">Hippo</span> <span class="n">extends</span> <span class="n">Animal</span><span class="p">{</span>
+    <span class="n">public</span> <span class="n">Hippo</span><span class="p">(</span><span class="n">String</span> <span class="n">name</span><span class="p">){</span>
+        <span class="n">super</span><span class="p">(</span><span class="n">name</span><span class="p">);}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2>引用变量与对象</h2>
+<ul>
+<li>除非有对象的引用,否则该对象一点意义都没有.</li>
+<li>如果你无法取得对象的引用,则此对象只是浪费空间罢了.</li>
+<li>一旦对象无法取得,GC会知道该怎么做,那种对象迟早会葬送在垃圾手机器的手上.</li>
+</ul>
+<p>有三种方法可以释放对象的引用:</p>
+<ul>
+<li>引用永久性的离开它的作用域 </li>
+</ul>
+<div class="highlight"><pre><span class="kt">void</span> <span class="nf">go</span><span class="p">(){</span>
+<span class="n">Life</span> <span class="n">z</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Life</span><span class="p">();</span>
+<span class="p">}</span> 
+<span class="n">z</span><span class="err">会在方法结束时消失</span><span class="p">.</span>
+</pre></div>
+
+
+<ul>
+<li>引用被赋值到其他对象上</li>
+</ul>
+<div class="highlight"><pre><span class="n">Life</span> <span class="n">z</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Life</span><span class="p">();</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Life</span><span class="p">();</span>
+<span class="err">第一个对象会在</span><span class="n">z</span><span class="err">被赋值到别处时挂掉</span><span class="p">.</span>
+</pre></div>
+
+
+<ul>
+<li>直接将引用设定为null</li>
+</ul>
+<div class="highlight"><pre><span class="n">Life</span> <span class="n">z</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Life</span><span class="p">();</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>
+<span class="err">第一个对象会在</span><span class="n">z</span><span class="err">被设定为</span><span class="n">null</span><span class="err">时挂掉</span><span class="p">.</span>
+</pre></div>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "JAVA对象的前世今生.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://buptlixin.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="http://getpelican.com/"><i class="icon-external-link"></i>Pelican</a></li>
+    <li><a href="http://python.org/"><i class="icon-external-link"></i>Python.org</a></li>
+    <li><a href="http://jinja.pocoo.org/"><i class="icon-external-link"></i>Jinja2</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="http://www.v2ex.com/member/buptlee"><i class="icon-V2EX-sign icon-large"></i>V2EX</a></li>
+    <li><a href="http://douban.com/people/77726008"><i class="icon-豆瓣-sign icon-large"></i>豆瓣</a></li>
+    <li><a href="http://github.com/Xiaoxin2009"><i class="icon-Github-sign icon-large"></i>Github</a></li>
+    <li><a href="http://stackoverflow.com/users/3373388/bupt-xiaoxin"><i class="icon-Stackoverflow-sign icon-large"></i>Stackoverflow</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="/category/fen-bu-shi.html">
+    <i class="icon-folder-open icon-large"></i>分布式
+</a>
+</li>
+<li>
+<a href="/category/java.html">
+    <i class="icon-folder-open icon-large"></i>JAVA
+</a>
+</li>
+<li>
+<a href="/category/machine-learning.html">
+    <i class="icon-folder-open icon-large"></i>Machine Learning
+</a>
+</li>
+<li>
+<a href="/category/perl.html">
+    <i class="icon-folder-open icon-large"></i>Perl
+</a>
+</li>
+<li>
+<a href="/category/python.html">
+    <i class="icon-folder-open icon-large"></i>Python
+</a>
+</li>
+<li>
+<a href="/category/scala.html">
+    <i class="icon-folder-open icon-large"></i>Scala
+</a>
+</li>
+<li>
+<a href="/category/shu-ju-ku.html">
+    <i class="icon-folder-open icon-large"></i>数据库
+</a>
+</li>
+<li>
+<a href="/category/technology.html">
+    <i class="icon-folder-open icon-large"></i>Technology
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-3">
+    <a href="/tag/storm.html">
+        <i class="icon-tag icon-large"></i>Storm
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/zheng-ze-biao-da-shi.html">
+        <i class="icon-tag icon-large"></i>正则表达式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/machine-learning.html">
+        <i class="icon-tag icon-large"></i>Machine Learning
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hadoop.html">
+        <i class="icon-tag icon-large"></i>Hadoop
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/perl.html">
+        <i class="icon-tag icon-large"></i>Perl
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/scala.html">
+        <i class="icon-tag icon-large"></i>scala
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programming.html">
+        <i class="icon-tag icon-large"></i>functional programming
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/svm.html">
+        <i class="icon-tag icon-large"></i>SVM
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/mongodb.html">
+        <i class="icon-tag icon-large"></i>MongoDB
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hash.html">
+        <i class="icon-tag icon-large"></i>Hash
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/sql.html">
+        <i class="icon-tag icon-large"></i>SQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/github.html">
+        <i class="icon-tag icon-large"></i>Github
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hdfs.html">
+        <i class="icon-tag icon-large"></i>HDFS
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/nosql.html">
+        <i class="icon-tag icon-large"></i>NoSQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programing.html">
+        <i class="icon-tag icon-large"></i>functional programing
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/java.html">
+        <i class="icon-tag icon-large"></i>java
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-50849437-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'buptlixin';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

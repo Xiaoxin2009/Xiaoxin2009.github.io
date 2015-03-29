@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Perl文件测试</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Li,Gongfu">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="/" type="application/atom+xml" rel="alternate" title="晓新's Blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/index.html">晓新's Blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="/category/fen-bu-shi.html">
+						<i class="icon-folder-open icon-large"></i>分布式
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/java.html">
+						<i class="icon-folder-open icon-large"></i>JAVA
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/machine-learning.html">
+						<i class="icon-folder-open icon-large"></i>Machine Learning
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="/category/perl.html">
+						<i class="icon-folder-open icon-large"></i>Perl
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/python.html">
+						<i class="icon-folder-open icon-large"></i>Python
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/scala.html">
+						<i class="icon-folder-open icon-large"></i>Scala
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/shu-ju-ku.html">
+						<i class="icon-folder-open icon-large"></i>数据库
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/technology.html">
+						<i class="icon-folder-open icon-large"></i>Technology
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to Perl文件测试">
+                                        Perl文件测试
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-12-01T11:20:00">
+        <i class="icon-calendar"></i>一 01 十二月 2014
+</abbr>
+<span class="label">By</span>
+<a href="/author/ligongfu.html"><i class="icon-user"></i>Li,Gongfu</a>
+<span class="label">Category</span>
+<a href="/category/perl.html"><i class="icon-folder-open"></i>Perl</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/perl.html"><i class="icon-tag"></i>Perl</a>
+</footer><!-- /.post-info -->                </div>
+                <h3>常用的文件操作符:</h3>
+<ul>
+<li>-x       对当前用户来说是可执行的</li>
+<li>-e       文件或目录是存在的</li>
+<li>-s       返回以字节为单位的文件大小</li>
+<li>-M      最后一次被修改后至今的天数</li>
+<li>-A      最后一次被访问后至今的天数</li>
+<li>-d      是目录</li>
+<li>-f       是普通文件</li>
+<li>-o      文件或目录，由当前用户拥有</li>
+</ul>
+<p>文件测试符后面接上要测试的文件名或者文件句柄。
+我们来看一个例子，假设我们硬盘已满， 想找到那种很大同时又很久没用过的文件。</p>
+<div class="highlight"><pre><span class="k">my</span> <span class="nv">@original_files</span> <span class="o">=</span> <span class="sx">qw{ fred barney betty wilma pebbles }</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">@big_old_files</span><span class="p">;</span>
+<span class="k">foreach</span> <span class="k">my</span> <span class="nv">$file</span> <span class="p">(</span><span class="nv">@original_files</span><span class="p">){</span>
+    <span class="nb">push</span> <span class="nv">@big_old_files</span> <span class="p">,</span><span class="nv">$file</span>
+        <span class="k">if</span> <span class="o">-</span><span class="n">s</span> <span class="nv">$file</span> <span class="o">&gt;</span> <span class="mi">100_000</span> <span class="ow">and</span> <span class="o">-</span><span class="n">A</span> <span class="nv">$file</span> <span class="o">&gt;</span><span class="mi">90</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>测试同一文件的多项属性</h3>
+<div class="highlight"><pre><span class="k">if</span><span class="p">(</span><span class="o">-</span><span class="n">r</span> <span class="err">$</span><span class="n">file</span> <span class="n">and</span> <span class="o">-</span><span class="n">w</span> <span class="err">$</span><span class="n">file</span><span class="p">){</span>
+    <span class="k">do</span> <span class="n">somthing</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">if</span><span class="p">(</span><span class="o">-</span><span class="n">r</span> <span class="err">$</span><span class="n">file</span> <span class="n">and</span> <span class="o">-</span><span class="n">w</span> <span class="n">_</span><span class="p">){</span>
+    <span class="k">do</span> <span class="n">somthing</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>第一种方式效率低下，因为-r测试的时候就会拿一遍所有的相关信息，-w测试再拿一遍造成了浪费，当对海量文件做各种属性测试时，就会造成严重的性能问题，解决办法是使用虚拟文件句柄_,它会保存上一次查询过的文件信息来做当前测试。但，要注意，如果两个文件测试之间对别的文件句柄进行了查询，那么虚拟文件句柄保存的信息就发生了变化。</p>
+<h3>栈式文件测试操作符</h3>
+<p>将文件测试操作符排成一行，放在测试的文件名前，一次完成所有的测试工作。</p>
+<div class="highlight"><pre><span class="k">if</span><span class="p">(</span><span class="o">-</span><span class="n">r</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">x</span> <span class="o">-</span><span class="n">o</span> <span class="o">-</span><span class="n">d</span> <span class="err">$</span><span class="n">file</span><span class="p">){</span>
+    <span class="k">do</span> <span class="n">something</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>stat和lstat函数</h3>
+<p>如果想知道除了文件操作符可以查到的属性以外的其他文件信息，可以使用stat函数，如果文件存在，它会返回一个列表，否则返回空列表。stat的参数可以是文件句柄，虚拟文件句柄，文件名。如果想查询符号链接的信息，则应该使用lstat。</p>
+<div class="highlight"><pre><span class="n">my</span> <span class="p">(</span><span class="err">$</span><span class="n">dev</span><span class="p">,</span><span class="err">$</span><span class="n">ino</span><span class="p">,</span><span class="err">$</span><span class="n">mode</span><span class="p">,</span><span class="err">$</span><span class="n">nlink</span><span class="p">,</span><span class="err">$</span><span class="n">uid</span><span class="p">,</span><span class="err">$</span><span class="n">gid</span><span class="p">,</span><span class="err">$</span><span class="n">rdev</span><span class="p">,</span><span class="err">$</span><span class="n">size</span><span class="p">,</span><span class="err">$</span><span class="n">atime</span><span class="p">,</span><span class="err">$</span><span class="n">mtime</span><span class="p">,</span><span class="err">$</span><span class="n">ctime</span><span class="p">,</span><span class="err">$</span><span class="n">blksize</span><span class="p">,</span><span class="err">$</span><span class="n">blocks</span><span class="p">)</span> <span class="o">=</span> <span class="n">stat</span><span class="p">(</span><span class="err">$</span><span class="n">filename</span><span class="p">);</span>
+
+<span class="err">$</span><span class="n">dev</span><span class="p">,</span><span class="err">$</span><span class="n">ino</span>
+    <span class="err">文件所在设备编号和文件</span><span class="n">inode</span><span class="err">编号，这两个编号决定了文件的唯一性，就像发给文件的拍照，即使它具有多个不同的文件名（使用硬链接创建），设备编号与</span><span class="n">inode</span><span class="err">编号的组合依然是独一无二的。</span>
+
+<span class="err">$</span><span class="n">mode</span>
+    <span class="err">文件的权限位集合，类似于</span><span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span><span class="err">这样的字符串开始。八进制数值</span><span class="mo">0755</span><span class="err">这样的数。</span>
+
+<span class="err">$</span><span class="n">nlink</span>
+    <span class="err">文件或目录的硬链接数，也就是这个条目有多少个真实名称，对于目录来说总会是</span><span class="mi">2</span><span class="err">或者更大的数字，对文件来说通常是</span><span class="mi">1</span><span class="err">。</span>
+
+<span class="err">$</span><span class="n">uid</span><span class="p">,</span><span class="err">$</span><span class="n">gid</span>
+    <span class="err">以数值形式表示文件拥有者的用户</span><span class="n">ID</span><span class="err">及组</span><span class="n">ID</span><span class="err">。</span>
+
+<span class="err">$</span><span class="n">size</span>
+    <span class="err">与</span><span class="o">-</span><span class="n">s</span><span class="err">相同。</span>
+
+<span class="err">$</span><span class="n">atime</span><span class="p">,</span><span class="err">$</span><span class="n">mtime</span><span class="p">,</span><span class="err">$</span><span class="n">ctime</span>
+    <span class="err">三种时间戳，一个</span><span class="mi">32</span><span class="err">位的整数，从</span><span class="n">unix</span><span class="err">元年开始计算，即</span><span class="mi">1970</span><span class="err">年午夜开始过去的秒数。</span>
+</pre></div>
+
+
+<h3>localtime函数</h3>
+<p>你能获得的时间通常会像1190630098这样的形式，表示unix时间到现在流逝的秒数，这样的时间不方便阅读，应该使用localtime函数来解读。</p>
+<div class="highlight"><pre><span class="k">my</span> <span class="p">(</span><span class="nv">$sec</span><span class="p">,</span><span class="nv">$min</span><span class="p">,</span><span class="nv">$hour</span><span class="p">,</span><span class="nv">$day</span><span class="p">,</span><span class="nv">$month</span><span class="p">,</span><span class="nv">$year</span><span class="p">,</span><span class="nv">$wday</span><span class="p">,</span><span class="nv">$yday</span><span class="p">,</span><span class="nv">$isdst</span><span class="p">)</span> <span class="o">=</span> <span class="nb">localtime</span> <span class="nv">$timestamp</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$timestamp</span> <span class="o">=</span> <span class="mi">1180630098</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$date</span> <span class="o">=</span> <span class="nb">localtime</span> <span class="nv">$timestamp</span><span class="p">;</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="err">$</span><span class="n">wday</span><span class="err">表示星期几</span><span class="p">.</span>
+<span class="err">$</span><span class="n">yday</span><span class="err">表示目前是当年的第几天，范围是</span><span class="mi">0</span><span class="o">-</span><span class="mi">364</span><span class="err">或者</span><span class="mi">0</span><span class="o">-</span><span class="mf">365.</span>
+<span class="err">$</span><span class="n">year</span><span class="err">是从</span><span class="mi">1900</span><span class="err">年开始算的</span>
+</pre></div>
+
+
+<p>若干需要取得系统时钟当前的时间戳，可以使用time函数，在不提供参数的情况下，localtime默认使用time返回的时间值：</p>
+<div class="highlight"><pre><span class="n">my</span> <span class="err">@</span><span class="n">now</span> <span class="o">=</span> <span class="n">localtime</span><span class="p">;</span>
+</pre></div>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "Perl文件测试.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://buptlixin.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="http://getpelican.com/"><i class="icon-external-link"></i>Pelican</a></li>
+    <li><a href="http://python.org/"><i class="icon-external-link"></i>Python.org</a></li>
+    <li><a href="http://jinja.pocoo.org/"><i class="icon-external-link"></i>Jinja2</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="http://www.v2ex.com/member/buptlee"><i class="icon-V2EX-sign icon-large"></i>V2EX</a></li>
+    <li><a href="http://douban.com/people/77726008"><i class="icon-豆瓣-sign icon-large"></i>豆瓣</a></li>
+    <li><a href="http://github.com/Xiaoxin2009"><i class="icon-Github-sign icon-large"></i>Github</a></li>
+    <li><a href="http://stackoverflow.com/users/3373388/bupt-xiaoxin"><i class="icon-Stackoverflow-sign icon-large"></i>Stackoverflow</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="/category/fen-bu-shi.html">
+    <i class="icon-folder-open icon-large"></i>分布式
+</a>
+</li>
+<li>
+<a href="/category/java.html">
+    <i class="icon-folder-open icon-large"></i>JAVA
+</a>
+</li>
+<li>
+<a href="/category/machine-learning.html">
+    <i class="icon-folder-open icon-large"></i>Machine Learning
+</a>
+</li>
+<li>
+<a href="/category/perl.html">
+    <i class="icon-folder-open icon-large"></i>Perl
+</a>
+</li>
+<li>
+<a href="/category/python.html">
+    <i class="icon-folder-open icon-large"></i>Python
+</a>
+</li>
+<li>
+<a href="/category/scala.html">
+    <i class="icon-folder-open icon-large"></i>Scala
+</a>
+</li>
+<li>
+<a href="/category/shu-ju-ku.html">
+    <i class="icon-folder-open icon-large"></i>数据库
+</a>
+</li>
+<li>
+<a href="/category/technology.html">
+    <i class="icon-folder-open icon-large"></i>Technology
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-3">
+    <a href="/tag/storm.html">
+        <i class="icon-tag icon-large"></i>Storm
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/zheng-ze-biao-da-shi.html">
+        <i class="icon-tag icon-large"></i>正则表达式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/machine-learning.html">
+        <i class="icon-tag icon-large"></i>Machine Learning
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hadoop.html">
+        <i class="icon-tag icon-large"></i>Hadoop
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/perl.html">
+        <i class="icon-tag icon-large"></i>Perl
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/scala.html">
+        <i class="icon-tag icon-large"></i>scala
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programming.html">
+        <i class="icon-tag icon-large"></i>functional programming
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/svm.html">
+        <i class="icon-tag icon-large"></i>SVM
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/mongodb.html">
+        <i class="icon-tag icon-large"></i>MongoDB
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hash.html">
+        <i class="icon-tag icon-large"></i>Hash
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/sql.html">
+        <i class="icon-tag icon-large"></i>SQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/github.html">
+        <i class="icon-tag icon-large"></i>Github
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hdfs.html">
+        <i class="icon-tag icon-large"></i>HDFS
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/nosql.html">
+        <i class="icon-tag icon-large"></i>NoSQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programing.html">
+        <i class="icon-tag icon-large"></i>functional programing
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/java.html">
+        <i class="icon-tag icon-large"></i>java
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-50849437-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'buptlixin';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

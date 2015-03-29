@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Scala学习笔记(三)----高阶函数&集合</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Li,Gongfu">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="/" type="application/atom+xml" rel="alternate" title="晓新's Blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/index.html">晓新's Blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="/category/fen-bu-shi.html">
+						<i class="icon-folder-open icon-large"></i>分布式
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/java.html">
+						<i class="icon-folder-open icon-large"></i>JAVA
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/machine-learning.html">
+						<i class="icon-folder-open icon-large"></i>Machine Learning
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/perl.html">
+						<i class="icon-folder-open icon-large"></i>Perl
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/python.html">
+						<i class="icon-folder-open icon-large"></i>Python
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="/category/scala.html">
+						<i class="icon-folder-open icon-large"></i>Scala
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/shu-ju-ku.html">
+						<i class="icon-folder-open icon-large"></i>数据库
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/technology.html">
+						<i class="icon-folder-open icon-large"></i>Technology
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to Scala学习笔记(三)----高阶函数&集合">
+                                        Scala学习笔记(三)----高阶函数&集合
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-12-15T13:20:00">
+        <i class="icon-calendar"></i>一 15 十二月 2014
+</abbr>
+<span class="label">By</span>
+<a href="/author/ligongfu.html"><i class="icon-user"></i>Li,Gongfu</a>
+<span class="label">Category</span>
+<a href="/category/scala.html"><i class="icon-folder-open"></i>Scala</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/scala.html"><i class="icon-tag"></i>scala</a>
+</footer><!-- /.post-info -->                </div>
+                <h3>值函数</h3>
+<div class="highlight"><pre><span class="n">def</span> <span class="n">add</span><span class="p">(</span><span class="n">x</span> <span class="o">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">y</span><span class="o">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">=</span><span class="n">x</span><span class="o">+</span><span class="n">y</span>
+<span class="n">val</span> <span class="n">_add</span> <span class="o">=</span> <span class="n">add</span> <span class="n">_</span>
+<span class="n">val</span> <span class="n">valFunName</span> <span class="o">=</span> <span class="n">funName</span> <span class="n">_</span>
+</pre></div>
+
+
+<h3>嵌套函数</h3>
+<p>def里套def，功能上类似于java中的private方法。</p>
+<div class="highlight"><pre><span class="n">def</span> <span class="n">add3</span><span class="p">(</span><span class="n">x</span> <span class="o">:</span> <span class="n">Int</span> <span class="p">,</span> <span class="n">y</span> <span class="o">:</span> <span class="n">Int</span> <span class="p">,</span> <span class="n">z</span> <span class="o">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">def</span> <span class="n">add2</span><span class="p">(</span><span class="n">x</span> <span class="o">:</span> <span class="n">Int</span> <span class="p">,</span> <span class="n">y</span> <span class="o">:</span> <span class="n">Int</span> <span class="p">)</span> <span class="o">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="n">x</span><span class="o">+</span><span class="n">y</span>
+    <span class="p">}</span>
+    <span class="n">add2</span><span class="p">(</span><span class="n">add2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">z</span><span class="p">)</span>
+  <span class="p">}</span>
+</pre></div>
+
+
+<p>内层函数可以访问外层函数里的变量。</p>
+<h3>匿名函数</h3>
+<ul>
+<li>（参数名：参数类型） =&gt; 表达式</li>
+<li>可将匿名函数赋值给var或val。</li>
+</ul>
+<div class="highlight"><pre><span class="n">val</span> <span class="n">fun</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">Int</span><span class="p">)</span> <span class="o">=&gt;</span><span class="n">x</span><span class="o">+</span><span class="mi">2</span>
+<span class="n">fun</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">val</span> <span class="n">l</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">l</span><span class="p">.</span><span class="n">map</span><span class="p">((</span><span class="n">x</span><span class="o">:</span><span class="n">Int</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">l</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">_</span> <span class="p">)</span><span class="c1">//如果map只有一个参数，scala可以用一个下划线来代替这个参数</span>
+
+<span class="n">def</span> <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">Int</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span>
+<span class="n">var</span> <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">Int</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span>
+<span class="n">l</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">l</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+<span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">Int</span><span class="p">,</span><span class="n">y</span><span class="o">:</span><span class="n">Int</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span>
+</pre></div>
+
+
+<h3>函数作为参数</h3>
+<p>scala中允许函数作为参数传给其它函数，在java中，只能通过给函数传递类对象，然后调用该类的方法来实现这种功能，而在c++中，则是用函数指针来完成的。
+一个接收函数作为参数的函数，称为高阶函数。</p>
+<ul>
+<li>fun(函数参数)</li>
+</ul>
+<div class="highlight"><pre><span class="n">def</span> <span class="n">fun</span><span class="p">(</span><span class="n">f</span><span class="o">:</span><span class="p">(</span><span class="n">Int</span><span class="p">,</span><span class="n">Int</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">Int</span><span class="p">)</span> <span class="o">:</span><span class="n">Int</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">fun</span><span class="p">((</span><span class="n">x</span><span class="o">:</span><span class="n">Int</span><span class="p">,</span><span class="n">y</span><span class="o">:</span><span class="n">Int</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span>  <span class="c1">//3</span>
+<span class="n">fun</span><span class="p">((</span><span class="n">x</span><span class="o">:</span><span class="n">Int</span><span class="p">,</span><span class="n">y</span><span class="o">:</span><span class="n">Int</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span>  <span class="c1">//-1</span>
+<span class="n">fun</span><span class="p">((</span><span class="n">x</span><span class="o">:</span><span class="n">Int</span><span class="p">,</span><span class="n">y</span><span class="o">:</span><span class="n">Int</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="o">/</span><span class="n">y</span><span class="p">)</span>  <span class="c1">//0</span>
+
+<span class="n">def</span> <span class="n">mulBy</span><span class="p">(</span><span class="n">factor</span> <span class="o">:</span> <span class="n">Double</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">Double</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">factor</span> <span class="o">*</span> <span class="n">x</span>
+<span class="c1">//后面的函数的参数来源于前面的函数的参数。</span>
+<span class="n">val</span> <span class="n">aa</span> <span class="o">=</span> <span class="n">mulBy</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">aa</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>  <span class="c1">//40</span>
+</pre></div>
+
+
+<h3>闭包</h3>
+<p>闭包=代码+用到的非局部变量.</p>
+<h3>参数简化与类型推导</h3>
+<ul>
+<li>list.map((x:Int) =&gt; x+1)</li>
+<li>list.map((x) =&gt; x+1)</li>
+<li>list.map(x =&gt;x+1)</li>
+<li>list.map(_ + 1)</li>
+</ul>
+<h3>partial function</h3>
+<p>有的时候调用一个函数，我们只能拿到部分参数的值，而另外的参数暂时不能确定。</p>
+<div class="highlight"><pre><span class="n">def</span> <span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">Int</span><span class="p">,</span><span class="n">y</span><span class="o">:</span><span class="n">Int</span><span class="p">,</span><span class="n">z</span><span class="o">:</span><span class="n">Int</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">+</span><span class="n">z</span>
+<span class="n">val</span> <span class="n">a</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">val</span> <span class="n">b</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">_</span> <span class="o">:</span><span class="n">Int</span><span class="p">)</span><span class="c1">//此时b是一个偏函数了</span>
+<span class="n">b</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="c1">//13</span>
+
+<span class="n">def</span> <span class="n">_add</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="n">_</span><span class="o">:</span><span class="n">Int</span><span class="p">,</span><span class="n">_</span><span class="o">:</span><span class="n">Int</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="c1">//此时_add也是一个偏函数</span>
+<span class="n">_add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="c1">//3</span>
+</pre></div>
+
+
+<h3>Currying</h3>
+<p>即把参数分开来写，此时可以用于偏函数。</p>
+<div class="highlight"><pre><span class="n">def</span> <span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">Int</span><span class="p">)(</span><span class="n">y</span><span class="o">:</span><span class="n">Int</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span>
+<span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="n">_</span><span class="c1">//此时是一个偏函数</span>
+</pre></div>
+
+
+<h3>重要的高阶函数</h3>
+<ul>
+<li>map</li>
+<li>filter</li>
+<li>reduce/reduceLeft/reduceRight</li>
+<li>fold/foldLeft/foldRight</li>
+</ul>
+<div class="highlight"><pre><span class="n">val</span> <span class="n">a</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">a</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">_</span><span class="p">)</span>
+<span class="n">a</span><span class="p">.</span><span class="n">filter</span><span class="p">(</span><span class="n">_</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">a</span><span class="p">.</span><span class="n">reduce</span><span class="p">((</span><span class="n">x</span><span class="o">:</span><span class="n">Int</span><span class="p">,</span><span class="n">y</span><span class="o">:</span><span class="n">Int</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span>
+<span class="n">a</span><span class="p">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">_</span> <span class="o">+</span> <span class="n">_</span><span class="p">)</span><span class="c1">//36</span>
+<span class="n">a</span><span class="p">.</span><span class="n">fold</span><span class="p">(</span><span class="mi">0</span><span class="p">)(</span><span class="n">_</span><span class="o">+</span><span class="n">_</span><span class="p">)</span><span class="c1">//类似于reduce，但是可以提供一个初始值</span>
+</pre></div>
+
+
+<h3>By-name parameter</h3>
+<p>by value vs by name。如果是传值则在调用函数的时候就会求出参数表达式的值。如果是传名字，只有在用到的时候才会求值，延迟加载。</p>
+<div class="highlight"><pre><span class="n">def</span> <span class="nf">test</span><span class="p">(</span><span class="n">flag</span><span class="o">:</span> <span class="n">Boolean</span><span class="p">){</span>
+    <span class="n">println</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="c1">//by value调用的时候就立刻求值</span>
+<span class="n">def</span> <span class="nf">test</span><span class="p">(</span><span class="n">flag</span> <span class="err">：</span><span class="o">=&gt;</span> <span class="n">Boolean</span><span class="p">){</span>
+    <span class="n">println</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="c1">//by name延迟计算，用到的时候才会求值</span>
+<span class="n">test</span><span class="p">(</span><span class="mi">3</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">def</span> <span class="n">fun</span><span class="p">(</span><span class="n">block</span> <span class="o">:</span> <span class="o">=&gt;</span> <span class="n">Unit</span><span class="p">){</span>
+    <span class="n">block</span>
+<span class="p">}</span>
+
+<span class="n">fun</span><span class="p">(</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;xxx&quot;</span><span class="p">))</span>
+<span class="n">fun</span><span class="p">{</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;xxxx&quot;</span><span class="p">)}</span>
+</pre></div>
+
+
+<p>下面我们来讲scala的集合。注意，scala的集合操作与spark的操作是平行的。</p>
+<h3>Seq</h3>
+<ul>
+<li>Range(start : Int, end : Int, step : Int).</li>
+<li>Range方法带有apply()。</li>
+<li>step可为正或者负，但不能为0.</li>
+</ul>
+<div class="highlight"><pre><span class="mi">1</span> <span class="n">to</span> <span class="mi">10</span>   <span class="c1">//包含10</span>
+<span class="mf">1.</span><span class="n">until</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1">//不包含10</span>
+<span class="n">Range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="c1">//左闭右开</span>
+<span class="n">Range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+
+<h3>List</h3>
+<p>List()产生的是一个不可变list。
+- List 由Nil或者head + tail构成。其中tail又是一个List,Nil会生成一个空的list。
+- 可以用双冒号来在list的头插入新元素。格式是new-value :: list
+- 构建: List(1,2,3) 或者 1 :: 2 :: 3 :: Nil
+- 基于List的模式匹配
+- 利用迭代或者递归来处理List</p>
+<div class="highlight"><pre><span class="n">val</span> <span class="n">a</span> <span class="o">=</span> <span class="n">Nil</span>   <span class="c1">//a为List()</span>
+<span class="n">val</span> <span class="n">l</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">l</span><span class="p">.</span><span class="n">head</span>   <span class="c1">//1</span>
+<span class="n">l</span><span class="p">.</span><span class="n">tail</span>   <span class="c1">//(2,3,4)</span>
+</pre></div>
+
+
+<h3>可变集合与不可变集合</h3>
+<p>不可变集合从来不改变，因此你可以安全的共享其引用。你所有的操作都会生成一个新的集合，而不影响原集合，相反，对于可变集合来说，你的一些操作会影响到被操作的集合。scala会优先采用不可变集合。虽然我们可以同时往可变集合和不可变集合中添加元素，但是发生的事情是不一样的，对于不可变集合来讲，是新产生了一个集合，而可变集合则不同，还是原来的集合。</p>
+<ul>
+<li>scala.collection.mutable.Map</li>
+<li>scala.collection.immutable.Map</li>
+<li>scala.collection.mutable.List</li>
+<li>scala.collection.immutables.List</li>
+</ul>
+<p>如果我们想定义可变集合，可以通过下面的语句来简写可变的集合： </p>
+<div class="highlight"><pre><span class="n">scala</span><span class="p">.</span><span class="n">collection</span><span class="p">.</span><span class="n">mutable</span><span class="p">.</span><span class="n">Map</span><span class="p">(</span><span class="mi">1</span> <span class="o">-&gt;</span> <span class="mi">2</span><span class="p">)</span>
+<span class="c1">//或者，更简单的方式是：</span>
+<span class="n">import</span> <span class="n">scala</span><span class="p">.</span><span class="n">collection</span><span class="p">.</span><span class="n">mutable</span>
+<span class="n">mutable</span><span class="p">.</span><span class="n">Map</span><span class="p">(</span><span class="mi">1</span><span class="o">-&gt;</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+
+<h3>ListBuffer生成可变列表</h3>
+<p>可以进行的操作有+=/++=/-=/--=,进行操作之后返回的是自己，而不是产生一个新的集合。可以用toList或者toArray来讲可变列表变成不可变集合。</p>
+<div class="highlight"><pre><span class="n">val</span> <span class="n">b</span> <span class="o">=</span> <span class="n">mutable</span><span class="p">.</span><span class="n">ListBuffer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">+=</span><span class="mi">2</span>       <span class="c1">//ListBuffer(1,2) </span>
+<span class="n">b</span> <span class="o">+=</span><span class="err">（</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="err">）</span>       <span class="c1">//ListBuffer(1,2，3,4,5) </span>
+<span class="n">b</span> <span class="o">++=</span> <span class="n">List</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>   <span class="c1">//ListBuffer(1,2，3,4,5,6,7,8) </span>
+<span class="n">val</span> <span class="n">a</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">toList</span>   <span class="c1">//a是一个不可变列表了</span>
+</pre></div>
+
+
+<h3>immutable Set</h3>
+<p>注意所有的immutable集合是不能有+=这种操作符的，而只能是下面的操作符：</p>
+<ul>
+<li>+/++</li>
+<li>-/--</li>
+<li>scala.collection.immutable.SortedSet，如果你想用排序集合，可以用SortedSet,  scala会用TreeSet来帮你排序.</li>
+</ul>
+<div class="highlight"><pre><span class="n">val</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>   <span class="c1">//s是一个不可变set</span>
+<span class="n">val</span> <span class="n">a</span> <span class="o">=</span> <span class="n">s</span><span class="o">+</span><span class="mi">5</span>          <span class="c1">//a也是一个不可变set，是由s生成的新set</span>
+<span class="n">val</span> <span class="n">b</span> <span class="o">=</span> <span class="n">s</span><span class="o">+</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">val</span> <span class="n">c</span> <span class="o">=</span> <span class="n">s</span><span class="o">++</span><span class="n">List</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">scala</span><span class="p">.</span><span class="n">collection</span><span class="p">.</span><span class="n">immutable</span><span class="p">.</span><span class="n">SortedSet</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="c1">//TreeSet(1,2,3,4)</span>
+</pre></div>
+
+
+<h3>mutable Set</h3>
+<ul>
+<li>+/++/-/--都会创造一个新的set，原set不变。</li>
+<li>+=/++=/-=/--=则不会创造一个新的set，直接对原set进行修改。</li>
+<li>scala.colletion.mutable.SortedSet(trait)</li>
+<li>TreeSet &amp; BitSet</li>
+</ul>
+<h3>集合的重要方法</h3>
+<ul>
+<li>map</li>
+<li>foreach/take</li>
+<li>filter</li>
+<li>flatten/flatMap</li>
+<li>reduce/fold reduceLeft/foldLeft or Right</li>
+<li>sum/max/min/count</li>
+<li>zip</li>
+</ul>
+<div class="highlight"><pre><span class="n">val</span> <span class="n">l</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">l</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="n">_</span> <span class="o">*</span> <span class="mi">2</span><span class="p">).</span><span class="n">filter</span><span class="p">(</span><span class="n">_</span> <span class="o">&gt;</span> <span class="mi">8</span><span class="p">).</span><span class="n">foreach</span><span class="p">(</span><span class="n">println</span><span class="p">(</span><span class="n">_</span><span class="p">))</span>
+<span class="n">l</span><span class="p">.</span><span class="n">take</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1">//List(1,2,3,4)拿出前4个元素</span>
+<span class="n">l</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="n">_</span> <span class="o">*</span> <span class="mi">2</span><span class="p">).</span><span class="n">filter</span><span class="p">(</span><span class="n">_</span> <span class="o">&gt;</span> <span class="mi">8</span><span class="p">).</span><span class="n">reduce</span><span class="p">(</span><span class="n">_</span> <span class="o">+</span> <span class="n">_</span><span class="p">)</span>
+<span class="n">l</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="n">_</span> <span class="o">*</span> <span class="mi">2</span><span class="p">).</span><span class="n">filter</span><span class="p">(</span><span class="n">_</span> <span class="o">&gt;</span> <span class="mi">8</span><span class="p">).</span><span class="n">fold</span><span class="p">(</span><span class="mi">0</span><span class="p">)(</span><span class="n">_</span> <span class="o">+</span> <span class="n">_</span><span class="p">)</span>
+<span class="n">l</span><span class="p">.</span><span class="n">max</span>
+<span class="n">l</span><span class="p">.</span><span class="n">sum</span>
+<span class="n">l</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">_</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">)</span>
+
+<span class="n">val</span> <span class="n">l1</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">val</span> <span class="n">l2</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="s">&quot;c&quot;</span><span class="p">,</span><span class="s">&quot;d&quot;</span><span class="p">)</span>
+<span class="n">l1</span> <span class="n">zip</span> <span class="n">l2</span>  <span class="c1">//List((1,a),(2,b),(3,c))</span>
+
+<span class="n">val</span> <span class="n">list</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">List</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="n">List</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">List</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">list</span><span class="p">.</span><span class="n">flatten</span>  <span class="c1">//List(1,2,3,4,5,6)</span>
+<span class="n">list</span><span class="p">.</span><span class="n">flatMap</span><span class="p">(</span><span class="n">_</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">_</span><span class="p">))</span><span class="c1">//</span>
+<span class="n">list</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="n">_</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">_</span><span class="p">))</span><span class="c1">//List(List(2,4),List(6,8),List(10,12))</span>
+</pre></div>
+
+
+<p>List(1,2,3,4).reduce(<em> - </em>)的运行过程是((1-2)-3)-4，即，对第一个元素和第二个元素调用操作函数，将结果与第三个元素再进行操作函数调用，依次进行。如果是reduceRight(_ + _),则会遵循下面的计算过程：1-(2-(3-4)),也就是说，将最后两个元素做操作，然后将结果作为第二操作数与倒数第三个元素一起进行下一次操作，以此类推。</p>
+<p>fold()是和reduce()类似的函数，只不过它提供了初始值，表示从这个初始值作为第一个参数开始进行计算。</p>
+<p>关于zip函数，如果l1和l2元素个数不相同时，只会短列表的元素个数，长列表多余的元素会被忽略掉。</p>
+<p>flatten函数可以将列表里面包含的列表打开来。
+flatMap则是将list的list操作之后将内层list打开。</p>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "Scala学习笔记(三)----高阶函数&集合.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://buptlixin.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="http://getpelican.com/"><i class="icon-external-link"></i>Pelican</a></li>
+    <li><a href="http://python.org/"><i class="icon-external-link"></i>Python.org</a></li>
+    <li><a href="http://jinja.pocoo.org/"><i class="icon-external-link"></i>Jinja2</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="http://www.v2ex.com/member/buptlee"><i class="icon-V2EX-sign icon-large"></i>V2EX</a></li>
+    <li><a href="http://douban.com/people/77726008"><i class="icon-豆瓣-sign icon-large"></i>豆瓣</a></li>
+    <li><a href="http://github.com/Xiaoxin2009"><i class="icon-Github-sign icon-large"></i>Github</a></li>
+    <li><a href="http://stackoverflow.com/users/3373388/bupt-xiaoxin"><i class="icon-Stackoverflow-sign icon-large"></i>Stackoverflow</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="/category/fen-bu-shi.html">
+    <i class="icon-folder-open icon-large"></i>分布式
+</a>
+</li>
+<li>
+<a href="/category/java.html">
+    <i class="icon-folder-open icon-large"></i>JAVA
+</a>
+</li>
+<li>
+<a href="/category/machine-learning.html">
+    <i class="icon-folder-open icon-large"></i>Machine Learning
+</a>
+</li>
+<li>
+<a href="/category/perl.html">
+    <i class="icon-folder-open icon-large"></i>Perl
+</a>
+</li>
+<li>
+<a href="/category/python.html">
+    <i class="icon-folder-open icon-large"></i>Python
+</a>
+</li>
+<li>
+<a href="/category/scala.html">
+    <i class="icon-folder-open icon-large"></i>Scala
+</a>
+</li>
+<li>
+<a href="/category/shu-ju-ku.html">
+    <i class="icon-folder-open icon-large"></i>数据库
+</a>
+</li>
+<li>
+<a href="/category/technology.html">
+    <i class="icon-folder-open icon-large"></i>Technology
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-3">
+    <a href="/tag/storm.html">
+        <i class="icon-tag icon-large"></i>Storm
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/zheng-ze-biao-da-shi.html">
+        <i class="icon-tag icon-large"></i>正则表达式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/machine-learning.html">
+        <i class="icon-tag icon-large"></i>Machine Learning
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hadoop.html">
+        <i class="icon-tag icon-large"></i>Hadoop
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/perl.html">
+        <i class="icon-tag icon-large"></i>Perl
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/scala.html">
+        <i class="icon-tag icon-large"></i>scala
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programming.html">
+        <i class="icon-tag icon-large"></i>functional programming
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/svm.html">
+        <i class="icon-tag icon-large"></i>SVM
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/mongodb.html">
+        <i class="icon-tag icon-large"></i>MongoDB
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hash.html">
+        <i class="icon-tag icon-large"></i>Hash
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/sql.html">
+        <i class="icon-tag icon-large"></i>SQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/github.html">
+        <i class="icon-tag icon-large"></i>Github
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hdfs.html">
+        <i class="icon-tag icon-large"></i>HDFS
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/nosql.html">
+        <i class="icon-tag icon-large"></i>NoSQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programing.html">
+        <i class="icon-tag icon-large"></i>functional programing
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/java.html">
+        <i class="icon-tag icon-large"></i>java
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-50849437-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'buptlixin';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

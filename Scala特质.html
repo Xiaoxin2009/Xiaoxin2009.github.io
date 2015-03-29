@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Scala特质</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Li,Gongfu">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="/" type="application/atom+xml" rel="alternate" title="晓新's Blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/index.html">晓新's Blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="/category/fen-bu-shi.html">
+						<i class="icon-folder-open icon-large"></i>分布式
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/java.html">
+						<i class="icon-folder-open icon-large"></i>JAVA
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/machine-learning.html">
+						<i class="icon-folder-open icon-large"></i>Machine Learning
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/perl.html">
+						<i class="icon-folder-open icon-large"></i>Perl
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/python.html">
+						<i class="icon-folder-open icon-large"></i>Python
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="/category/scala.html">
+						<i class="icon-folder-open icon-large"></i>Scala
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/shu-ju-ku.html">
+						<i class="icon-folder-open icon-large"></i>数据库
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/technology.html">
+						<i class="icon-folder-open icon-large"></i>Technology
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to Scala特质">
+                                        Scala特质
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2015-01-05T10:20:00">
+        <i class="icon-calendar"></i>一 05 一月 2015
+</abbr>
+<span class="label">By</span>
+<a href="/author/ligongfu.html"><i class="icon-user"></i>Li,Gongfu</a>
+<span class="label">Category</span>
+<a href="/category/scala.html"><i class="icon-folder-open"></i>Scala</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/scala.html"><i class="icon-tag"></i>scala</a>
+</footer><!-- /.post-info -->                </div>
+                <ul>
+<li>类可以实现任意数量的特质。</li>
+<li>特质可以要求实现它的类具备特定的字段，方法或超类。</li>
+<li>和java接口不同，scala特质可以提供方法和字段的实现。</li>
+<li>当你将多个特质叠加在一起时，顺序很重要，其方法先被执行的特质排在更后面。</li>
+</ul>
+<h3>多重继承</h3>
+<p>在c++中，采用虚基类来解决菱形问题，而java则采取更加强硬的限制策略，即类智能扩展自一个超类，但可以实现任意数量的接口，而接口只能包含抽象方法，不能包含字段。
+scala提供特质而不是接口，特质可以同时拥有抽象方法和具体方法。和java一样，scala类只能有一个超类，但可以有任意数量的特质。</p>
+<h3>带有具体实现的特质</h3>
+<div class="highlight"><pre><span class="n">trait</span> <span class="n">ConsoleLogger</span><span class="p">{</span>
+    <span class="n">def</span> <span class="n">log</span> <span class="p">(</span><span class="n">msg</span> <span class="o">:</span> <span class="n">String</span><span class="p">){</span>
+        <span class="n">println</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">class</span> <span class="n">SavingAccount</span> <span class="n">extends</span> <span class="n">Account</span> <span class="n">with</span> <span class="n">ConsoleLogger</span><span class="p">{</span>
+    <span class="n">def</span> <span class="n">withdraw</span><span class="p">(</span><span class="n">amount</span> <span class="o">:</span> <span class="n">Double</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">amount</span> <span class="o">&gt;</span> <span class="n">balance</span><span class="p">)</span> <span class="n">log</span><span class="p">(</span><span class="s">&quot;Insufficient funds&quot;</span><span class="p">)</span>
+        <span class="k">else</span> <span class="n">balance</span> <span class="o">-=</span> <span class="n">amount</span>
+    <span class="p">}</span>       
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>带有特质的对象</h3>
+<p>在构造单个对象时，可以为它添加特质，同类的不同对象可以添加不同的特质。</p>
+<div class="highlight"><pre><span class="n">trait</span> <span class="n">Logged</span><span class="p">{</span>
+    <span class="n">def</span> <span class="n">log</span><span class="p">(</span><span class="n">msg</span> <span class="o">:</span> <span class="n">String</span><span class="p">){}</span>
+<span class="p">}</span>
+
+<span class="n">trait</span> <span class="n">ConsoleLogger</span> <span class="n">extends</span> <span class="n">Logged</span><span class="p">{</span>
+    <span class="n">def</span> <span class="n">log</span> <span class="p">(</span><span class="n">msg</span> <span class="o">:</span> <span class="n">String</span><span class="p">){</span>
+        <span class="n">println</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">class</span> <span class="n">SavingAccount</span> <span class="n">extends</span> <span class="n">Account</span> <span class="n">with</span> <span class="n">Logged</span><span class="p">{</span>
+    <span class="n">def</span> <span class="n">withdraw</span><span class="p">(</span><span class="n">amount</span> <span class="o">:</span> <span class="n">Double</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">amount</span> <span class="o">&gt;</span> <span class="n">balance</span><span class="p">)</span> <span class="n">log</span><span class="p">(</span><span class="s">&quot;Insufficient funds&quot;</span><span class="p">)</span>
+        <span class="k">else</span> <span class="n">balance</span> <span class="o">-=</span> <span class="n">amount</span>
+    <span class="p">}</span>       
+<span class="p">}</span>
+<span class="c1">//现在什么都不会被记录到日志。但你可以在构造具体对象时混入更好的日志记录器。</span>
+
+<span class="n">val</span> <span class="n">acct1</span> <span class="o">=</span> <span class="n">new</span> <span class="n">SavingAccount</span> <span class="n">with</span> <span class="n">ConsoleLogger</span>
+<span class="c1">//如果acct1调用log方法，会执行ConsoleLogger的log方法。</span>
+<span class="n">val</span> <span class="n">acct2</span> <span class="o">=</span> <span class="n">new</span> <span class="n">SavingAccount</span> <span class="n">with</span> <span class="n">FileLogger</span>
+</pre></div>
+
+
+<h3>多个特质的叠加</h3>
+<p>你可以为类和对象添加多个互相调用的特质，从最后一个开始。对于需要分阶段加工处理某个值的场景非常有用。实际上，哪个函数被调用是由特质添加的顺序来决定的。</p>
+<div class="highlight"><pre><span class="n">trait</span> <span class="n">Logged</span><span class="p">{</span>
+    <span class="n">def</span> <span class="n">log</span><span class="p">(</span><span class="n">msg</span> <span class="o">:</span> <span class="n">String</span><span class="p">){}</span>
+<span class="p">}</span>
+
+<span class="n">trait</span> <span class="n">TimestampLogger</span> <span class="n">extends</span> <span class="n">Logged</span><span class="p">{</span>
+    <span class="n">override</span> <span class="n">def</span> <span class="n">log</span> <span class="p">(</span><span class="n">msg</span> <span class="o">:</span> <span class="n">String</span><span class="p">){</span>
+        <span class="n">super</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">new</span> <span class="n">java</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">Date</span><span class="p">()</span><span class="o">+</span><span class="s">&quot; &quot;</span><span class="o">+</span> <span class="n">msg</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">trait</span> <span class="n">TimestampLogger</span> <span class="n">extends</span> <span class="n">Logged</span><span class="p">{</span>
+    <span class="n">val</span> <span class="n">maxLength</span> <span class="o">=</span> <span class="mi">15</span> 
+    <span class="n">override</span> <span class="n">def</span> <span class="n">log</span> <span class="p">(</span><span class="n">msg</span> <span class="o">:</span> <span class="n">String</span><span class="p">){</span>
+        <span class="n">super</span><span class="p">.</span><span class="n">log</span><span class="p">(</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">length</span> <span class="o">&lt;=</span> <span class="n">maxLength</span><span class="p">)</span> <span class="n">msg</span> 
+        <span class="k">else</span> <span class="n">msg</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">maxLength</span> <span class="o">-</span><span class="mi">3</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;...&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">val</span> <span class="n">acct1</span> <span class="o">=</span> <span class="n">new</span> <span class="n">SavingAccount</span> <span class="n">with</span> <span class="n">ConsoleLogger</span> <span class="n">with</span> <span class="n">TimestampLogger</span> <span class="n">with</span> <span class="n">ShortLogger</span>
+<span class="c1">//ShortLogger的log方法首先执行，然后它的super.log调用TimestampLogger </span>
+
+<span class="n">val</span> <span class="n">acct2</span> <span class="o">=</span> <span class="n">new</span> <span class="n">SavingAccount</span> <span class="n">with</span> <span class="n">ConsoleLogger</span> <span class="n">with</span> <span class="n">ShortLogger</span> <span class="n">with</span> <span class="n">TimestampLogger</span> 
+</pre></div>
+
+
+<h3>在特质中重写抽象方法</h3>
+<div class="highlight"><pre><span class="n">trait</span> <span class="n">Logger</span><span class="p">{</span>
+<span class="n">def</span> <span class="n">log</span><span class="p">(</span><span class="n">msg</span><span class="o">:</span> <span class="n">String</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">trait</span> <span class="n">TimestampLogger</span> <span class="n">extends</span> <span class="n">Logger</span><span class="p">{</span>
+    <span class="n">override</span> <span class="n">def</span> <span class="n">log</span> <span class="p">(</span><span class="n">msg</span> <span class="o">:</span> <span class="n">String</span><span class="p">){</span>
+        <span class="n">super</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">new</span> <span class="n">java</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">Date</span><span class="p">()</span><span class="o">+</span><span class="s">&quot; &quot;</span><span class="o">+</span> <span class="n">msg</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">//编译器会将super.log标记为错误，因为super.log并没实现。scala认为TimestampLogger依旧是抽象的，它需要混入一个具体的log方法，因此，你必须为方法打上abstract关键字和override关键字：</span>
+
+<span class="n">abstract</span> <span class="n">override</span> <span class="n">def</span> <span class="n">log</span> <span class="p">(</span><span class="n">msg</span> <span class="o">:</span> <span class="n">String</span><span class="p">){</span>
+        <span class="n">super</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">new</span> <span class="n">java</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">Date</span><span class="p">()</span><span class="o">+</span><span class="s">&quot; &quot;</span><span class="o">+</span> <span class="n">msg</span><span class="p">)</span>
+    <span class="p">}</span>
+</pre></div>
+
+
+<h3>当做富接口使用的特质</h3>
+<p>特质可以包含大量工具方法，而这些工具方法可以依赖一些抽象方法来实现。</p>
+<div class="highlight"><pre><span class="n">trait</span> <span class="n">Logger</span><span class="p">{</span>
+<span class="n">def</span> <span class="n">log</span><span class="p">(</span><span class="n">msg</span> <span class="o">:</span> <span class="n">String</span><span class="p">)</span>
+<span class="n">def</span> <span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">:</span> <span class="n">String</span><span class="p">){</span><span class="n">log</span><span class="p">(</span><span class="s">&quot;INFO :　&quot;</span><span class="err">＋</span><span class="n">msg</span><span class="p">)}</span>
+<span class="n">def</span> <span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="o">:</span> <span class="n">String</span><span class="p">){</span><span class="n">log</span><span class="p">(</span><span class="s">&quot;WARN:　&quot;</span><span class="err">＋</span><span class="n">msg</span><span class="p">)}</span>
+<span class="p">}</span>
+
+<span class="n">class</span> <span class="n">SavingAccount</span> <span class="n">extends</span> <span class="n">Account</span> <span class="n">with</span> <span class="n">Logger</span><span class="p">{</span>
+    <span class="n">def</span> <span class="n">withdraw</span><span class="p">(</span><span class="n">amount</span> <span class="o">:</span> <span class="n">Double</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">amount</span> <span class="o">&gt;</span> <span class="n">balance</span><span class="p">)</span> <span class="n">log</span><span class="p">(</span><span class="s">&quot;Insufficient funds&quot;</span><span class="p">)</span>
+        <span class="k">else</span> <span class="n">balance</span> <span class="o">-=</span> <span class="n">amount</span>
+    <span class="p">}</span>
+
+    <span class="n">override</span> <span class="n">def</span> <span class="n">log</span><span class="p">(</span><span class="n">msg</span> <span class="o">:</span> <span class="n">String</span><span class="p">){</span><span class="n">println</span><span class="p">(</span><span class="n">msg</span><span class="p">)}</span>        
+<span class="p">}</span>
+</pre></div>
+
+
+<p>注意我们是怎么把抽象方法和具体方法结合在一起的。这样使用Logger特质的类就可以任意调用这些日志消息方法了。在scala中像这样在特质中使用具体和抽象方法十分普遍。</p>
+<h3>特质中的字段</h3>
+<p>特质中的字段可以使具体的也可以是抽象的。如果你给出了初始值，那么字段就是具体的。在JVM中，一个类智能扩展一个超类，因此来自特质的字段不能以超类相同的方式继承，你可以把具体的特质字段当做是针对使用该特质的类的“装配指令”，任何通过这种方式混入的字段都自动成为该类自己的字段。</p>
+<div class="highlight"><pre><span class="n">trait</span> <span class="n">TimestampLogger</span> <span class="n">extends</span> <span class="n">Logged</span><span class="p">{</span>
+    <span class="n">val</span> <span class="n">maxLength</span> <span class="o">=</span> <span class="mi">15</span> 
+    <span class="n">override</span> <span class="n">def</span> <span class="n">log</span> <span class="p">(</span><span class="n">msg</span> <span class="o">:</span> <span class="n">String</span><span class="p">){</span>
+        <span class="n">super</span><span class="p">.</span><span class="n">log</span><span class="p">(</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">length</span> <span class="o">&lt;=</span> <span class="n">maxLength</span><span class="p">)</span> <span class="n">msg</span> 
+        <span class="k">else</span> <span class="n">msg</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">maxLength</span> <span class="o">-</span><span class="mi">3</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;...&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>特质中为被初始化的字段在具体的子类中必须被重写。</p>
+<div class="highlight"><pre>trait TimestampLogger extends Logged{
+    val maxLength :Int 
+    override def log (msg : String){
+        super.log(
+        if (msg.length <span class="err">&lt;</span>= maxLength) msg 
+        else msg.substring(0,maxLength -3)+&quot;...&quot;)
+    }
+}
+
+val acct = new SavingAccount with ConsoleLogger with TimestampLogger{
+    val maxLength = 15 
+}
+</pre></div>
+
+
+<h3>特质的构造顺序</h3>
+<ul>
+<li>首先调用超类的构造器。</li>
+<li>特质构造器在超类构造器之后，类构造器之前。</li>
+<li>特质由左到右构造。</li>
+<li>每个特质中，父特质先被构造。</li>
+<li>如果多个特质共有一个父特质，而那个父特质已经被构造，则不会被再次构造。</li>
+<li>所有特质构造完毕，子类被构造。</li>
+</ul>
+<h3>扩展类的特质</h3>
+<p>特质也可以扩展类，这个类会自动成为所有混入该特质的超类。如果我们的类已经扩展了一个超类，那么要求这个超类是特质的超类的子类，否则，不能混入该特质。</p>
+<div class="highlight"><pre><span class="n">trait</span> <span class="n">LoggedException</span> <span class="n">extends</span> <span class="n">Exception</span> <span class="n">with</span> <span class="n">Logged</span><span class="p">{</span>
+<span class="n">def</span> <span class="n">log</span><span class="p">(){</span>
+    <span class="n">log</span><span class="p">(</span><span class="n">getMessage</span><span class="p">())</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>背后发生了什么</h3>
+<p>scala需要把特质翻译成JVM的类和接口。
+只有抽象方法的特质被简单的变成一个java接口。
+如果特质有具体的方法，scala会帮我们创建一个伴生类，该伴生类用静态方法存放特质的方法。</p>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "Scala特质.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://buptlixin.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="http://getpelican.com/"><i class="icon-external-link"></i>Pelican</a></li>
+    <li><a href="http://python.org/"><i class="icon-external-link"></i>Python.org</a></li>
+    <li><a href="http://jinja.pocoo.org/"><i class="icon-external-link"></i>Jinja2</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="http://www.v2ex.com/member/buptlee"><i class="icon-V2EX-sign icon-large"></i>V2EX</a></li>
+    <li><a href="http://douban.com/people/77726008"><i class="icon-豆瓣-sign icon-large"></i>豆瓣</a></li>
+    <li><a href="http://github.com/Xiaoxin2009"><i class="icon-Github-sign icon-large"></i>Github</a></li>
+    <li><a href="http://stackoverflow.com/users/3373388/bupt-xiaoxin"><i class="icon-Stackoverflow-sign icon-large"></i>Stackoverflow</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="/category/fen-bu-shi.html">
+    <i class="icon-folder-open icon-large"></i>分布式
+</a>
+</li>
+<li>
+<a href="/category/java.html">
+    <i class="icon-folder-open icon-large"></i>JAVA
+</a>
+</li>
+<li>
+<a href="/category/machine-learning.html">
+    <i class="icon-folder-open icon-large"></i>Machine Learning
+</a>
+</li>
+<li>
+<a href="/category/perl.html">
+    <i class="icon-folder-open icon-large"></i>Perl
+</a>
+</li>
+<li>
+<a href="/category/python.html">
+    <i class="icon-folder-open icon-large"></i>Python
+</a>
+</li>
+<li>
+<a href="/category/scala.html">
+    <i class="icon-folder-open icon-large"></i>Scala
+</a>
+</li>
+<li>
+<a href="/category/shu-ju-ku.html">
+    <i class="icon-folder-open icon-large"></i>数据库
+</a>
+</li>
+<li>
+<a href="/category/technology.html">
+    <i class="icon-folder-open icon-large"></i>Technology
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-3">
+    <a href="/tag/storm.html">
+        <i class="icon-tag icon-large"></i>Storm
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/zheng-ze-biao-da-shi.html">
+        <i class="icon-tag icon-large"></i>正则表达式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/machine-learning.html">
+        <i class="icon-tag icon-large"></i>Machine Learning
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hadoop.html">
+        <i class="icon-tag icon-large"></i>Hadoop
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/perl.html">
+        <i class="icon-tag icon-large"></i>Perl
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/scala.html">
+        <i class="icon-tag icon-large"></i>scala
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programming.html">
+        <i class="icon-tag icon-large"></i>functional programming
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/svm.html">
+        <i class="icon-tag icon-large"></i>SVM
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/mongodb.html">
+        <i class="icon-tag icon-large"></i>MongoDB
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hash.html">
+        <i class="icon-tag icon-large"></i>Hash
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/sql.html">
+        <i class="icon-tag icon-large"></i>SQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/github.html">
+        <i class="icon-tag icon-large"></i>Github
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hdfs.html">
+        <i class="icon-tag icon-large"></i>HDFS
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/nosql.html">
+        <i class="icon-tag icon-large"></i>NoSQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programing.html">
+        <i class="icon-tag icon-large"></i>functional programing
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/java.html">
+        <i class="icon-tag icon-large"></i>java
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-50849437-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'buptlixin';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>

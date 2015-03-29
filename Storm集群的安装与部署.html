@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Storm单机版的安装与部署</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Li,Gongfu">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="/" type="application/atom+xml" rel="alternate" title="晓新's Blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/index.html">晓新's Blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li class="active">
+                    <a href="/category/fen-bu-shi.html">
+						<i class="icon-folder-open icon-large"></i>分布式
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/java.html">
+						<i class="icon-folder-open icon-large"></i>JAVA
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/machine-learning.html">
+						<i class="icon-folder-open icon-large"></i>Machine Learning
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/perl.html">
+						<i class="icon-folder-open icon-large"></i>Perl
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/python.html">
+						<i class="icon-folder-open icon-large"></i>Python
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/scala.html">
+						<i class="icon-folder-open icon-large"></i>Scala
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/shu-ju-ku.html">
+						<i class="icon-folder-open icon-large"></i>数据库
+					</a>
+                  </li>
+                  <li >
+                    <a href="/category/technology.html">
+						<i class="icon-folder-open icon-large"></i>Technology
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to Storm单机版的安装与部署">
+                                        Storm单机版的安装与部署
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-03-07T16:26:00">
+        <i class="icon-calendar"></i>五 07 三月 2014
+</abbr>
+<span class="label">By</span>
+<a href="/author/ligongfu.html"><i class="icon-user"></i>Li,Gongfu</a>
+<span class="label">Category</span>
+<a href="/category/fen-bu-shi.html"><i class="icon-folder-open"></i>分布式</a>.
+
+
+<span class="label">Tags</span>
+	<a href="/tag/storm.html"><i class="icon-tag"></i>Storm</a>
+</footer><!-- /.post-info -->                </div>
+                <p>经过一周多的努力，我的storm安装折腾之路终于在这个寒冷的周五结束了，觉得一定要写下来，一则为了即将开始的Storm集群部署保留一手资料，二来也为了给更多没接触过但需要使用Storm的同学提供点指导。网上虽然有很多关于storm的安装教程，但我觉得有两个方面的不足，一是作者默认你已经有了不错的linux，分布式架构，github开源项目的经验，所以有些地方点到即止，让新手好不恼火。另一方面，很少提到遇到的问题，但是，相信我，安装不是困难的，难的是你即将遇到一些你百思不得其解的问题，对于新手来说同样是极其影响心情和士气的，幸好有立鑫学长的倾情指导，为我解决了一个个难题，鞠躬。</p>
+<p>这篇文章写的有点罗嗦，但是为了尽量把我在安装过程中遇到的困难都描述清楚，为你提供比较详细的参考，即使你是一个完全没有接触过storm的新手，甚至刚接触linux不久，我相信你也能通过这篇教程搭出一个storm系统。</p>
+<p>另外，注意一下，这个教程描述的是单机版的storm，集群版我后面再写，两者配置是不一样的。话不多说，开始吧。</p>
+<h1>准备工作</h1>
+<p>我的机器是Ubuntu 12.04，虽然storm可以在windows下部署，但是我不建议你么做，我同样建议你安装一个全新的系统，以防止各种各种别的问题。</p>
+<h2>1.1 安装JDK6</h2>
+<p>Storm需要JVM的支持，我选择的是Java1.6，只要是Java1.6以上版本就可以。不过我还是建议你安装JDK6，安装步骤非常简单，我就不赘述了，网上也有很多教程。简单的说就是就是下载安装包，解压到安装路径，如/usr/lib/jvm，修改<code>/etc/profile</code>，<code>source /etc/profile</code>。</p>
+<h2>1.2  安装Eclipse</h2>
+<p>storm的Topology需要被打成jar包上传，可以使用lein，maven等，不过我建议使用eclipse，因为这个大家可能更熟悉一点，最后我也会以eclipse为例子演示怎么制作storm的jar包。</p>
+<ul>
+<li>
+<p>下载安装包</p>
+<p>这是<a href="http://www.eclipse.org/downloads/">下载地址</a></p>
+<p>注意根据机器的位数下载不同版本。我下载的是：eclipse-standard-kepler-SR1-linux-gtk-x86_64.tar.gz
+- 如果你的系统是刚装的，那么在根目录下创建opt文件夹：</p>
+</li>
+</ul>
+<div class="highlight"><pre><span class="n">sudo</span> <span class="n">mkdir</span>   <span class="o">/</span><span class="n">opt</span>
+</pre></div>
+
+
+<ul>
+<li>将eclipse的安装包拷贝到/opt下：</li>
+</ul>
+<div class="highlight"><pre><span class="n">sudo</span>  <span class="n">cpeclipse</span><span class="o">-</span><span class="n">standard</span><span class="o">-</span><span class="n">kepler</span><span class="o">-</span><span class="n">SR1</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">gtk</span><span class="o">-</span><span class="n">x86_64</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span>  <span class="o">/</span><span class="n">opt</span>
+</pre></div>
+
+
+<ul>
+<li>解压安装：</li>
+</ul>
+<div class="highlight"><pre><span class="n">cd</span> <span class="o">/</span><span class="n">opt</span>
+<span class="n">tar</span> <span class="o">-</span><span class="n">zvxf</span> <span class="n">eclipse</span><span class="o">-</span><span class="n">standard</span><span class="o">-</span><span class="n">kepler</span><span class="o">-</span><span class="n">SR1</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">gtk</span><span class="o">-</span><span class="n">x86_64</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span>
+</pre></div>
+
+
+<ul>
+<li>测试是否成功：
+进入opt/eclipse文件夹下，打开eclipse，第一次登陆还是要设置workspace，跟windows一样，编写一个helloworld程序试试就知道了，一般是没有问题的。</li>
+</ul>
+<h1>安装zookeeper</h1>
+<ul>
+<li>下载安装包
+同学们可以到<a href="http://zookeeper.apache.org/releases.html">官网</a>上去下载.我使用的是目前最新的版本：zookeeper-3.4.5。安装非常简单，解压即可：</li>
+</ul>
+<div class="highlight"><pre><span class="n">cd</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">bupt</span><span class="o">/</span><span class="n">installpack</span>             <span class="err">我存放安装包的地方</span>
+<span class="n">tar</span> <span class="o">-</span><span class="n">zvxfzookeeper</span><span class="o">-</span><span class="mf">3.4.5</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span>
+</pre></div>
+
+
+<ul>
+<li>设置环境变量：</li>
+</ul>
+<div class="highlight"><pre><span class="n">sudo</span> <span class="n">vim</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">profile</span> 
+</pre></div>
+
+
+<p>在后面加上： </p>
+<div class="highlight"><pre><span class="n">export</span> <span class="n">ZOOKEEPER_HOME</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">bupt</span><span class="o">/</span><span class="n">installpack</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">-</span><span class="mf">3.4.5</span>
+<span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="err">$</span><span class="n">ZOOKEEPER_HOME</span><span class="o">/</span><span class="n">bin</span><span class="o">:</span><span class="err">$</span><span class="n">PATH</span>
+</pre></div>
+
+
+<p>使其生效：</p>
+<div class="highlight"><pre><span class="n">source</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">profile</span>
+</pre></div>
+
+
+<ul>
+<li>修改配置文件
+在zookeeper-3.4.5/conf文件下有一个叫zoo_sample.cfg的文件，它是zookeeper配置文件的模版，复制它，并改名为zoo.cfg，打开，修改配置如下：</li>
+</ul>
+<div class="highlight"><pre><span class="n">tickTime</span><span class="o">=</span><span class="mi">2000</span>  
+<span class="n">dataDir</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">bupt</span><span class="o">/</span><span class="n">installpack</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">-</span><span class="mf">3.4.5</span><span class="o">/</span><span class="n">zkdata</span>  <span class="err">这里</span><span class="n">zkdata</span><span class="err">是我自己造的</span>
+<span class="n">clientPort</span><span class="o">=</span><span class="mi">2181</span>  
+<span class="n">initLimit</span><span class="o">=</span><span class="mi">5</span>  
+<span class="n">syncLimit</span><span class="o">=</span><span class="mi">2</span> 
+<span class="n">server</span><span class="mf">.1</span><span class="o">=</span><span class="mf">10.103.12.243</span><span class="o">:</span><span class="mi">2888</span><span class="o">:</span><span class="mi">3888</span> 
+</pre></div>
+
+
+<p>一点说明 ：<code>server.1=10.103.12.243:2888:3888</code>中的IP地址是我本机的地址，你配置的时候要改成你的机器的地址。
+上述参数的解释在zoo.cfg文件中有介绍，我就不讲了。你甚至不需要知道意思，照着我的参数配置也可以，等你想了解的时候再回过头来看看。</p>
+<ul>
+<li>
+<p>配置myid文件
+在dataDir目录下新建myid文件，打开并写入id号，id号即为zoo.cfg文件中server.后的数字， 如server.1=IP1:2888:3888即表示IP1机器中的myid号为1。</p>
+</li>
+<li>
+<p>测试</p>
+</li>
+</ul>
+<div class="highlight"><pre><span class="n">cd</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">bupt</span><span class="o">/</span><span class="n">installpack</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">-</span><span class="mf">3.4.5</span><span class="o">/</span><span class="n">bin</span>
+<span class="n">sh</span> <span class="n">zkServer</span><span class="p">.</span><span class="n">sh</span> <span class="n">start</span>
+</pre></div>
+
+
+<p>正常情况下会提示：</p>
+<div class="highlight"><pre><span class="n">JMX</span> <span class="n">enabled</span> <span class="n">by</span> <span class="k">default</span>
+<span class="n">Using</span> <span class="n">config</span><span class="o">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">bupt</span><span class="o">/</span><span class="n">installpack</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">-</span><span class="mf">3.4.5</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="p">..</span><span class="o">/</span><span class="n">conf</span><span class="o">/</span><span class="n">zoo</span><span class="p">.</span><span class="n">cfg</span>
+<span class="n">Starting</span> <span class="n">zookeeper</span> <span class="p">...</span> <span class="n">STARTED</span>
+</pre></div>
+
+
+<p>查看状态，执行：                            <br />
+</p>
+<div class="highlight"><pre><span class="n">sh</span> <span class="n">zkServer</span><span class="p">.</span><span class="n">sh</span> <span class="n">status</span>
+</pre></div>
+
+
+<p>如果正常会显示：</p>
+<div class="highlight"><pre><span class="n">JMX</span> <span class="n">enabled</span> <span class="n">by</span> <span class="k">default</span>
+<span class="n">Using</span> <span class="n">config</span><span class="o">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">bupt</span><span class="o">/</span><span class="n">installpack</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">-</span><span class="mf">3.4.5</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="p">..</span><span class="o">/</span><span class="n">conf</span><span class="o">/</span><span class="n">zoo</span><span class="p">.</span><span class="n">cfg</span>
+<span class="nl">Mode:</span> <span class="n">standalone</span>
+</pre></div>
+
+
+<p>这里的standalone是因为我安装的是单机版。如果是集群的话，应该是leader或者follower。
+至此，zookeeper就安装完了。
+不过我曾经遇到过一个神奇的问题：当我运行完start之后，显示 STARTED，但是运行status之后，显示如下：     <br />
+</p>
+<div class="highlight"><pre><span class="n">JMX</span> <span class="n">enabled</span> <span class="n">bydefault</span>
+<span class="n">Using</span> <span class="n">config</span><span class="o">:</span> <span class="o">/</span><span class="n">hadoop</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="p">..</span><span class="o">/</span><span class="n">conf</span><span class="o">/</span><span class="n">zoo</span><span class="p">.</span><span class="n">cfg</span>
+<span class="n">Error</span> <span class="n">contacting</span> <span class="n">service</span><span class="p">.</span> <span class="n">It</span> <span class="n">is</span> <span class="n">probably</span> <span class="n">not</span> <span class="n">running</span><span class="p">.</span>
+</pre></div>
+
+
+<p>我相信你很可能已经遇到这个问题，相信你同样发现网上的说法都是nc命令的版本问题，解决方法是：用文本编辑器打开zkServer.sh，找到</p>
+<div class="highlight"><pre><span class="n">STAT</span><span class="o">=</span><span class="err">`</span><span class="n">echo</span> <span class="n">stat</span> <span class="o">|</span> <span class="n">nc</span> <span class="o">-</span><span class="n">q</span> <span class="n">l</span>  <span class="n">localhost</span> <span class="err">$</span><span class="p">(</span><span class="n">grep</span> <span class="n">clientPort</span> <span class="s">&quot;$ZOOCFG&quot;</span> <span class="o">|</span> <span class="n">sed</span> <span class="o">-</span><span class="n">e</span> <span class="err">&#39;</span><span class="n">s</span><span class="o">/</span><span class="p">.</span><span class="o">*=</span><span class="c1">//&#39;) 2&gt; /dev/null| grep Mode`</span>
+</pre></div>
+
+
+<p>这行，去掉-q 1 即可，或者，如果缺少-q 1，则加上即可，但是我的zkServer.sh问价压根儿就没有这一行，我猜测这应该zookeeper 早期版本的问题，我使用的zookeeper3.4.5已经修改过zkServer.sh文件了。无奈，只好找别的方法。这里教大家一个好的办法，就是去zookeeper.out文件中去察看日志，里面会记录status失败的原因，例如，我的就是：</p>
+<blockquote>
+<p>“无法打开java命令 usr/lib/jvm/jdk目录不存在”</p>
+</blockquote>
+<p>原来是由于我卸载JDK7，重装成JDK6造成的，jdk文件夹确实已经不存在了。于是我修改环境变量，各种设置，凡是涉及到JDK的地方统统修改路径，这也给大家提个醒，尽量不要在机器上装太多JDK，否则容易乱，卸载的时候也要卸载干净，记得修改环境变量等，造成不必要的麻烦。
+事情还没完，等我修改了所有我认为应该修改的设置之后，依然是</p>
+<div class="highlight"><pre><span class="n">Error</span> <span class="n">contacting</span> <span class="n">service</span><span class="p">.</span> <span class="n">It</span> <span class="n">is</span> <span class="n">probably</span> <span class="n">not</span> <span class="n">running</span><span class="p">.</span>
+</pre></div>
+
+
+<p>我已经抓狂了，剧情当然发展到有大神来指导啦，师兄看了半天也不知道怎么回事，觉得所有的地方都对，但zookeeper.out 文件里总是显示：“无法打开java命令 usr/lib/jvm/jdk目录不存在”。于是他索性删除了zookeeper.out文件，并重新创建了同名的空文件，结果就好了。我们得出的结论是Zookeeper 的status命令太SB，经常出一些莫名其妙的bug，需要我们手动的更新zookeeper.out文件，如果你也遇到了这个问题，不妨试试这个方法吧。我真是屡试不爽。</p>
+<h2>安装ZeroMQ和JZMQ</h2>
+<h3>3.1 安装libtool  automake  autoconf  m4</h3>
+<p>在安装这两个组件之前，我强烈建议你检查一下你是否已经安装了上面这写组件，因为他们会在安装ZeroMQ和JZMQ时用到，如果你不想在后续安装的时候频繁的被打断，那就索性先一股脑的安装了吧。</p>
+<ul>
+<li>
+<p>libtool</p>
+<p>这是<a href="http://mirrors.ustc.edu.cn/gnu/libtool/">下载地址</a>。我使用的是libtool-2.4.2.tar.gz。    <br />
+</p>
+</li>
+</ul>
+<div class="highlight"><pre><span class="n">tar</span> <span class="o">-</span><span class="n">xzvf</span> <span class="n">libtool</span><span class="o">-</span><span class="mf">2.4.2</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span> 
+<span class="n">cd</span> <span class="n">libtool</span><span class="o">-</span><span class="mf">2.4.2</span>
+<span class="p">.</span><span class="o">/</span><span class="n">configure</span> <span class="o">--</span><span class="n">prefix</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span>
+<span class="n">make</span> 
+<span class="n">make</span> <span class="n">install</span>
+</pre></div>
+
+
+<ul>
+<li>m4
+这是<a href="http://ftp.gnu.org/gnu/m4/">下载地址</a>。我下载的是：m4-1.4.17.tar.gz。</li>
+</ul>
+<div class="highlight"><pre><span class="n">tar</span> <span class="o">-</span><span class="n">xzvf</span> <span class="n">m4</span><span class="o">-</span><span class="mf">1.4.17</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span> 
+<span class="n">cd</span> <span class="n">m4</span><span class="o">-</span><span class="mf">1.4.17</span>
+<span class="p">.</span><span class="o">/</span><span class="n">configure</span> <span class="o">--</span><span class="n">prefix</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span>
+<span class="n">make</span> 
+<span class="n">make</span> <span class="n">install</span>
+</pre></div>
+
+
+<ul>
+<li>automake
+这是<a href="http://ftp.gnu.org/gnu/automake/">下载地址</a>。我下载的是：automake-1.14.tar.gz。</li>
+</ul>
+<div class="highlight"><pre><span class="n">tar</span> <span class="n">xzvf</span> <span class="n">automake</span><span class="o">-</span><span class="mf">1.14</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span>
+<span class="n">cd</span> <span class="n">automake</span><span class="o">-</span><span class="mf">1.14</span>
+<span class="p">.</span><span class="o">/</span><span class="n">configure</span> <span class="o">--</span><span class="n">prefix</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span>
+<span class="n">make</span> 
+<span class="n">make</span> <span class="n">install</span>
+</pre></div>
+
+
+<ul>
+<li>autoconf
+这是<a href="http://ftp.gnu.org/gnu/autoconf/">下载地址</a>。</li>
+</ul>
+<div class="highlight"><pre><span class="err">`</span><span class="n">tar</span> <span class="o">-</span><span class="n">xzvf</span> <span class="n">autoconf</span><span class="o">-</span><span class="mf">2.69</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span>
+<span class="err">`</span><span class="n">cd</span> <span class="n">autoconf</span><span class="o">-</span><span class="mf">2.69</span>
+<span class="err">`</span><span class="p">.</span><span class="o">/</span><span class="n">configure</span> <span class="o">--</span><span class="n">prefix</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span>
+<span class="err">`</span><span class="n">make</span>
+<span class="err">`</span><span class="n">make</span> <span class="n">install</span>
+</pre></div>
+
+
+<h3>3.2  安装ZeroMQ</h3>
+<p>跟上面的安装步骤类似，先是下载<a href="http://download.zeromq.org/">安装包</a>。我使用的是最新版本的 zeromq-4.0.3.tar.gz<br />
+</p>
+<div class="highlight"><pre><span class="n">tar</span> <span class="o">-</span><span class="n">xzvf</span> <span class="n">zeromq</span><span class="o">-</span><span class="mf">4.0.3</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span>  
+<span class="n">cd</span> <span class="n">zeromq</span><span class="o">-</span><span class="mf">4.0.3</span>
+<span class="p">.</span><span class="o">/</span><span class="n">autogen</span><span class="p">.</span><span class="n">sh</span>
+<span class="p">.</span><span class="o">/</span><span class="n">configure</span>  
+<span class="n">make</span>  
+<span class="n">sudo</span> <span class="n">make</span> <span class="n">install</span>  
+</pre></div>
+
+
+<h3>3.3  安装JZMQ</h3>
+<p>这是<a href="：https://github.com/zeromq/jzmq">下载地址</a>。直接下载.zip文件就可以了。我使用的是jzmq-master.zip。</p>
+<div class="highlight"><pre><span class="n">unzip</span> <span class="n">jzmq</span><span class="o">-</span><span class="n">master</span><span class="p">.</span><span class="n">zip</span>
+<span class="n">cd</span> <span class="n">jzmq</span><span class="o">-</span><span class="n">master</span>
+<span class="p">.</span><span class="o">/</span><span class="n">autogen</span><span class="p">.</span><span class="n">sh</span>
+<span class="p">.</span><span class="o">/</span><span class="n">configure</span>  
+<span class="n">make</span>  
+<span class="n">sudo</span> <span class="n">make</span> <span class="n">install</span>  
+</pre></div>
+
+
+<p>注意，在安装ZREOMQ 或者JZMQ的过程中，你很可能会遇到:</p>
+<blockquote>
+<p>没有规则可以创建“org/zeromq/ZMQ.class”需要的目标“classdist_noinst.stamp”</p>
+</blockquote>
+<p>这个奇怪的错误，这时你就直接到src文件夹下去手动创建classdist_noinst.stamp文件：</p>
+<div class="highlight"><pre><span class="n">touch</span> <span class="n">src</span><span class="o">/</span><span class="n">classdist_noinst</span><span class="p">.</span><span class="n">stamp</span>  
+</pre></div>
+
+
+<p>你可能还会遇到类似的问题：</p>
+<div class="highlight"><pre><span class="o">***</span> <span class="err">没有规则可以创建“</span><span class="n">XXOO</span><span class="err">”需要的目标“</span><span class="n">xxoo</span><span class="err">”</span>
+</pre></div>
+
+
+<p>解决方法是类似的。就是手动去创建一个就可以啦。</p>
+<h1>安装Storm</h1>
+<h2>4.1下载安装：</h2>
+<p>到目前为止，终于开始安装storm啦。<a href="http://storm.incubator.apache.org/downloads.html">下载地址</a>.我使用的是最新版本的storm-0.9.1。Storm也是解压就能用的：</p>
+<div class="highlight"><pre><span class="n">unzip</span> <span class="n">storm</span><span class="o">-</span><span class="mf">0.9.1</span><span class="p">.</span><span class="n">zip</span>
+<span class="n">sudo</span> <span class="n">mv</span> <span class="n">storm</span><span class="o">-</span><span class="mf">0.8.2</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span>
+</pre></div>
+
+
+<h2>4.2  修改环境变量：</h2>
+<div class="highlight"><pre><span class="n">sudo</span> <span class="n">vim</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">profile</span>
+<span class="n">export</span> <span class="n">STORM_HOME</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">storm</span><span class="o">-</span><span class="mf">0.8.2</span>
+<span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="err">$</span><span class="n">PATH</span><span class="o">:</span><span class="err">$</span><span class="n">STORM_HOME</span><span class="o">/</span><span class="n">bin</span>
+</pre></div>
+
+
+<h2>4.3  修改配置文件：</h2>
+<p>配置storm/conf/storm.yaml文件：</p>
+<div class="highlight"><pre><span class="n">cd</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">storm</span><span class="o">-</span><span class="mf">0.9.1</span><span class="o">/</span><span class="n">conf</span>
+<span class="n">sudo</span> <span class="n">vim</span> <span class="n">storm</span><span class="p">.</span><span class="n">yaml</span>
+</pre></div>
+
+
+<p>配置项：</p>
+<blockquote>
+<p>storm.zookeeper.servers:
+     - "10.103.15.85"
+ nimbus.host : "10.103.15.85"
+ storm.zookeeper.port : 2181
+ storm.local.dir : "/home/bupt/storm/data"
+ ui.port : 8080
+ supervisor.slots.ports:
+ - 6700
+ - 6701
+ - 6702
+ - 6703
+ - 
+必要的说明：</p>
+</blockquote>
+<ul>
+<li>storm.zookeeper.servers ： 指定Storm系统所使用的Zookeeper的地址。如果安装的是单机版，那就是你的本机地址。</li>
+<li>nimbus.host : "10.103.12.243"， storm nimbus的IP地址，指定此机器为Storm的Nimbus结点，也是本机地址。</li>
+<li>storm.local.dir :Storm的一些配置文件或jar包，或日志存放的地方，注意这个目录下，一定要保证有权限生成文件，否则会报错，因此最好是本地用户的文件路径。</li>
+<li>storm.zookeeper.port :zookeeper 与storm通信的 端 口，通常默认为2181。但是最好还是检查一下zookeeper的zoo .cfg文件，保证配置相同。</li>
+</ul>
+<p>网上不少同学说，storm.yaml文件的格式很重要，行首与冒号后面都要空一格，否则文件会无法识别。我没有证实是不是必须如此，虽然我不是，不过我还是建议你就这样吧。</p>
+<h2>4.4 测试storm</h2>
+<div class="highlight"><pre><span class="n">cd</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">bupt</span><span class="o">/</span><span class="n">installpack</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">-</span><span class="mf">3.4.5</span><span class="o">/</span><span class="n">bin</span>
+<span class="n">sh</span> <span class="n">zkServer</span><span class="p">.</span><span class="n">sh</span> <span class="n">start</span>
+<span class="n">cd</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">storm</span><span class="o">-</span><span class="mf">0.8.2</span>
+<span class="n">sudo</span> <span class="n">bin</span><span class="o">/</span><span class="n">storm</span> <span class="n">nimbus</span>
+<span class="n">sudo</span> <span class="n">bin</span><span class="o">/</span><span class="n">storm</span> <span class="n">supervisor</span>
+<span class="n">sudo</span> <span class="n">bin</span><span class="o">/</span><span class="n">storm</span> <span class="n">ui</span> 
+</pre></div>
+
+
+<p>注意要先运行<code>zkServer.sh start</code>。然后在浏览器中输入：http://localhost:8080/
+<img alt="" src="http://bupt-image.qiniudn.com/storm3.jpeg" />
+如上图，则你已经成功安装了storm了。</p>
+<h1>运行storm-starter中的WordCount</h1>
+<p>storm-starter是storm提供的官方例子，我使用的是里面的WordCountTopology。</p>
+<h2>5.1 准备工作</h2>
+<p>运行这个例子需要如下文件：commons-collections-3.2.1-bin.tar.gz ，twitter4j-2.2.6.zip，storm-starter.</p>
+<ul>
+<li>commons-collections-3.2.1-bin.tar.gz<a href="http://commons.apache.org/proper/commons-collections/download_collections.cgi">下载地址</a>.</li>
+<li>twitter4j-2.2.6.zip<a href="http://ishare.iask.sina.com.cn/f/34337146.html?sudaref=www.google.com.hk&amp;retcode=0">下载地址</a>.</li>
+<li>storm-starter<a href="https://github.com/nathanmarz/storm-starter">下载地址</a></li>
+</ul>
+<p>注意twitter要被墙，说起这个还跟我们校长有关呢，默默的不爽一下，由此可见翻墙是多么必要的一项技能。大家需要手动下载，网上有好心人提供的，如果使用maven这种自动到twitter官网去下载的工具，很可能不能成功下载，就要坑了。</p>
+<h2>5.2 生成jar包</h2>
+<p>官方文档里介绍了两种方法来生成jar包：lein，maven，我对这两种方法不是很熟悉，选择了用eclipse来代替，在这里也推荐大家使用，毕竟eclipse大家都会用，效果也一样，非常简单。</p>
+<ul>
+<li>
+<p>使用eclipse建立java project。 </p>
+<p>追加twitter4j，commons-collections-3.2.1和storm的jar文件。</p>
+</li>
+</ul>
+<div class="highlight"><pre><span class="n">File</span><span class="o">-&gt;</span><span class="n">New</span> <span class="o">-&gt;</span> <span class="n">Java</span> <span class="n">Project</span><span class="o">-&gt;</span><span class="err">为项目取名（如我取的是</span><span class="n">MyStormCase</span><span class="err">）</span><span class="o">-&gt;</span> <span class="n">Next</span><span class="o">-&gt;</span><span class="n">Libraries</span> <span class="o">-&gt;</span> <span class="n">add</span> <span class="n">External</span> <span class="n">JARs</span><span class="p">...</span><span class="o">-&gt;</span>
+
+<span class="o">-</span> <span class="err">追加</span><span class="n">twitter4j</span><span class="err">的</span><span class="n">jar</span><span class="err">文件</span><span class="o">:</span><span class="n">twitter4j</span><span class="o">/</span><span class="n">lib</span><span class="err">下所有的</span><span class="n">jar</span><span class="err">包</span>
+<span class="o">-</span> <span class="err">追加</span><span class="n">commons</span><span class="o">-</span><span class="n">collections</span><span class="o">-</span><span class="mf">3.2.1</span><span class="err">的</span><span class="n">jar</span><span class="err">文件</span><span class="o">:</span><span class="n">commons</span><span class="o">-</span><span class="n">collections</span><span class="o">-</span><span class="mf">3.2.1</span><span class="err">文件夹下所有的</span><span class="n">jar</span><span class="err">包。</span>
+<span class="o">-</span> <span class="err">追加</span><span class="n">storm</span><span class="err">的</span><span class="n">jar</span><span class="err">文件：</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">storm</span><span class="o">-</span><span class="mf">0.8.2</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="err">下的所有</span><span class="n">jar</span><span class="err">包和</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">storm</span><span class="o">-</span><span class="mf">0.8.2</span><span class="o">/</span><span class="n">storm</span><span class="o">-</span><span class="mf">0.8.2</span><span class="p">.</span><span class="n">jar</span><span class="err">）</span>
+<span class="o">-&gt;</span><span class="n">Finsh</span>
+</pre></div>
+
+
+<p>如下图：
+<img alt="" src="http://bupt-image.qiniudn.com/storm4.jpeg" /></p>
+<ul>
+<li>导入storm-start</li>
+</ul>
+<div class="highlight"><pre><span class="err">右键点击工程</span><span class="n">MyStormCase</span> <span class="o">-&gt;</span><span class="n">Import</span> <span class="o">-&gt;</span> <span class="n">General</span> <span class="o">-&gt;</span> <span class="n">File</span> <span class="n">System</span><span class="o">-&gt;</span> <span class="n">Next</span> <span class="o">-&gt;</span> <span class="n">Browse</span><span class="p">(</span><span class="n">From</span> <span class="n">directory</span><span class="p">)</span><span class="o">-&gt;</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">bupt</span><span class="o">/</span><span class="n">installpack</span><span class="o">/</span><span class="n">storm</span><span class="o">-</span><span class="n">start</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">jvm</span><span class="o">/</span><span class="n">storm</span>
+<span class="err">并且在“</span><span class="n">Create</span> <span class="n">top</span><span class="o">-</span><span class="n">levelfolder</span><span class="err">”前打勾</span> <span class="o">-&gt;</span> <span class="n">Finish</span><span class="err">。</span>
+</pre></div>
+
+
+<p>如下图。
+<img alt="" src="http://bupt-image.qiniudn.com/storm5.jpeg" /></p>
+<p>完成后，将storm文件夹托拽到src目录下，工程视图如下：
+<img alt="" src="http://bupt-image.qiniudn.com/storm6.jpeg" />
+特别注意：分别删除两个文件:</p>
+<blockquote>
+<p>storm.starter下的: PrintSampleStream.java
+storm.starter.spout下的:TwitterSampleSpout.java</p>
+</blockquote>
+<p>否则最后导出的时候会出错。</p>
+<ul>
+<li>追加源文件storm-start/multilang/resources×（python 文件wordcount用）</li>
+</ul>
+<div class="highlight"><pre><span class="n">File</span> <span class="o">-&gt;</span> <span class="n">Import</span><span class="o">-&gt;</span> <span class="n">General</span> <span class="o">-&gt;</span> <span class="n">File</span> <span class="n">System</span><span class="o">-&gt;</span> <span class="n">Next</span> <span class="o">-&gt;</span> <span class="n">Browse</span><span class="p">(</span><span class="n">From</span> <span class="n">directory</span><span class="p">)</span><span class="o">-&gt;/</span><span class="n">home</span><span class="o">/</span><span class="n">bupt</span><span class="o">/</span><span class="n">installpack</span><span class="o">/</span><span class="n">storm</span><span class="o">-</span><span class="n">start</span><span class="o">/</span><span class="n">multilang</span><span class="o">/</span><span class="n">resources</span>
+<span class="err">并且在“</span><span class="n">Create</span> <span class="n">top</span><span class="o">-</span><span class="n">levelfolder</span><span class="err">”前打勾</span> <span class="o">-&gt;</span> <span class="n">Finish</span>
+</pre></div>
+
+
+<p>这一步类似于上一步。最后的工程图如下：
+<img alt="" src="http://bupt-image.qiniudn.com/storm7.jpeg" /></p>
+<ul>
+<li>JAR export<blockquote>
+<p>File -&gt; Export-&gt; JAR -&gt; JAR file -&gt;取消 “.classpath” ，“.project” 和 “&lt;.settings”-&gt;的勾
+    browse -&gt;你要保存的路径/保存的名字.jar -&gt; next-&gt; next -&gt;点击main class右边的browse键，选择你要运行的例子。然后点击finish。这时候可能会有一些warning,忽略就好了。</p>
+</blockquote>
+</li>
+</ul>
+<h2>5.3 编译jar包：</h2>
+<div class="highlight"><pre><span class="n">sudo</span> <span class="n">mv</span> <span class="n">StormStarterOne</span><span class="p">.</span><span class="n">jar</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">storm</span><span class="o">-</span><span class="mf">0.8.2</span>           
+<span class="n">cd</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">bupt</span><span class="o">/</span><span class="n">installpack</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">-</span><span class="mf">3.4.5</span><span class="o">/</span><span class="n">bin</span>
+<span class="n">sh</span> <span class="n">zkServer</span><span class="p">.</span><span class="n">sh</span> <span class="n">start</span>
+<span class="n">cd</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">storm</span><span class="o">-</span><span class="mf">0.8.2</span>
+<span class="n">sudo</span> <span class="n">bin</span><span class="o">/</span><span class="n">storm</span> <span class="n">nimbus</span>
+<span class="n">sudo</span> <span class="n">bin</span><span class="o">/</span><span class="n">storm</span> <span class="n">supervisor</span>
+<span class="n">sudo</span> <span class="n">bin</span><span class="o">/</span><span class="n">storm</span> <span class="n">ui</span> 
+<span class="n">sudo</span> <span class="n">bin</span><span class="o">/</span><span class="n">storm</span> <span class="n">jar</span> <span class="n">StormStarterOne</span><span class="p">.</span><span class="n">jar</span> <span class="n">storm</span><span class="p">.</span><span class="n">starter</span><span class="p">.</span><span class="n">WordCountTopology</span> <span class="n">test1</span> 
+</pre></div>
+
+
+<p>然后在浏览器中输入localhost：8080，显示如下，则说明运行成功了。
+<img alt="" src="http://bupt-image.qiniudn.com/storm8.jpeg" /></p>
+<h1>使用中遇到的问题：</h1>
+<p>到目前为止，我们成功运行了一些官方提供的例子，但是还不太熟悉storm的内部机制，尤其是怎么写一个自己的topology，这是接下来学习的重点，每天也都会遇到一些不可预知的问题，解决就好了，问题的表单可能会越来越长。</p>
+<ul>
+<li>问题一：supervisor kill: No such process
+跑了一下storm-starter这个例子，最开始的时候是成功了。后来重新运行了一下WordCountTopology这个例子。在启动supervisor这一步失败了，在终端中会不停的出现错误：</li>
+</ul>
+<div class="highlight"><pre><span class="n">kill</span><span class="o">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">process</span>
+<span class="n">kill</span><span class="o">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">process</span>
+<span class="n">kill</span><span class="o">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">process</span>
+</pre></div>
+
+
+<p>我检查了logs,主要的有用的log如下：</p>
+<blockquote>
+<p>2014-03-11 09:45:09 supervisor [INFO] 16b6673f-31d1-4f58-b41c-e88cd8974ddc still hasn't started
+2014-03-11 09:45:46 supervisor [INFO] Shutting down and clearing state for id 4ee29ce1-1f75-47ee-8aaa-e0a8ea513537. Current supervisor time: 1394502346. State: :timed-out, Heartbeat:
+2014-03-11 09:45:46 supervisor [INFO] Shutting down f2ed3b8d-3a23-4c23-9c3c-af94a06cbad9:4ee29ce1-1f75-47ee-8aaa-e0a8ea513537
+2014-03-11 09:45:46 util [INFO] Error when trying to kill 2981. Process is probably already dead.</p>
+</blockquote>
+<p>我在stackoverflow上问过别人，有提到说是进程假死造成的，但是具体怎么做没人说，看了storm的官方文档， 说这个问题好像是0.8.2版本的一个bug。我重装成0.9.1，问题确实也解决了，虽然我不太确定是版本原因造成的。这个问题是storm的一个普遍问题，网上讨论得也比较多，但是解决方法却很少，不妨试一试这个办法吧。</p>
+<ul>
+<li>
+<p>问题二：</p>
+<blockquote>
+<p>Session 0x0 for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.NoRouteToHostException: No route to host</p>
+</blockquote>
+<p>刚刚修改了这个bug，没找到bug信息，不想再修改回去重现bug啦。问题的原因是实验室的ip地址难道是变化的吗？上个星期还是10.103.10.243，刚刚才发现是10.103.15.85，导致了连结失败。如果你发现一堆java.lang.connect exception之类的信息，就察看一下你的ip地址和zookeeper,storm的配置文件中的地址是否一致，否则肯定会造成链接问题。网上也有同学说，可能是防火墙的问题，我没有遇到这个问题，如果ip地址配置没有问题，还是连不上，那就试试关闭防火墙吧。</p>
+</li>
+<li>
+<p>问题三：storm启动supervisor错误
+当我运行sudo bin/storm supervisor启动supervisor的时候，发现启动失败，看/log文件夹下的supervisor.log文件，是如下的出错信息：</p>
+<blockquote>
+<p>2014-03-24 14:19:55 b.s.d.supervisor [INFO] Starting supervisor with id f2ed3b8d-3a23-4c23-9c3c-af94a06cbad9 at host bupt-Shangqi-N720
+2014-03-24 14:19:56 b.s.event [ERROR] Error when processing event
+java.lang.RuntimeException: java.io.EOFException</p>
+</blockquote>
+</li>
+</ul>
+<p>解决办法是这样的：</p>
+<blockquote>
+<p>删除storm配置文件中storm.local.dir（你在stom.yaml文件中配置的）所指向的目录中的supervisor和workers两个文件夹。</p>
+</blockquote>
+<p>暂时想到这么多，enjoy，同学们.</p>
+<h1>主要参考的网站资源：</h1>
+<p><a href="http://my.oschina.net/leejun2005/blog/147607">一篇对照一个例子讲storm原理和应用的不错文章</a></p>
+<p><a href="http://www.cnblogs.com/XjChenny/p/3214039.html">非常完整的storm安装教程，我主要是参照这篇文章安装的，缺点是文中几乎没有提到遇到的问题，需要自己去查找解决问题的办法</a></p>
+<p><a href="http://javanlu.github.io/blog/2013/10/11/storm-deploy-tutorial/#storm-starterwordcount">一个github上的博客，有非常全面的storm使用经验指导</a></p>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "Storm集群的安装与部署.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://buptlixin.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="http://getpelican.com/"><i class="icon-external-link"></i>Pelican</a></li>
+    <li><a href="http://python.org/"><i class="icon-external-link"></i>Python.org</a></li>
+    <li><a href="http://jinja.pocoo.org/"><i class="icon-external-link"></i>Jinja2</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="http://www.v2ex.com/member/buptlee"><i class="icon-V2EX-sign icon-large"></i>V2EX</a></li>
+    <li><a href="http://douban.com/people/77726008"><i class="icon-豆瓣-sign icon-large"></i>豆瓣</a></li>
+    <li><a href="http://github.com/Xiaoxin2009"><i class="icon-Github-sign icon-large"></i>Github</a></li>
+    <li><a href="http://stackoverflow.com/users/3373388/bupt-xiaoxin"><i class="icon-Stackoverflow-sign icon-large"></i>Stackoverflow</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="/category/fen-bu-shi.html">
+    <i class="icon-folder-open icon-large"></i>分布式
+</a>
+</li>
+<li>
+<a href="/category/java.html">
+    <i class="icon-folder-open icon-large"></i>JAVA
+</a>
+</li>
+<li>
+<a href="/category/machine-learning.html">
+    <i class="icon-folder-open icon-large"></i>Machine Learning
+</a>
+</li>
+<li>
+<a href="/category/perl.html">
+    <i class="icon-folder-open icon-large"></i>Perl
+</a>
+</li>
+<li>
+<a href="/category/python.html">
+    <i class="icon-folder-open icon-large"></i>Python
+</a>
+</li>
+<li>
+<a href="/category/scala.html">
+    <i class="icon-folder-open icon-large"></i>Scala
+</a>
+</li>
+<li>
+<a href="/category/shu-ju-ku.html">
+    <i class="icon-folder-open icon-large"></i>数据库
+</a>
+</li>
+<li>
+<a href="/category/technology.html">
+    <i class="icon-folder-open icon-large"></i>Technology
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-3">
+    <a href="/tag/storm.html">
+        <i class="icon-tag icon-large"></i>Storm
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/zheng-ze-biao-da-shi.html">
+        <i class="icon-tag icon-large"></i>正则表达式
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/machine-learning.html">
+        <i class="icon-tag icon-large"></i>Machine Learning
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hadoop.html">
+        <i class="icon-tag icon-large"></i>Hadoop
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/perl.html">
+        <i class="icon-tag icon-large"></i>Perl
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/scala.html">
+        <i class="icon-tag icon-large"></i>scala
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programming.html">
+        <i class="icon-tag icon-large"></i>functional programming
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/svm.html">
+        <i class="icon-tag icon-large"></i>SVM
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/mongodb.html">
+        <i class="icon-tag icon-large"></i>MongoDB
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hash.html">
+        <i class="icon-tag icon-large"></i>Hash
+    </a>
+</li>
+<li class="tag-3">
+    <a href="/tag/sql.html">
+        <i class="icon-tag icon-large"></i>SQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/github.html">
+        <i class="icon-tag icon-large"></i>Github
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/hdfs.html">
+        <i class="icon-tag icon-large"></i>HDFS
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/nosql.html">
+        <i class="icon-tag icon-large"></i>NoSQL
+    </a>
+</li>
+<li class="tag-4">
+    <a href="/tag/functional-programing.html">
+        <i class="icon-tag icon-large"></i>functional programing
+    </a>
+</li>
+<li class="tag-1">
+    <a href="/tag/java.html">
+        <i class="icon-tag icon-large"></i>java
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-50849437-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'buptlixin';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>
